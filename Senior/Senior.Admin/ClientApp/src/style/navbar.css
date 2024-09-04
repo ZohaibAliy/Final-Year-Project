@@ -1,0 +1,80 @@
+
+.navbar{
+    height: 4em;
+    background-color: rgb(255, 255, 255);
+
+  
+}
+
+.nav-item{
+    cursor: pointer;
+    margin-right: 3em;
+}
+.nav-icon {
+    cursor: pointer;
+    margin-right: 1em;
+}
+.logoimg{
+    cursor: pointer;
+}
+.thumbnail{
+    width:100px;
+    height:100px;
+}
+.action-td{
+    width:225px;
+    
+}
+.status-change{
+    background-color: #75b7d1;
+    
+}
+.status-change select{
+    color: white;
+    background-color: #75b7d1;
+    border-radius: 10%;
+}
+.add-btn{
+    margin-right: 1.8em;
+    font-size: 2em;
+   cursor: pointer;
+}
+.add-btn:hover{
+    margin-right: 1.5em;
+    font-size: 2.3em;
+  
+}
+.close-btn{
+    cursor: pointer;
+}
+.btn-up{
+color: #ffffff;
+border-radius: 30px;
+padding: 10px 15px;
+background: linear-gradient(122.33deg, #68bed1 30.62%, #1e94e9 100%);
+
+margin-bottom: 10px;
+font-size: 16px;
+transition: all 0.3s linear;
+}
+.btn-up:hover{
+
+    transform: translateY(-2px);
+ 
+    }
+
+    .btn-rm{
+        color: #ffffff;
+        border-radius: 30px;
+        padding: 10px 15px;
+        background: linear-gradient(122.33deg, #f02416 30.62%, #c57365 100%);
+        
+        margin-bottom: 10px;
+        font-size: 16px;
+        transition: all 0.3s linear;
+        }
+        .btn-rm:hover{
+        
+            transform: translateY(-2px);
+         
+            }

@@ -1,0 +1,122 @@
+
+h2{
+    text-align: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #45AADC;
+    padding: 30px 0;
+}
+.parallax {
+    /* The image used */
+    background-image: linear-gradient( rgba(0, 0, 0, 0.623), rgba(0, 0, 0, 0.589) ),url("../Assets/Images/peralex.jpg");
+  
+    /* Set a specific height */
+    min-height: 500px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: 0;
+    width: auto;
+  }
+.paralexbody{
+    height:1000px;
+    background-color:rgb(255, 255, 255);
+    font-size:36px;
+ 
+}
+#tempaltemo_footer a { 
+    font-size: 20px;
+    color: #dcdde1;
+    
+}
+#tempaltemo_footer a:hover { color: #0f87b6;}
+#tempaltemo_footer ul.footer-link-list li {
+     padding-top: 10px;
+     font-size: 20px;}
+#tempaltemo_footer ul.footer-icons li {
+  width: 2.6em;
+  height: 2.6em;
+  line-height: 2.6em;
+  
+}
+#tempaltemo_footer ul.footer-icons li:hover {
+  background-color: #cfd6e1;
+  transition: .5s;
+}
+#tempaltemo_footer ul.footer-icons li:hover i {
+  color: #212934;
+  transition: .5s;
+}
+#tempaltemo_footer .border-light { border-color: #2d343f !important;}
+/*
+// Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap
+*/
+/* Small devices (landscape phones, 576px and up)*/
+.product-wap .h3, .product-wap li, .product-wap i, .product-wap p {
+  font-size: 12px !important;
+}
+.product-wap .product-color-dot {
+  width: 6px;
+  height: 6px;
+}
+.Feature-text{
+    font-size: 20px;
+}
+.Feature-Name{
+    font-size: 25px;
+}
+.card-text{
+    font-size: 20px;
+}
+.text-muted{
+    font-size: 20px; 
+}
+.h2{
+    font-size: 25px;
+}
+.sr-only{
+    font-size: 25px;
+}
+.footer-coprright-text{
+    font-size: 20px;
+}
+.input-group-text{
+    background-color: #00A1E1;
+    cursor: pointer;
+}
+.input-group-text:hover{
+    background-color: #0f87b6;
+}
+#logo-txt{
+    color:#00A1E1;
+}
+.product-header{
+    margin-top: 1em;
+}
+.main-header{
+
+    color: white;
+  }
+  #paralex-text-heading{
+    margin-top: 4em;
+  }
+  .admin-navbar{
+background-color: #00A1E1;
+  }
+  .prod-img {
+    width: 350px;
+    height:350px;
+  }
+  .prod-card{
+    text-align: center;
+    justify-content: space-between;
+  }
+  .feature-image{
+    width: 100%;
+    height:400px;
+  }
