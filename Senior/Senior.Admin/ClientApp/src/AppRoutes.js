@@ -14,7 +14,12 @@ import EquipmentDashboard from './components/EquipmentDashboard';
 import UserDashboard from './components/UserDashboard';
 import Equipment from './components/Equipment';
 import LabourRequestDashboard from './components/LaborRequestDashboard';
+import Labour from './components/Labour';
 const AppRoutes = [
+  {
+    path: '/Labour',
+    element:<Labour/>
+  },
   {
     path: '/',
     element: <Home />

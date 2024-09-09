@@ -70,6 +70,9 @@ else if(user.role==='Customer'){
                         <li className="nav-item " >
                             <a className="nav-link" onClick={()=>navigate('/Equipment')}>Equipment</a>
                         </li>
+                        <li className="nav-item " >
+                            <a className="nav-link" onClick={()=>navigate('/Labour')}>Labour</a>
+                        </li>
                         {checklogin&&(  <li className="nav-item">
                             <a className="nav-link" onClick={()=>navigate('/myorders')}>My Request</a>
                         </li>)}
