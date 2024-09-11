@@ -15,6 +15,7 @@ import UserDashboard from './components/UserDashboard';
 import Equipment from './components/Equipment';
 import LabourRequestDashboard from './components/LaborRequestDashboard';
 import Labour from './components/Labour';
+import LabourDetails from "./components/LabourDetails";
 const AppRoutes = [
   {
     path: '/Labour',
@@ -39,6 +40,10 @@ const AppRoutes = [
   {
     path: '/EquipmentDetails',
     element: <EquipmentDetails state />
+  },
+  {
+    path: '/LabourDetails',
+    element: <LabourDetails state />
   },
   {
     path: '/placeorder',

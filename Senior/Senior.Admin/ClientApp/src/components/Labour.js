@@ -91,7 +91,9 @@ export default function Home() {
                           <p className="card-text">
                           {data.phnumber}
                           </p>
-                          <p className="text-muted">Reviews (24)</p>
+                          <p className="text-center">
+                    <a className="btn btn-success" onClick={()=> navigate('/LabourDetails',{state:data})} >Appoint Now</a>
+                  </p>
                         </div>
                       </div>
                     </div>

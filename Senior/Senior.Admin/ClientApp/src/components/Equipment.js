@@ -56,7 +56,7 @@ export default function Home() {
                   </a>
                   <h5 className="text-center mt-3 mb-3">{data.productName}</h5>
                   <p className="text-center">
-                    <a className="btn btn-success" onClick={()=> navigate('/productdetail',{state:data})} >Shop Now</a>
+                    <a className="btn btn-success" onClick={()=> navigate('/EquipmentDetails',{state:data})} >Shop Now</a>
                   </p>
                 </div>
               </>
