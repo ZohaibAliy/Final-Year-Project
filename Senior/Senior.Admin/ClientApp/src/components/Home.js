@@ -123,8 +123,8 @@ export default function Home() {
         </section>
 
         <footer className="bg-dark" id="tempaltemo_footer">
-<div className="container">
-    <div className="row">
+        <div className="container">
+        <div className="row">
 
         <div className="col-md-6 pt-5">
             <h2 className="h2  border-bottom pb-3 border-light " id="logo-txt">Ittehad Group</h2>
