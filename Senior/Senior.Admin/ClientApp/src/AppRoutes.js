@@ -16,6 +16,8 @@ import Equipment from './components/Equipment';
 import LabourRequestDashboard from './components/LaborRequestDashboard';
 import Labour from './components/Labour';
 import LabourDetails from "./components/LabourDetails";
+import  PlaceLabourRequest  from "./components/PlaceLabourRequest";
+import MyLabourRequest from "./components/MyLabourRequest";
 const AppRoutes = [
   {
     path: '/Labour',
@@ -50,8 +52,16 @@ const AppRoutes = [
     element: <PlaceOrder state />
   },
   {
+    path: '/PlaceLabourRequest',
+    element: <PlaceLabourRequest state />
+  },
+  {
     path: '/myorders',
     element: <MyOrders />
+  },
+  {
+    path: '/MyLabourRequest',
+    element: <MyLabourRequest />
   },
   {
     path: '/profile',

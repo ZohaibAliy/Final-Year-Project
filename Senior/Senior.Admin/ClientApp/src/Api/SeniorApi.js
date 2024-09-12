@@ -120,6 +120,37 @@ export const OrderPlace = async (
     return err.response;
   }
 };
+
+
+
+export const LabourRequest = async (
+  labourId,
+  userId,
+  address,
+  firstName,
+  customerName,
+  email
+) => {
+  try {
+    const resp = await axios.post(apiUrl + "api/LabourRequest/PlaceLabourRequest", {
+      labourId: labourId,
+      userId: userId,
+      address: address,
+      firstName: firstName,
+      customerName: customerName,
+      customerEmail: email,
+    });
+
+    if (resp.status == 200) {
+      return resp.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
+    return err.response;
+  }
+};
 export const CheckMyOrders = async (id) => {
   try {
     const resp = await axios.get(apiUrl + "api/Order/MyOrders", {
@@ -397,6 +428,38 @@ export const UploadLabour = async (
       return err.response;
     }
   };
+
+
+  export const ChangeLabourRequest = async (
+    id,
+    customerName,
+    customerEmail,
+    address,
+  
+   
+
+
+
+  ) => {
+    try {
+      const resp = await axios.put(apiUrl + "api/LabourRequest/ChangeStatus", {
+        id:id,
+        address:address,
+        customerName:customerName,
+        customerEmail:customerEmail,
+      });
+  
+      if (resp.status == 200) {
+        return resp.data;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      return err.response;
+    }
+  };
+
+
   export const RemoveUser = async (id) => {
     try {
       const resp = await axios.put(apiUrl + "api/Authetication/RemoveEquipment", {

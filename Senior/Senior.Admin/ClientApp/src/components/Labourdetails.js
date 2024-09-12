@@ -23,7 +23,7 @@ export default function LabourDetails() {
           <div className="control">
             <button
               className="btn-data"
-              onClick={() => navigate("/placeLabourRequest", { state: location.state })}
+              onClick={() => navigate("/PlaceLabourRequest", { state: location.state })}
             >
            
               <span className="shopping-cart">
