@@ -21,13 +21,13 @@ export default function PlaceLabourRequest() {
       labourId: location.state.id,
       userId: user.id,
       address: address,
-      firstName: location.state.firstName,
+      firstName: location.state.FirstName,
       customerName: user.firstName + " " + user.lastName,
       customerEmail: user.email,
     });
 
 
-    LabourRequest(location.state.id,user.id,address,location.state.labourName,customername,user.email).then((response) => {
+    LabourRequest(location.state.id,user.id,address,location.state.FirstName,customername,user.email).then((response) => {
       if (response.isRequestSuccessful) {
         toast.success(response.successResponse);
         navigate("/MyLabourRequest");
@@ -56,7 +56,7 @@ export default function PlaceLabourRequest() {
                 </p>
                 <p className="form-header">
                   <strong>Labour Name: </strong>
-                  {location.state.firstName}
+                  {location.state.FirstName}" " {location.state.LastName}
                 </p>
                 
                 <p className="form-header">

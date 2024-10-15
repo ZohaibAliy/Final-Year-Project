@@ -13,11 +13,11 @@ namespace Senior.Api.Controllers
     public class    LabourRequestController : ControllerBase
     {
 
-        private readonly ILabourRequestService _orderservice;
+        private readonly ILabourRequestService _laborrequestservice;
 
-        public LabourRequestController(ILabourRequestService orderservice)
+        public LabourRequestController(ILabourRequestService laborrequestservice)
         {
-            _orderservice = orderservice;
+            _laborrequestservice = laborrequestservice;
         }
         [HttpGet]
         [Route("GetLabourRequest")]
@@ -25,7 +25,7 @@ namespace Senior.Api.Controllers
         public async Task<IActionResult> GetLabourRequest()
         {
 
-            var response = await _orderservice.GetLabourRequest();
+            var response = await _laborrequestservice.GetLabourRequest();
             return Ok(response);
         }
         [HttpGet]
@@ -34,7 +34,7 @@ namespace Senior.Api.Controllers
         public async Task<IActionResult> GetMyLabourRequest(int id)
         {
 
-            var response = await _orderservice.GetMyLabourRequest(id);
+            var response = await _laborrequestservice.GetMyLabourRequest(id);
             return Ok(response);
         }
 
@@ -44,7 +44,7 @@ namespace Senior.Api.Controllers
         public async Task<IActionResult> ChangeStatus(ChangeStatusRequest request)
         {
 
-            var response = await _orderservice.ChangeStatus(request.id, request.status);
+            var response = await _laborrequestservice.ChangeStatus(request.id, request.status);
             return Ok(response);
         }
 
@@ -55,7 +55,7 @@ namespace Senior.Api.Controllers
         public async Task<IActionResult> PlaceLabourRequest(LabourRequest request)
         {
 
-            var response = await _orderservice.PlaceLabourRequest(request);
+            var response = await _laborrequestservice.PlaceLabourRequest(request);
             return Ok(response);
         }
 
@@ -65,7 +65,7 @@ namespace Senior.Api.Controllers
         public async Task<IActionResult> UpdateLabourRequest(UpdateLabourRequestRequest request)
         {
 
-            var response = await _orderservice.UpdateLabourRequest(request);
+            var response = await _laborrequestservice.UpdateLabourRequest(request);
             return Ok(response);
         }
 

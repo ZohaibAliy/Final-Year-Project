@@ -18,7 +18,10 @@ namespace Senior.Infrastructure.Persistence.Sql.Models
         public string Speciality { get; set; }
         public string Address { get; set; }
         public string PhNumber { get; set; }
+        public string Charges { get; set; }
+        public byte[] Image { get; set; }
         public bool IsAvailable { get; set; }
         public bool IsActive { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

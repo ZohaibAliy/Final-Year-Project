@@ -13,7 +13,8 @@ namespace Senior.Infrastructure.Persistence.Sql.Models
         public int LabourId { get; set; }
         public int UserId { get; set; }
         public string Address { get; set; }
-        public string LabourName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string CustomerName { get; set; }
         public string CustomerEmail { get; set; }
 

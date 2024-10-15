@@ -17,13 +17,13 @@ namespace Senior.Application.Services
     {
         private readonly IGenericRepository<LabourRequest> _repository;
 
-        private readonly ILabourRequestRepository _orderrepository;
+        private readonly ILabourRequestRepository _laborrequestrepository;
 
-        public LabourRequestService(IGenericRepository<LabourRequest> repository, ILabourRequestRepository orderrepository)
+        public LabourRequestService(IGenericRepository<LabourRequest> repository, ILabourRequestRepository laborrequestrepository)
         {
 
             _repository = repository;
-            _orderrepository = orderrepository;
+            _laborrequestrepository = laborrequestrepository;
 
 
 
@@ -60,7 +60,8 @@ namespace Senior.Application.Services
                     UserId = request.UserId,
                     CustomerEmail = request.CustomerEmail,
                     CustomerName = request.CustomerName,
-                    LabourName = request.LabourName,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
                     RequestDateTime = DateTime.Now,
                     Status = "Pending",
 
@@ -68,9 +69,7 @@ namespace Senior.Application.Services
 
                 };
 
-                var result = await _orderrepository.PlaceLabourRequest(LabourRequest);
-
-
+                var result = await _laborrequestrepository.PlaceLabourRequest(LabourRequest);
 
                 if (result != null)
                 {
@@ -104,7 +103,7 @@ namespace Senior.Application.Services
             try
             {
 
-                var res = _orderrepository.ChangeStatus(id, status);
+                var res = _laborrequestrepository.ChangeStatus(id, status);
                 if (res.Result == true)
                 {
                     response.IsRequestSuccessful = true;

@@ -25,7 +25,7 @@ namespace Senior.Application.Bootstrap
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IOrderService, OrderService>();
-            services.AddTransient<ILabourService, LabourService>();
+            services.AddTransient<ILabourService, LaborService>();
             services.AddTransient<ILabourRequestService, LabourRequestService>();
 
 

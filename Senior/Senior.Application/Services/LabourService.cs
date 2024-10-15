@@ -14,15 +14,14 @@ using System.Threading.Tasks;
 
 namespace Senior.Application.Services
 {
-
-    public class LabourService : ILabourService
+    public class LaborService : ILabourService
     {
 
         private readonly ILabourRepository _Labourrepository;
         private readonly IGenericRepository<Labour> _repository;
         public static IWebHostEnvironment _environment;
 
-        public LabourService(ILabourRepository Labourrepository, IGenericRepository<Labour> repository, IWebHostEnvironment environment)
+        public LaborService(ILabourRepository Labourrepository, IGenericRepository<Labour> repository, IWebHostEnvironment environment)
         {
 
             _Labourrepository = Labourrepository;
@@ -42,14 +41,18 @@ namespace Senior.Application.Services
 
                 var labour = new Labour
                 {
-                    FirstName= request.FirstName,
-                    LastName= request.LastName,
-                    Speciality= request.Speciality,
-                    Address= request.Address,
-                    PhNumber= request.PhNumber,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,   
+                    Speciality =  request.Speciality,
+                    PhNumber = request.PhNumber,
+                    Charges =  request.Charges,
+                    Image=UploadService(request.Image),
+                    CreatedDate=DateTime.Now,
                     IsAvailable = true,
-                    IsActive= true,
-                  
+                    IsActive = true,
+
+
+
                 };
 
                 var result = await _Labourrepository.AddLabour(labour);
@@ -97,13 +100,17 @@ namespace Senior.Application.Services
 
             if (res != null)
             {
-               
                 res.Id = request.Id;
                 res.FirstName = request.FirstName;
                 res.LastName = request.LastName;
                 res.Speciality = request.Speciality;
-                res.Address = request.Address;
-                res.PhNumber = request.PhNumber;
+                res.Address=request.Address;
+                res.PhNumber= request.PhNumber;
+
+                res.Charges = request.charges;
+
+                res.Image = UploadService(request.image);
+                
 
                 var result = await _Labourrepository.UpdateLabour(res);
                 if (result)
@@ -114,14 +121,14 @@ namespace Senior.Application.Services
                 else
                 {
                     response.IsRequestSuccessful = false;
-                    response.Errors = new List<string> { { $"Something went wrong" } };
+                    response.Errors = new List<string> { { $"Something went  wrong" } };
                 }
 
             }
             else
             {
                 response.IsRequestSuccessful = false;
-                response.Errors = new List<string> { { $"Something went wrong" } };
+                response.Errors = new List<string> { { $"Something went went wrong" } };
             }
             return response;
         }
@@ -139,7 +146,7 @@ namespace Senior.Application.Services
                 if (result)
                 {
                     response.IsRequestSuccessful = true;
-                    response.SuccessResponse = $"Product Removed successfully";
+                    response.SuccessResponse = $"Labour Removed successfully";
                 }
                 else
                 {
@@ -161,7 +168,7 @@ namespace Senior.Application.Services
 
 
 
-        /*    public async Task<ApiResponse<string>> UploadService(AddProductRequest request)
+        /*    public async Task<ApiResponse<string>> UploadService(AddLabourRequest request)
             {
                 var response = new ApiResponse<string>();
 
@@ -193,7 +200,16 @@ namespace Senior.Application.Services
                 }
                 return response;
             }*/
-      
+        public Byte[] UploadService(IFormFile image)
+        {
+            var response = new ApiResponse<string>();
+            MemoryStream ms = new MemoryStream();
+            image.CopyTo(ms);
+
+
+
+            return ms.ToArray();
+        }
 
 
     }
