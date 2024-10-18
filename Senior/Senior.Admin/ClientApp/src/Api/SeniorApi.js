@@ -276,6 +276,43 @@ export const UpdateProducts = async (
 
   };
 
+  
+export const UpdateLabour = async (
+  Id,
+  FirstName,
+  LastName,
+  Charges,
+  Speciality,
+  Address,
+  PhoneNumber,
+  description,
+  image
+) => {
+
+    const formData = new FormData();
+    formData.append("Id", Id);
+    formData.append("image", image);
+    formData.append("FirstName", FirstName);
+    formData.append("LastName", LastName);
+    formData.append("PhNumber", PhoneNumber)
+    formData.append("Charges", Charges);
+    formData.append("Address", Address);
+    formData.append("Speciality", Speciality);
+
+  await axios({
+    method: "put",
+    url: apiUrl + "api/Labour/UpdateLabour",
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+  .then((response) => {
+   
+    return (response)
+
+  }) 
+
+  };
+
 export const UploadProducts = async (
   ProductName,
   price,
@@ -310,20 +347,25 @@ export const UploadProducts = async (
   };
   
 export const UploadLabour = async (
-  FirstName,
-  LastName,
-  Speciality,
-  Address,
-  PhNumber
+  firstName,
+  lastName,
+  speciality,
+  address,
+  phNumber,
+  charges,
+  image
 ) => {
 
     
     const formData = new FormData();
-    formData.append("FirstName", FirstName);
-    formData.append("LastName", LastName);
-    formData.append("Speciality", Speciality);
-    formData.append("Address", Address);
-    formData.append("PhNumber", PhNumber);
+    formData.append("FirstName", firstName);
+    formData.append("LastName", lastName);
+    formData.append("Speciality", speciality);
+    formData.append("Address", address);
+    formData.append("PhNumber", phNumber);
+    formData.append("Charges",charges);
+    formData.append("image",image)
+    
 
 
 

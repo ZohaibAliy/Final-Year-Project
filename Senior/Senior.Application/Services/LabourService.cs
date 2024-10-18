@@ -73,7 +73,7 @@ namespace Senior.Application.Services
 
             }
             catch (Exception ex)
-            {
+             {
                 response.IsRequestSuccessful = false;
                 response.SuccessResponse = ex.Message;
                 response.Errors = new List<string> { { $"Something went wrong Error: " } };
@@ -107,7 +107,7 @@ namespace Senior.Application.Services
                 res.Address=request.Address;
                 res.PhNumber= request.PhNumber;
 
-                res.Charges = request.charges;
+                res.Charges = request.Charges;
 
                 res.Image = UploadService(request.image);
                 

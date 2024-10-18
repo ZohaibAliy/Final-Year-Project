@@ -21,13 +21,13 @@ export default function PlaceLabourRequest() {
       labourId: location.state.id,
       userId: user.id,
       address: address,
-      firstName: location.state.FirstName,
+      firstName: location.state.firstName,
       customerName: user.firstName + " " + user.lastName,
       customerEmail: user.email,
     });
 
 
-    LabourRequest(location.state.id,user.id,address,location.state.FirstName,customername,user.email).then((response) => {
+    LabourRequest(location.state.id,user.id,address,location.state.firstName,customername,user.email).then((response) => {
       if (response.isRequestSuccessful) {
         toast.success(response.successResponse);
         navigate("/MyLabourRequest");

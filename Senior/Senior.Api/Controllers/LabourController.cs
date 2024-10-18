@@ -31,8 +31,10 @@ namespace Senior.Api.Controllers
             [HttpGet]
             [Route("GetLabour")]
             [Produces(typeof(List<Labour>))]
-            public async Task<IActionResult> GetProduct()
-            {
+            public async Task<IActionResult> GetLabour()
+            
+     
+       {
 
                 var response = await _Labourservice.GetLabour();
                 return Ok(response);

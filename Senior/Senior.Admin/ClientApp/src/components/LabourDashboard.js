@@ -24,6 +24,8 @@ export default function EquipmentDashboard() {
   const [Speciality, setSpeciality] = useState();
   const [Address, setAddress] = useState();
   const [PhNumber, setPhNumber] = useState();
+  const [charges, setcharges] = useState();
+  const [image, setImage] = useState();
   const [isUpdate, setIsUpdate] = useState(false);
   const navigate = useNavigate();
 
@@ -54,6 +56,8 @@ export default function EquipmentDashboard() {
     setSpeciality(data.Speciality);
     setAddress(data.Address);
     setPhNumber(data.PhNumber);
+    setImage(dataURLtoFile("data:image/jpeg;base64," + data.image));
+    setcharges(data.charges)
    
     setModelOpen(true);
   };
@@ -64,8 +68,11 @@ export default function EquipmentDashboard() {
     setSpeciality("");
     setAddress("");
     setPhNumber("");
+    setcharges("");
+    setImage(null)
     setIsUpdate(false);
     setModelOpen(true);
+
   };
   const UpdateLabour = () => {
 
@@ -90,7 +97,7 @@ setModelOpen(false);
   };
   const AddLabour = () => {
     setisadd(isadd+1)
-    UploadLabour(FirstName, LastName, Speciality, Address, PhNumber);
+    UploadLabour(FirstName, LastName, Speciality, Address, PhNumber, charges, image);
           toast.success("Labour added!");
           setIsUpdate(false);
           
@@ -294,9 +301,11 @@ setModelOpen(false);
                         <thead className="thead-light">
                           <tr>
                             <th>Id</th>
+                            <th>Photo</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Speciality</th>
+                            <th>Charges</th>
                             <th>Address</th>
                             <th>PhNumber</th>
                             <th>Action</th>
@@ -304,14 +313,24 @@ setModelOpen(false);
                         </thead>
                         <tbody>
                           {Labour.map(function (data, key) {
-
+                            let image = "data:image/jpeg;base64," + data.image;
                             return (
                               <>
                                 <tr>
                                   <td><a>{data.id}</a></td>
+                                  <td className="align-middle">
+                                    <a>
+                                      {" "}
+                                      <img
+                                        src={image}
+                                        className=" thumbnail rounded-circle  border  justifycenter"
+                                      />
+                                    </a>
+                                  </td>
                                   <td>{data.firstName} </td>
                                   <td>{data.lastName}</td>
                                   <td>{data.speciality}</td>
+                                  <td>{data.charges}</td>
                                   <td>{data.address}</td>
                                   <td>{data.phNumber}</td>
                                   <td>
@@ -487,11 +506,53 @@ setModelOpen(false);
                 />
               </div>
             </div>
+            <div className="input-box">
+              <span className="label">Charges</span>
+              <div className=" flex-r input">
+                <input
+                  name="charges"
+                  type="number"
+                  value={charges}
+                  onChange={(e) => setcharges(e.target.value)}
+                  required
+                  placeholder="0"
+                />
+              </div>
+            </div>
+            {image === null ? (
+              <div className="input-box">
+                <span className="label">Image</span>
+                <div className="flex-r input">
+                  <input
+                    required
+                    name="image"
+                    type="file"
+                    accept="image/png,  image/jpeg"
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="input-box">
+                <span className="label">Image</span>
+                <div className="flex-r input">
+                  <input
+                    name="image"
+                    type="file"
+                    accept="image/png,  image/jpeg"
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                </div>
+              </div>
+            )}
+
+
             {isUpdate ? (
               <input className="btn" type="submit" value="Update" />
             ) : (
               <input className="btn" type="submit" value="Add Labour" />
             )}
+
           </form>
         </Modal.Body>
         <Modal.Footer> I am baby</Modal.Footer>

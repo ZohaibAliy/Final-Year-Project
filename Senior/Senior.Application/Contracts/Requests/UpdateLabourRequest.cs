@@ -12,7 +12,7 @@ namespace Senior.Application.Contracts.Requests
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Speciality { get; set; }
-        public string charges { get; set; }
+        public int Charges { get; set; }
         public IFormFile image { get; set; }
         public string Address { get; set; }
         public string PhNumber { get; set; }

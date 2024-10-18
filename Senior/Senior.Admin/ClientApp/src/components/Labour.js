@@ -42,16 +42,21 @@ export default function Home() {
 
      
         
-        <div className="row">
+      <div className="row">
           {Labours.map(function (data, key) {
-            
+            let image = "data:image/jpeg;base64," + data.image;
             return (
               <>
                 <div className="prod-card col-12 col-md-4  mt-3 ">
-                  
+                  <a href="#">
+                    <img
+                      src={image}
+                      className=" prod-img rounded-circle  border  justifycenter"
+                    />
+                  </a>
                   <h5 className="text-center mt-3 mb-3">{data.firstName}</h5>
                   <p className="text-center">
-                    <a className="btn btn-success" onClick={()=> navigate('/productdetail',{state:data})} >Appoint Now</a>
+                    <a className="btn btn-success" onClick={()=> navigate('/EquipmentDetails',{state:data})} >Shop Now</a>
                   </p>
                 </div>
               </>
@@ -80,7 +85,7 @@ export default function Home() {
                         
                         <div className="card-body">
                           <ul className="list-unstyled d-flex justify-content-between">
-                            <li className="text-muted text-right">${data.firstName}</li>
+                            <li className="text-muted text-right">{data.firstName} {data.lastName}</li>
                           </ul>
                           <a
                          
@@ -90,6 +95,9 @@ export default function Home() {
                           </a>
                           <p className="card-text">
                           {data.phnumber}
+                          </p>
+                          <p className="card-text">
+                          {data.charges}/- per day
                           </p>
                           <p className="text-center">
                     <a className="btn btn-success" onClick={()=> navigate('/LabourDetails',{state:data})} >Appoint Now</a>

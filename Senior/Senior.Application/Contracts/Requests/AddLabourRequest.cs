@@ -11,7 +11,7 @@ namespace Senior.Application.Contracts.Requests
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Charges { get; set; }
+        public int Charges { get; set; }
         public string Speciality { get; set; }
         public IFormFile Image { get; set; }
         public string Address { get; set; }
