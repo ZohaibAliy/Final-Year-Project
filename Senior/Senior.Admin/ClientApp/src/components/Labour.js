@@ -42,27 +42,6 @@ export default function Home() {
 
      
         
-      <div className="row">
-          {Labours.map(function (data, key) {
-            let image = "data:image/jpeg;base64," + data.image;
-            return (
-              <>
-                <div className="prod-card col-12 col-md-4  mt-3 ">
-                  <a href="#">
-                    <img
-                      src={image}
-                      className=" prod-img rounded-circle  border  justifycenter"
-                    />
-                  </a>
-                  <h5 className="text-center mt-3 mb-3">{data.firstName}</h5>
-                  <p className="text-center">
-                    <a className="btn btn-success" onClick={()=> navigate('/EquipmentDetails',{state:data})} >Shop Now</a>
-                  </p>
-                </div>
-              </>
-            );
-          })}
-        </div>
     
         <section className="bg-light">
           <div className="container ">
@@ -70,13 +49,13 @@ export default function Home() {
               <div className="col-lg-6 m-auto">
                 <h1 className="h1"></h1>
                 <p className="Feature-text">
-               Equipment
+               Labours
                 </p>
               </div>
             </div>
             <div className="row">
               {Labours.map(function (data, key) {
-                
+                let image = "data:image/jpeg;base64," + data.image;
                 return (
                   <>
                     <div className="col-12 col-md-4 mb-4">
@@ -87,12 +66,19 @@ export default function Home() {
                           <ul className="list-unstyled d-flex justify-content-between">
                             <li className="text-muted text-right">{data.firstName} {data.lastName}</li>
                           </ul>
+                          <a href="#">
+                    <img
+                      src={image}
+                      className=" prod-img rounded-circle  border  justifycenter"
+                    />
+                  </a>
                           <a
                          
                             className="Feature-Name text-decoration-none text-dark"
                           >
                              {data.speciality}
                           </a>
+
                           <p className="card-text">
                           {data.phnumber}
                           </p>

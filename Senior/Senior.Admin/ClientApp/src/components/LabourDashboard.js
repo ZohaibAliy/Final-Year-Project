@@ -76,7 +76,15 @@ export default function EquipmentDashboard() {
   };
   const UpdateLabour = () => {
 
-    const res=UpdateLabour(id, FirstName, LastName, Speciality, Address, PhNumber);
+    const res=UpdateLabour(
+      id,
+      FirstName,
+       LastName,
+       charges,
+       image, 
+       Speciality, 
+       Address, 
+       PhNumber);
  
       toast.success("Labour update Succesful!");
       setIsUpdate(false);

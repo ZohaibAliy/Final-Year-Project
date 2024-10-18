@@ -281,11 +281,10 @@ export const UpdateLabour = async (
   Id,
   FirstName,
   LastName,
-  Charges,
+  charges,
   Speciality,
   Address,
-  PhoneNumber,
-  description,
+  PhNumber,
   image
 ) => {
 
@@ -294,8 +293,8 @@ export const UpdateLabour = async (
     formData.append("image", image);
     formData.append("FirstName", FirstName);
     formData.append("LastName", LastName);
-    formData.append("PhNumber", PhoneNumber)
-    formData.append("Charges", Charges);
+    formData.append("PhNumber", PhNumber)
+    formData.append("Charges", charges);
     formData.append("Address", Address);
     formData.append("Speciality", Speciality);
 
