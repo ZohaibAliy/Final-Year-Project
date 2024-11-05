@@ -74,8 +74,16 @@ else if(user.role==='Customer'){
                             <a className="nav-link" onClick={()=>navigate('/Labour')}>Labour</a>
                         </li>
                         {checklogin&&(  <li className="nav-item">
-                            <a className="nav-link" onClick={()=>navigate('/myorders')}>My Request</a>
+                            <a className="nav-link" onClick={()=>navigate('/myorders')}>My Equepment Request</a>
+                        </li>)
+                        }
+
+                        {checklogin&&(  <li className="nav-item">
+                            <a className="nav-link" onClick={()=>navigate('/MyLabourRequest')}>My Labour Request</a>
                         </li>)}
+
+                        
+                        
                   </ul>
                 </div>
                 <div className="navbar align-self-center d-flex">

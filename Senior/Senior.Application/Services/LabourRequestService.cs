@@ -45,7 +45,7 @@ namespace Senior.Application.Services
 
             return res;
         }
-        public async Task<ApiResponse<string>> PlaceLabourRequest(LabourRequest request)
+        public async Task<ApiResponse<string>> PlaceLabourRequest(LabourRequestRequest request)
         {
             var response = new ApiResponse<string>();
             try
@@ -159,6 +159,11 @@ namespace Senior.Application.Services
                 response.Errors = new List<string> { { $"Something went wrong" } };
             }
             return response;
+        }
+
+        public Task<ApiResponse<string>> PlaceLabourRequest(LabourRequest labourRequest)
+        {
+            throw new NotImplementedException();
         }
     }
 }

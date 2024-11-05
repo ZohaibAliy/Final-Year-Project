@@ -52,7 +52,7 @@ namespace Senior.Api.Controllers
         [HttpPost]
         [Route("PlaceLabourRequest")]
         [Produces(typeof(ApiResponse<string>))]
-        public async Task<IActionResult> PlaceLabourRequest(LabourRequest request)
+        public async Task<IActionResult> PlaceLabourRequest(LabourRequestRequest request)
         {
 
             var response = await _laborrequestservice.PlaceLabourRequest(request);

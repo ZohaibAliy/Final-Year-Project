@@ -128,6 +128,7 @@ export const LabourRequest = async (
   userId,
   address,
   firstName,
+  lastName,
   customerName,
   email
 ) => {
@@ -137,6 +138,7 @@ export const LabourRequest = async (
       userId: userId,
       address: address,
       firstName: firstName,
+      lastName: lastName,
       customerName: customerName,
       customerEmail: email,
     });
@@ -483,7 +485,7 @@ export const UploadLabour = async (
 
   ) => {
     try {
-      const resp = await axios.put(apiUrl + "api/LabourRequest/ChangeStatus", {
+      const resp = await axios.put(apiUrl + "api/LabourRequest/UpdateLabourRequest", {
         id:id,
         address:address,
         customerName:customerName,

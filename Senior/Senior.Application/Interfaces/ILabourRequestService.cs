@@ -14,7 +14,7 @@ namespace Senior.Application.Interfaces
     {
         Task<List<LabourRequest>> GetLabourRequest();
         Task<List<LabourRequest>> GetMyLabourRequest(int id);
-        Task<ApiResponse<string>> PlaceLabourRequest(LabourRequest labourRequest);
+        Task<ApiResponse<string>> PlaceLabourRequest(LabourRequestRequest labourRequest);
         Task<ApiResponse<string>> ChangeStatus(int id, string status);
         Task<ApiResponse<string>> UpdateLabourRequest(UpdateLabourRequestRequest request);
     }
