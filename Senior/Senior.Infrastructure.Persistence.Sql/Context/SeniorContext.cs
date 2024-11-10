@@ -23,6 +23,7 @@ namespace Senior.Infrastructure.Persistence.Sql.Context
         public DbSet<Order> Order { get; set; }
         public DbSet<Labour> Labour { get; set; }
         public DbSet<LabourRequest> LabourRequest { get; set; }
+        public DbSet<Project> Project { get; set; }
 
 
     }
