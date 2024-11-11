@@ -18,6 +18,7 @@ import Labour from './components/Labour';
 import LabourDetails from "./components/LabourDetails";
 import  PlaceLabourRequest  from "./components/PlaceLabourRequest";
 import MyLabourRequest from "./components/MyLabourRequest";
+import Request from "./components/Requests";
 const AppRoutes = [
   {
     path: '/Labour',
@@ -91,6 +92,10 @@ const AppRoutes = [
     path: '/LabourRequesttable',
     element: <LabourRequestDashboard />
   },
+  {
+    path: '/Request',
+    element:<Request/>
+  }
 ];
 
 export default AppRoutes;

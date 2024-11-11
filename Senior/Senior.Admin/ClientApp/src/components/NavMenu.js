@@ -67,19 +67,13 @@ else if(user.role==='Customer'){
                         <li className="nav-item " >
                             <a className="nav-link" onClick={()=>navigate('/')}>Home</a>
                         </li>
+                      
                         <li className="nav-item " >
-                            <a className="nav-link" onClick={()=>navigate('/Equipment')}>Equipment</a>
+                            <a className="nav-link" onClick={()=>navigate('/Labour')}>Resourses</a>
                         </li>
-                        <li className="nav-item " >
-                            <a className="nav-link" onClick={()=>navigate('/Labour')}>Labour</a>
-                        </li>
+                       
                         {checklogin&&(  <li className="nav-item">
-                            <a className="nav-link" onClick={()=>navigate('/myorders')}>My Equepment Request</a>
-                        </li>)
-                        }
-
-                        {checklogin&&(  <li className="nav-item">
-                            <a className="nav-link" onClick={()=>navigate('/MyLabourRequest')}>My Labour Request</a>
+                            <a className="nav-link" onClick={()=>navigate('/Request')}>Request</a>
                         </li>)}
 
                         

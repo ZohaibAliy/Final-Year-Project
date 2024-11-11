@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { useState, useEffect } from "react";
 import { GetLabour } from "../Api/SeniorApi";
+import { GetProducts } from "../Api/SeniorApi";
 import "../style/Equipment.css";
 import { useNavigate } from 'react-router-dom';
 
@@ -17,10 +18,23 @@ export default function Home() {
         setLabours(response);
       }
     });
+    
  
   }, []);
 
+  const [products, setproducts] = useState([]);
+
+
+  useEffect(() => {
+    GetProducts().then((response) => {
+      console.log(response);
+      if (response) {
+        setproducts(response);
+      }
+    });
  
+  }, []);
+
   return (
     <>
 
@@ -97,6 +111,55 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <section className="bg-light">
+          <div className="container ">
+            <div className="product-header row text-center py-3">
+              <div className="col-lg-6 m-auto">
+                <h1 className="h1"></h1>
+                <p className="Feature-text">
+               Equipment
+                </p>
+              </div>
+            </div>
+            <div className="row">
+              {products.map(function (data, key) {
+                let image = "data:image/jpeg;base64," + data.image;
+                return (
+                  <>
+                    <div className="col-12 col-md-4 mb-4">
+                      <div className="card h-100">
+                        <a >
+                          <img
+                            src={image}
+                            className="feature-image border h-80 w-80 justifycenter"
+                          />
+                        </a>
+                        <div className="card-body">
+                          <ul className="list-unstyled d-flex justify-content-between">
+                            <li className="text-muted text-right">${data.price}</li>
+                          </ul>
+                          <a
+                         
+                            className="Feature-Name text-decoration-none text-dark"
+                          >
+                             {data.productName}
+                          </a>
+                          <p className="card-text">
+                          {data.description}
+                          </p>
+                          <p className="text-center">
+                    <a className="btn btn-success" onClick={()=> navigate('/EquipmentDetails',{state:data})} >Shop Now</a>
+                  </p>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
 
         <footer className="bg-dark" id="tempaltemo_footer">
 <div className="container">
