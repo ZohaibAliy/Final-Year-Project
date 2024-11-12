@@ -19,10 +19,16 @@ import LabourDetails from "./components/LabourDetails";
 import  PlaceLabourRequest  from "./components/PlaceLabourRequest";
 import MyLabourRequest from "./components/MyLabourRequest";
 import Request from "./components/Requests";
+import ProjectDashboard from "./components/ProjectDashboard";
+import ResourseAllocation from "./components/ResourseAllocation";
 const AppRoutes = [
   {
     path: '/Labour',
     element:<Labour/>
+  },
+  {
+    path: '/ResourseAllocation',
+    element:<ResourseAllocation/>
   },
   {
     path: '/',
@@ -79,6 +85,10 @@ const AppRoutes = [
   {
     path: '/producttable',
     element: <EquipmentDashboard />
+  },
+  {
+    path:'/projecttable',
+    element:<ProjectDashboard/>
   },
   {
     path: '/Labourtable',

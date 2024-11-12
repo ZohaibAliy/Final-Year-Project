@@ -22,7 +22,7 @@ export const userLogin = async (email, password) => {
     return err.response;
   }
 };
-
+//Product ko get karna ka lia 
 export const GetProducts = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/Product/GetEquipment");
@@ -36,7 +36,21 @@ export const GetProducts = async () => {
     return err.response;
   }
 };
+// project ko get karna ka lia 
+export const GetProject = async () => {
+  try {
+    const resp = await axios.get(apiUrl + "api/Project/GetProject");
 
+    if (resp.status == 200) {
+      return resp.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return err.response;
+  }
+};
+//Labour ko get karna ka lia 
 export const GetLabour = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/Labour/GetLabour");
@@ -50,7 +64,7 @@ export const GetLabour = async () => {
     return err.response;
   }
 };
-
+//Prders ko get karna ka lia 
 export const GetOrders = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/Order/GetOrders");
@@ -64,6 +78,7 @@ export const GetOrders = async () => {
     return err.response;
   }
 };
+//Labours ki request ko get karna ka lia 
 export const GetLabourRequest = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/LabourRequest/GetLabourRequest");
@@ -77,7 +92,7 @@ export const GetLabourRequest = async () => {
     return err.response;
   }
 };
-
+// tmaam users ko get karna ka lia 
 export const GetUsers = async (data) => {
   try {
     const resp = await axios.get(apiUrl + "api/Authetication/GetAllUsers");
@@ -91,7 +106,7 @@ export const GetUsers = async (data) => {
     return err.response;
   }
 };
-
+// jaab contractor request dala ga equipment ka lia 
 export const OrderPlace = async (
   productId,
   userId,
@@ -122,7 +137,7 @@ export const OrderPlace = async (
 };
 
 
-
+// jab conttractor request dala ga labours ka lia 
 export const LabourRequest = async (
   labourId,
   userId,
@@ -153,6 +168,7 @@ export const LabourRequest = async (
     return err.response;
   }
 };
+// request ko check akrna ka lia 
 export const CheckMyOrders = async (id) => {
   try {
     const resp = await axios.get(apiUrl + "api/Order/MyOrders", {
@@ -170,6 +186,7 @@ export const CheckMyOrders = async (id) => {
     return err.response;
   }
 };
+// labour ki request ko check karna ka lia 
 export const CheckMyLabourRequest = async (id) => {
   try {
     const resp = await axios.get(apiUrl + "api/LabourRequest/MyLabourRequest", {
@@ -187,6 +204,7 @@ export const CheckMyLabourRequest = async (id) => {
     return err.response;
   }
 };
+// jaab admin ya project manager request ko respond kara ga equipment ki  
 export const UpdateStatus = async (id, status) => {
   try {
     const resp = await axios.put(apiUrl + "api/Order/ChangeStatus", {
@@ -203,6 +221,7 @@ export const UpdateStatus = async (id, status) => {
     return err.response;
   }
 };
+ // jaab admin ya project manager request ko respond kara ga labour ki
 export const UpdateRequestStatus = async (id, status) => {
   try {
     const resp = await axios.put(apiUrl + "api/LabourRequest/ChangeStatus", {
@@ -219,7 +238,7 @@ export const UpdateRequestStatus = async (id, status) => {
     return err.response;
   }
 };
-
+// new user add karna ka lia 
 export const RegisterUser = async (
   firstName,
   lastName,
@@ -246,7 +265,7 @@ export const RegisterUser = async (
   }
 };
 
-
+// purana equipment ma changes karna ka lia
 export const UpdateProducts = async (
   Id,
   ProductName,
@@ -277,8 +296,49 @@ export const UpdateProducts = async (
   }) 
 
   };
-
   
+// purana equipment ma changes karna ka lia
+export const UpdateProject = async (
+  Id,
+  title,
+  description,
+  location,
+  startDate,
+  endDate,
+  expectedBudget,
+  ContractorName,
+  userid
+  
+) => {
+
+    const formData = new FormData();
+    formData.append("Id", Id);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("location", location);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("expectedBudget",expectedBudget);
+    formData.append("ContractorName",ContractorName);
+    formData.append("userid",userid);
+
+  await axios({
+    method: "put",
+    url: apiUrl + "api/Project/UpdateProject",
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+  .then((response) => {
+   
+    return (response)
+
+  }) 
+
+  };
+
+
+
+  // purana labour ki details change karna ka lia 
 export const UpdateLabour = async (
   Id,
   FirstName,
@@ -313,7 +373,7 @@ export const UpdateLabour = async (
   }) 
 
   };
-
+// equipment ko system ma save karna kaa lia 
 export const UploadProducts = async (
   ProductName,
   price,
@@ -346,7 +406,47 @@ export const UploadProducts = async (
   })
 
   };
+  //Project naya banane ka lia 
+  export const UploadProject = async (
+    title,
+    description,
+    location,
+    startDate,
+    endDate,
+    expectedBudget,
+    ContractorName,
+    userid,
   
+  ) => {
+  
+      
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("location", location);
+      formData.append("startDate", startDate);
+      formData.append("endDate", endDate);
+      formData.append("expectedBudget",expectedBudget);
+      formData.append("ContractorName",ContractorName);
+      formData.append("userid",userid);
+  
+  
+  
+  
+      await axios({
+      method: "post",
+      url: apiUrl + "api/Project/AddProject",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then((response) => {
+     
+      return (response)
+  
+    })
+  
+    };
+  // labour ko system ma save karna ka lia 
 export const UploadLabour = async (
   firstName,
   lastName,
@@ -384,7 +484,7 @@ export const UploadLabour = async (
   })
 
   };
-
+// naya user banane ka lia 
   export const CreateUser = async (
     firstName,
     lastName,
@@ -411,6 +511,7 @@ export const UploadLabour = async (
       return err.response;
     }
   };
+  // user ko change karna ka lia 
   export const ChangeUser = async (
     id,
     firstName,
@@ -442,7 +543,7 @@ export const UploadLabour = async (
     }
   };
   
-
+// requewst ma changes karna ka lia 
   export const ChangeOrder = async (
     id,
     customerName,
@@ -471,7 +572,7 @@ export const UploadLabour = async (
       return err.response;
     }
   };
-
+// labour ki request ma changes karna ka lia 
 
   export const ChangeLabourRequest = async (
     id,
@@ -502,7 +603,7 @@ export const UploadLabour = async (
     }
   };
 
-
+// kisi user ko delete karna ka lia 
   export const RemoveUser = async (id) => {
     try {
       const resp = await axios.put(apiUrl + "api/Authetication/RemoveEquipment", {
@@ -520,9 +621,30 @@ export const UploadLabour = async (
       return err.response;
     }
   };
+ // kisi equipment ko delete karna ka lia 
   export const RemoveProduct = async (id) => {
     try {
       const resp = await axios.put(apiUrl + "api/Product/RemoveEquipment", {
+        
+  
+          id: id
+
+        
+      });
+  
+      if (resp.status == 200) {
+        return resp.data;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      return err.response;
+    }
+  };
+  //kisi project ko remove karna ka lia 
+  export const RemoveProject = async (id) => {
+    try {
+      const resp = await axios.put(apiUrl + "api/Project/RemoveProject", {
         
   
           id: id

@@ -17,6 +17,7 @@ namespace Senior.Infrastructure.Persistence.Sql.Models
         public DateTime EndDate { get; set; }
         public int ExpectedBudget { get; set; }
         public int ActualBudget { get; set; }
+        public string? ContractorName { get; set; }
 
         public int Labourid { get; set; }
         public int Equipmentid { get; set; }

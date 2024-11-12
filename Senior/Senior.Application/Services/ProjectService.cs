@@ -52,6 +52,7 @@ namespace Senior.Application.Services
                     ActualBudget=0,
                 
                     userid = request.userid,
+                    ContractorName= request.ContractorName,
                     
                     Created= DateTime.Now
 
@@ -114,6 +115,7 @@ namespace Senior.Application.Services
 
                     res.ExpectedBudget = request.ExpectedBudget;
                 res.userid = request.userid;
+                res.ContractorName = request.ContractorName;
                     
 
                     var result = await _projectrepository.UpdateProject(res);

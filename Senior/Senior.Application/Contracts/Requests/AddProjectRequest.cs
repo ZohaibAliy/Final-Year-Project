@@ -15,6 +15,6 @@ namespace Senior.Application.Contracts.Requests
         public DateTime EndDate { get; set; }   
         public int ExpectedBudget { get; set; }
         public int userid { get; set; }
-        
+        public String ContractorName { get; set; } 
     }
 }

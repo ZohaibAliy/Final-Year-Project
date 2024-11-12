@@ -35,6 +35,10 @@ else if(user.role==='Customer'){
     navigate('/profile'); 
    
 }
+else if(user.role==='Manager'){
+    navigate('/ResourseAllocation'); 
+   
+}
        }
 
       }

@@ -1,44 +1,44 @@
 import React from "react";
-import "../style/ruang-admin.min.css";
-import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-
+import "../style/ruang-admin.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-import toast, { Toaster } from "react-hot-toast";
+import "bootstrap/dist/js/bootstrap.min.js";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import {
-  GetProducts,
-  ChangeUser,
-  GetUsers,
-  CreateUser,
-  RemoveUser,
+  GetProject,
+  UpdateProject,
+  UploadProject,
+  RemoveProject,
 } from "../Api/SeniorApi";
-export default function UserDashboard() {
-  const [sidenav, setSidenav] = useState("accordion");
+export default function ProjectDashboard() {
   const [modelOpen, setModelOpen] = useState(false);
-  const [users, setusers] = useState([]);
-  const [isUpdate, setIsUpdate] = useState(false);
+  const [sidenav, setSidenav] = useState("accordion");
   const [ischanged, setischanged] = useState(0);
-
-  const [id, setId] = useState("");
-  const [firstName, setfirstName] = useState("");
-  const [lastName, setlastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
-  const [confirmPassword, setconfirmPassword] = useState("");
-
+    const [isadd, setisadd] = useState(0);
+  const [project, setproject] = useState([]);
+  const [id, setId] = useState();
+  const [title, settitle] = useState();
+  const [description, setDescription] = useState();
+  const [location, setlocation] = useState();
+  const [startDate, setstartDate] = useState();
+  const [endDate, setendDate] = useState();
+  const [expectedBudget,setexpectedBudget]=useState();
+  const [ContractorName,setContractorName]=useState();
+  const [userid,setuserid]=useState();
+  const [isUpdate, setIsUpdate] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    GetUsers().then((response) => {
+    GetProject().then((response) => {
+     
       if (response) {
-        setusers(response);
+        setproject(response);
       }
+    
     });
-  }, [ischanged]);
+  },[ischanged]);
 
   const SidebarHandler = () => {
     if (sidenav == "accordion") {
@@ -48,99 +48,98 @@ export default function UserDashboard() {
     }
   };
 
-  const AddAdmin = () => {
-    if (password != confirmPassword) {
-      toast.error("Passwords do not match");
-    } else {
-      CreateUser(firstName, lastName, email, password, gender, role).then(
-        (response) => {
-          if (response.isRequestSuccessful) {
-            toast.success("Registration Successful!");
-            setModelOpen(false);
-          } else if (!response.isRequestSuccessful) {
-            toast.error(response.successResponse);
-          }
-
-          setischanged(ischanged+1);
-        }
-      );
-    }
-  };
-  const UpdateUser = () => {
-    if (password != confirmPassword) {
-      toast.error("Passwords do not match");
-    } else {
-      ChangeUser(id, firstName, lastName, email, password, gender, role).then(
-        (response) => {
-          if (response.isRequestSuccessful) {
-            toast.success(response.successResponse);
-            setModelOpen(false);
-          } else if (!response.isRequestSuccessful) {
-            toast.error(response.successResponse);
-          }
-
-          setischanged(ischanged+1);
-        }
-      );
-    }
-  };
   const UpdateStates = (data) => {
     setIsUpdate(true);
-
     setId(data.id);
-    setfirstName(data.firstName);
-    setlastName(data.lastName);
-    setEmail(data.email);
-    setGender(data.gender);
-    setPassword(data.password);
-    setconfirmPassword(data.password);
-    setRole(data.role);
+    settitle(data.title);
+    setlocation(data.location);
+    setstartDate(data.startDate);
+    setendDate(data.endDate);
+    setexpectedBudget(data.expectedBudget);
+    setContractorName(data.ContractorName);
+    
+    setuserid(data.userid);
+    
 
     setModelOpen(true);
   };
   const ResetStates = (data) => {
-    setfirstName("");
-    setlastName("");
-    setEmail("");
-    setGender("");
-    setPassword("");
-    setRole("");
-    setconfirmPassword("");
-    setIsUpdate(false);
+    setId(null);
+    settitle("");
+    setDescription("");
+    setlocation(null);
+    setstartDate("");
+    setendDate(null);
+    setexpectedBudget(false);
+    setuserid(null);
+    setContractorName("");
     setModelOpen(true);
   };
+  const UpdateProject = () => {
+
+    const res=UpdateProject(id, title, description, location, startDate,endDate,expectedBudget,ContractorName, userid);
+ 
+      toast.success("Project update Succesful!");
+      setIsUpdate(false);
+   
+
+    setischanged(ischanged + 2);
+  
+
+setModelOpen(false);
+
+         
+   
+  };
+
   const CloseModel = () => {
     setIsUpdate(false);
+    setModelOpen(false);
+  };
+  const AddProject = () => {
+    setisadd(isadd+1)
+    UploadProject(title, description, location, startDate,endDate,expectedBudget, userid,ContractorName);
+          toast.success("Project added!");
+          setIsUpdate(false);
+          
+      
     setModelOpen(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (isUpdate) {
-      UpdateUser();
+      UpdateProject();
+    
     } else {
-      AddAdmin();
+      AddProject();
     }
   };
-  const DeactivateUser = (id) => {
-    RemoveUser(id).then(
-      (response) => {
-      
-        if (response.isRequestSuccessful) {
-          toast.success(response.successResponse);
-          setModelOpen(false);
-        } else if (!response.isRequestSuccessful) {
-          toast.error(response.successResponse);
-        }
-          setischanged(ischanged+1);
-       
-
-        console.log(response);
+  const DeactivateProject = (id) => {
+    RemoveProject(id).then((response) => {
+      if (response.isRequestSuccessful) {
+        toast.success(response.successResponse);
+        setModelOpen(false);
+      } else if (!response.isRequestSuccessful) {
+        toast.error(response.successResponse);
       }
-    );
+      setischanged(ischanged + 1);
+    });
   };
 
+  function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
 
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  }
   return (
     <div id="page-top">
       <Toaster position="top-center" reverseOrder={false} />
@@ -155,13 +154,13 @@ export default function UserDashboard() {
               href="index.html"
             >
               <div className="sidebar-brand-icon"></div>
-              <div className="sidebar-brand-text mx-3">SeniorAdmin</div>
+              <div className="sidebar-brand-text mx-3">Admin</div>
             </a>
             <hr className="sidebar-divider my-0" />
             <li className="nav-item active">
               <a className="nav-link" href="index.html">
                 <i className="fa fa-fw fa-tachometer-alt"></i>
-                <span>Listed User</span>
+                <span>Project</span>
               </a>
             </li>
             <hr className="sidebar-divider" />
@@ -188,8 +187,10 @@ export default function UserDashboard() {
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-              <i className="fa fa-fw fa-shopping-cart"></i>
-                <span>Equipment</span>
+                <i className="fa fa-fw fa-shopping-cart"></i>
+                <span>
+                  <strong>Equipment</strong>
+                </span>
               </a>
             </li>
             <li className="nav-item">
@@ -201,7 +202,7 @@ export default function UserDashboard() {
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-                <i className="fa fa-fw fa-truck"></i>
+                 <i className="fa fa-fw fa-truck"></i>
                 
                 <span>Order</span>
               </a>
@@ -230,9 +231,7 @@ export default function UserDashboard() {
                 aria-controls="collapseBootstrap"
               >
                 <i className="fa fa-fw Example of users fa-users"></i>
-                <span>
-                  <strong>User</strong>
-                </span>
+                <span>User</span>
               </a>
             </li>
             <li className="nav-item">
@@ -246,6 +245,19 @@ export default function UserDashboard() {
               >
                 <i className="fa fa-fw Example of users fa-users"></i>
                 <span>Labour</span>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                className="nav-link collapsed"
+                onClick={() => navigate("/Labourtable")}
+                data-toggle="collapse"
+                data-target="#collapseBootstrap"
+                aria-expanded="true"
+                aria-controls="collapseBootstrap"
+              >
+                <i className="fa fa-fw Example of users fa-users"></i>
+                <span>Project</span>
               </a>
             </li>
 
@@ -269,7 +281,8 @@ export default function UserDashboard() {
 
             <div className="container-fluid" id="container-wrapper">
               <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800">Listed Users</h1>
+                <h1 className="h3 mb-0 text-gray-800">Listed Products</h1>
+
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
                     <a href="./">Home</a>
@@ -281,50 +294,53 @@ export default function UserDashboard() {
               </div>
 
               <div className="row mb-3">
-                <div className="col-xl-12 col-lg-10 mb-4">
+                <div className="col-xl-12 col-lg-10 mb-4 justify-content-center">
                   <div className="card">
                     <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 className="m-0 font-weight-bold text-primary">
-                        Listed User
+                      <h6 className="mx-3 font-weight-bold text-primary">
+                        Listed Project
                       </h6>
                       <h6 className="add-btn font-weight-bold text-primary float-left">
-                      <i
-                        class="fa fa-fw fa-plus"
-                        onClick={() => ResetStates()}
-                      ></i>
+                        <i
+                          class="fa fa-fw fa-plus"
+                          onClick={() => ResetStates()}
+                        ></i>
                       </h6>
                     </div>
                     <div className="table-responsive">
                       <table className="table align-items-center table-flush">
                         <thead className="thead-light">
                           <tr>
-                            <th>User Id</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Is Active</th>
-                            <th>Gender</th>
+                            <th>id</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Location</th>
+                            <th>StartDate</th>
+                            <th>EndDate</th>
+                            <th>ExpectedBudget</th>
+                            <th>Contractorid</th>
+                            <th>Contrator</th>
+                            
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {users.map(function (data, key) {
-                          
+                          {project.map(function (data, key) {
+                            let image = "data:image/jpeg;base64," + data.image;
                             return (
                               <>
                                 <tr>
+                                  <td>{data.id}</td>
+                                  <td>{data.title}</td>
+                                  <td>{data.description}</td>
+                                  <td>{data.location}</td>
+                                  <td>{data.startDate}</td>
+                                  <td>{data.endDate}</td>
+                                  <td>{data.expectedBudget}</td>
+                                    <th>{data.userid}</th>
+                                  <td>{data.contractorName}</td>
+
                                   <td>
-                                    <a>{data.id}</a>
-                                  </td>
-                                  <td>{data.firstName}</td>
-                                  <td>{data.lastName}</td>
-                                  <td>{data.email}</td>
-                                  <td>{data.role}</td>
-                                  <td>{data.isActive ? "True" : "False"}</td>
-                                  <td>{data.gender}</td>
-                                  <td>
-                                 
                                     <button
                                       type="button"
                                       className="btn-up btn-primary"
@@ -332,10 +348,13 @@ export default function UserDashboard() {
                                     >
                                       <i className="fa fa-fw fa-pencil"></i>
                                     </button>
-                                    <br/>
-                                    <button type="button" className="btn-rm btn-danger" onClick={()=>DeactivateUser(data.id)}>
-                                  <i className="fa fa-fw fa-trash"></i>
-</button>
+                                    <button
+                                      type="button"
+                                      className="btn-rm btn-danger"
+                                      onClick={() => DeactivateProject(data.id)}
+                                    >
+                                      <i className="fa fa-fw fa-trash"></i>
+                                    </button>
                                   </td>
                                 </tr>
                               </>
@@ -413,9 +432,10 @@ export default function UserDashboard() {
       <a className="scroll-to-top rounded" href="#page-top">
         <i className="fa fa-angle-up"></i>
       </a>
+
       <Modal show={modelOpen}>
         <Modal.Header>
-          <h2>User</h2>
+          <h2>Projects</h2>
           <h2 className="float-left close-btn" onClick={() => CloseModel()}>
           <i class="fa fa-times" aria-hidden="true"></i>
           </h2>
@@ -423,158 +443,95 @@ export default function UserDashboard() {
         <Modal.Body>
           <form className="flex-c" onSubmit={handleSubmit}>
             <div className="input-box">
-              <span className="label">First-Name</span>
+              <span className="label">Title</span>
               <div className=" flex-r input">
                 <input
-                  name="firstName"
+                  name="productName"
                   type="text"
-                  maxlength="100"
-                  value={firstName}
-                  onChange={(e) => setfirstName(e.target.value)}
+                  maxlength="50"
+                  value={title}
+                  onChange={(e) => settitle(e.target.value)}
                   required
-                  placeholder="e.g John"
+                  placeholder="e.g Kohistan bridge"
                 />
               </div>
             </div>
             <div className="input-box">
-              <span className="label">Last-Name</span>
+              <span className="label">Description</span>
               <div className=" flex-r input">
-                <input
-                  name="lastName"
-                  type="text"
-                  maxlength="100"
-                  value={lastName}
-                  onChange={(e) => setlastName(e.target.value)}
-                  required
-                  placeholder="e.g Doe"
-                />
-              </div>
-            </div>
-            <div className="input-box">
-              <span className="label">E-mail</span>
-              <div className=" flex-r input">
-                <input
-                  name="email"
-                  type="email"
-                  maxlength="256"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="name@abc.com"
-                />
-              </div>
-            </div>
-            <div className="input-box">
-              <span className="label">Password</span>
-              <div className="flex-r input">
-                <input
-                  name="password"
-                  type="password"
-                  minlength="8"
-                  placeholder="8+ (a, A, 1, #)"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className="input-box">
-              <span className="label">Confirm Password</span>
-              <div className="flex-r input">
-                <input
-                  name="confirmPassword"
-                  type="password"
-                     minlength="8"
-                  placeholder="8+ (a, A, 1, #)"
-                  value={confirmPassword}
-                  onChange={(e) => setconfirmPassword(e.target.value)}
+                <textarea
+                  name="description"
+                  type="textarea"
+                  maxlength="500"
+                  rows="5"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="e.g This Product will....."
                   required
                 />
               </div>
             </div>
 
-      
-            {gender===""?(
-               <div className="input-box">
-               <span className="label">Gender</span>
- 
-               <div className=" flex-r input">
-                 <select 
-                   className="form-select w-100"
-                   aria-label="Default select example"
-                   onChange={(e) => setGender(e.target.value)}
-                 >
-                 <option selected value="">Please select an option:</option>
-                   <option value="Male">Male</option>
-                   <option value="Female">Female</option>
-                   <option value="Others">Others</option>
-                 </select>
-               </div>
-             </div>
- 
-            ):(
+            <div className="input-box">
+              <span className="label">Location</span>
+              <div className=" flex-r input">
+                <input
+                  name="quantity"
+                  type="number"
+                  value={location}
+                  onChange={(e) => setlocation(e.target.value)}
+                  placeholder="Kohistan inclaves"
+                  required
+                />
+              </div>
+            </div>
+            <div className="input-box">
+              <span className="label">StartDate</span>
+              <div className=" flex-r input">
+                <input
+                  name="price"
+                  type="number"
+                  value={startDate}
+                  onChange={(e) => setstartDate(e.target.value)}
+                  required
+                  placeholder="20/10/2024"
+                />
+              </div>
+            </div>
+            
               <div className="input-box">
-              <span className="label">Gender</span>
-
-              <div className=" flex-r input">
-                <select defaultValue={gender}
-                  className="form-select w-100"
-                  aria-label="Default select example"
-                  onChange={(e) => setGender(e.target.value)}
-                >
-                
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Others">Others</option>
-                </select>
-              </div>
-            </div>
-
-            )}
-            {role===""?(
-                   <div className="input-box">
-                   <span className="label">Role</span>
-     
-                   <div className=" flex-r input">
-                     <select
-                  
+                <span className="label">enddate</span>
+                <div className="flex-r input">
+                  <input
+                    required
+                    name="number"
+                    type="file"
+                    onChange={(e) => setendDate(e.target.value)}
                     
-                       className="form-select w-100"
-                       aria-label="Default select example"
-                       onChange={(e) => setRole(e.target.value)}
-                     >
-                     <option selected value="">Please select an option:</option>
-                       <option value="Contractor">Contractor</option>
-                       <option value="Manager">Manager</option>
-                       <option value="Admin">Admin</option>
-                     </select>
-                   </div>
-                 </div>
-            ):(
-              <div className="input-box">
-              <span className="label">Role</span>
-
-              <div className=" flex-r input">
-                <select
-             
-                defaultValue={role}
-                  className="form-select w-100"
-                  aria-label="Default select example"
-                  onChange={(e) => setRole(e.target.value)}
-                >
-               
-                  <option value="Contractor">Contractor</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Manager">Manager</option>
-                </select>
+                  placeholder="20/10/2025"
+                  />
+                </div>
               </div>
-            </div>
-            )}
-       
+              <div className="input-box">
+                <span className="label">Contractor Name</span>
+                <div className="flex-r input">
+                  <input
+                    required
+                    name="number"
+                    type="file"
+                    onChange={(e) => setContractorName(e.target.value)}
+                    
+                  placeholder="Riaz Ahmed"
+                  />
+                </div>
+              </div>
+            
+              
+
             {isUpdate ? (
               <input className="btn" type="submit" value="Update" />
             ) : (
-              <input className="btn" type="submit" value="Add User" />
+              <input className="btn" type="submit" value="Add Product" />
             )}
           </form>
         </Modal.Body>

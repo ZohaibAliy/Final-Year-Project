@@ -11,7 +11,7 @@ import {
   UpdateStatus,
   GetLabour
 } from "../Api/SeniorApi";
-const Admindashboard = () => {
+const Managerdashboard = () => {
   const [sidenav, setSidenav] = useState("accordion");
   const [products, setproducts] = useState([]);
   const [order, setorder] = useState([]);
@@ -78,146 +78,26 @@ const Admindashboard = () => {
         toast.success(response.successResponse);
         setorderState(status);
       }
-    });
-  };
+    }
+    );
+};
+
+
+  
+
 
   return (
     <div id="page-top">
       <Toaster position="top-center" reverseOrder={false} />
       <div id="wrapper">
-        <div className={sidenav}>
-          <ul
-            className="navbar-nav sidebar sidebar-light "
-            id="accordionSidebar"
-          >
-            <a
-              className="sidebar-brand d-flex align-items-center justify-content-center"
-              href="index.html"
-            >
-              <div className="sidebar-brand-icon"></div>
-              <div className="sidebar-brand-text mx-3">Admin</div>
-            </a>
-            <hr className="sidebar-divider my-0" />
-            <li className="nav-item active">
-              <a className="nav-link" href="index.html">
-                <i className="fa fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-              </a>
-            </li>
-            <hr className="sidebar-divider" />
-            <div className="sidebar-heading">Features</div>
-            <li className="nav-item">
-              <a
-                className="nav-link collapsed"
-                onClick={() => navigate("/admindashboard")}
-                data-toggle="collapse"
-                data-target="#collapseBootstrap"
-                aria-expanded="true"
-                aria-controls="collapseBootstrap"
-              >
-                <i className="fa fa-fw fa-window-maximize"></i>
-                <span>
-                  <strong>Dashboard</strong>
-                </span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link collapsed"
-                onClick={() => navigate("/producttable")}
-                data-toggle="collapse"
-                data-target="#collapseBootstrap"
-                aria-expanded="true"
-                aria-controls="collapseBootstrap"
-              >
-                 <i className="fa fa-fw fa-shopping-cart"></i>
-                <span>Equipment</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link collapsed"
-                onClick={() => navigate("/ordertable")}
-                data-toggle="collapse"
-                data-target="#collapseBootstrap"
-                aria-expanded="true"
-                aria-controls="collapseBootstrap"
-              >
-                 <i className="fa fa-fw fa-truck"></i>
-              
-                <span>Order</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link collapsed"
-                onClick={() => navigate("/LabourRequesttable")}
-                data-toggle="collapse"
-                data-target="#collapseBootstrap"
-                aria-expanded="true"
-                aria-controls="collapseBootstrap"
-              >
-                 <i className="fa fa-fw fa-truck"></i>
-              
-                <span>LabourRequest</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link collapsed"
-                onClick={() => navigate("/usertable")}
-                data-toggle="collapse"
-                data-target="#collapseBootstrap"
-                aria-expanded="true"
-                aria-controls="collapseBootstrap"
-              >
-                <i className="fa fa-fw Example of users fa-users"></i>
-                <span>User</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link collapsed"
-                onClick={() => navigate("/Labourtable")}
-                data-toggle="collapse"
-                data-target="#collapseBootstrap"
-                aria-expanded="true"
-                aria-controls="collapseBootstrap"
-              >
-                <i className="fa fa-fw Example of users fa-users"></i>
-                <span>Labour</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link collapsed"
-                onClick={() => navigate("/projecttable")}
-                data-toggle="collapse"
-                data-target="#collapseBootstrap"
-                aria-expanded="true"
-                aria-controls="collapseBootstrap"
-              >
-                <i className="fa fa-fw Example of users fa-users"></i>
-                <span>Project</span>
-              </a>
-            </li>
-
-            <div className="version" id="version-ruangadmin"></div>
-          </ul>
-        </div>
+       
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content">
             <nav
               className="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top"
               id="admin-navbar"
             >
-              <button
-                id="sidebarToggleTop"
-                className="btn btn-link  mr-3"
-                onClick={() => SidebarHandler()}
-              >
-                <i className="fa fa-bars"></i>
-              </button>
+         
             </nav>
 
             <div className="container-fluid" id="container-wrapper">
@@ -339,60 +219,7 @@ const Admindashboard = () => {
                   </div>
                 </div>
 
-                <div className="col-xl-12 col-lg-10 mb-4 justify-content-center">
-                  <div className="card">
-                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 className="m-0 font-weight-bold text-primary">
-                        Listed Equirpment
-                      </h6>
-                      <h6 className="add-btn font-weight-bold text-primary float-left">
               
-              <i class="fa fa-fw fa-gear" onClick={() => navigate("/producttable")}></i>
-            
-            </h6>
-                    </div>
-                    <div className="table-responsive">
-                      <table className="table align-items-center table-flush">
-                        <thead className="thead-light">
-                          <tr>
-                            <th>Image</th>
-                            <th>Equipment Name</th>
-                            <th>Price</th>
-                            <th>Available Quantity</th>
-                            <th>Description</th>
-                          
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {products.map(function (data, key) {
-                            let image = "data:image/jpeg;base64," + data.image;
-                            return (
-                              <>
-                                <tr>
-                                  <td>
-                                    <a>
-                                      {" "}
-                                      <img
-                                        src={image}
-                                        className=" thumbnail rounded-circle  border  justifycenter"
-                                      />
-                                    </a>
-                                  </td>
-                                  <td>{data.productName}</td>
-                                  <td>{data.price}</td>
-                                  <td>{data.quantity}</td>
-                                  <td>{data.description}</td>
-                             
-                                </tr>
-                              </>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                    <div className="card-footer"></div>
-                  </div>
-                </div>
                 <div className="col-xl-12 col-lg-10 mb-4">
                   <div className="card">
                     <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -401,8 +228,7 @@ const Admindashboard = () => {
                       </h6>
                                   <h6 className="add-btn font-weight-bold text-primary float-left">
               
-              <i class="fa fa-fw fa-gear" onClick={() => navigate("/ordertable")}></i>
-            
+           
             </h6>
                     </div>
                     <div className="table-responsive">
@@ -470,119 +296,7 @@ const Admindashboard = () => {
                   </div>
                 </div>
 
-                <div className="col-xl-12 col-lg-10 mb-4">
-                  <div className="card">
-                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 className="m-0 font-weight-bold text-primary">
-                        Listed User
-                      </h6>
-                                              <h6 className="add-btn font-weight-bold text-primary float-left">
-              
-              <i class="fa fa-fw fa-gear" onClick={() => navigate("/usertable")}></i>
-            
-            </h6>
-                    </div>
-                    <div className="table-responsive">
-                      <table className="table align-items-center table-flush">
-                        <thead className="thead-light">
-                          <tr>
-                            <th>User Id</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                      
-                            <th>Gender</th>
-                    
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {users.map(function (data, key) {
-                            return (
-                              <>
-                                <tr>
-                                  <td>
-                                    <a>{data.id}</a>
-                                  </td>
-                                  <td>{data.firstName}</td>
-                                  <td>{data.lastName}</td>
-                                  <td>{data.email}</td>
-                                  <td>{data.role}</td>
-                               
-                                  <td>{data.gender}</td>
-                              
-                                </tr>
-                              </>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                      
-                    </div>
-                    
-                    <div className="card-footer"></div>
-                  </div>
-                  
-                </div>
-                
-                <div className="col-xl-12 col-lg-10 mb-4">
-                  <div className="card">
-                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 className="m-0 font-weight-bold text-primary">
-                        Listed User
-                      </h6>
-                                              <h6 className="add-btn font-weight-bold text-primary float-left">
-              
-              <i class="fa fa-fw fa-gear" onClick={() => navigate("/Labourtable")}></i>
-            
-            </h6>
-                    </div>
-                    <div className="table-responsive">
-                      <table className="table align-items-center table-flush">
-                        <thead className="thead-light">
-                          <tr>
-                            <th>Id</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Speciality</th>
-                            <th>Address</th>
-                            <th>PhNumber</th>
-                            
-                    
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {Labour.map(function (data, key) {
-                            return (
-                              <>
-                                <tr>
-                                 
-                                  <td><a>{data.id}</a></td>
-                                  <td>{data.firstName} </td>
-                                  <td>{data.lastName}</td>
-                                  <td>{data.speciality}</td>
-                                  <td>{data.address}</td>
-                                  <td>{data.phNumber}</td>
-                              
-                                </tr>
-                              </>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                      
-                    </div>
-                    
-                    <div className="card-footer"></div>
-                  </div>
-                  
-                </div>
-                
-             
-              
-
               </div>
-              
               <div
                 className="modal fade"
                 id="logoutModal"
@@ -651,4 +365,4 @@ const Admindashboard = () => {
   );
 };
 
-export default Admindashboard;
+export default Managerdashboard;

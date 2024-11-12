@@ -26,6 +26,10 @@ const Login = () => {
       navigate('/');
       toast.success(response.message)
     }
+    else if((response.role=='Manager')){
+      navigate('/ResourseAllocation');
+      toast.success(response.message)
+    }
      
    }
    else if(!response.isSuccess){
@@ -98,7 +102,7 @@ const Login = () => {
           
  
            <input className="btn" type="submit" value="Sign In"/>
-           <p className='mt-2'>Do not have an account? <span className='btn-goto' onClick={()=>navigate('/signup')}>Sign up</span></p>
+          
          </form>
  
        </div>
