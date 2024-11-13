@@ -8,6 +8,7 @@ using Senior.Application.Interfaces;
 using Senior.Domain.Entities.Contractor_list;
 using Senior.Infrastructure.Persistence.Sql.Interfaces;
 using Senior.Infrastructure.Persistence.Sql.Models;
+using Senior.Infrastructure.Persistence.Sql.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -254,6 +255,26 @@ namespace Senior.Application.Services
             }
 
             return response;
+
+        }
+        public async Task<List<ProjectEquipmentList>> GetProjectEquipment(int projectId)
+        {
+
+
+            var ras = await _projectrepository.GetProjectEquipment(projectId);
+
+
+            return ras;
+
+        }
+        public async Task<List<ProjectLabourList>> GetProjectLabour(int labourId)
+        {
+
+
+            var ras = await _projectrepository.GetProjectLabour(labourId);
+
+
+            return ras;
 
         }
         public Byte[] UploadService(IFormFile image)

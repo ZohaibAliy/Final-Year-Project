@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Senior.Domain.Entities.Contractor_list;
 using Senior.Infrastructure.Persistence.Sql.Context;
 using Senior.Infrastructure.Persistence.Sql.Interfaces;
 using Senior.Infrastructure.Persistence.Sql.Models;
@@ -40,6 +41,18 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
 
 
         }
+        public async Task<List<Contractorlist>> GetContractor()
+        {
+            var contractorlist = await _context.User.Where(x => x.Role == "Contractor").Select(x => new Contractorlist
+            {
+                Id = x.Id,
+                Name = x.FirstName + " " + x.LastName
+            }).ToListAsync();
+            return contractorlist;
+
+
+        }
+    
     }
 }
 

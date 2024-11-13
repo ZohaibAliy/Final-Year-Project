@@ -4,8 +4,10 @@ using Senior.Application.Common.Configuration;
 using Senior.Application.Contracts.Requests;
 using Senior.Application.Contracts.Response;
 using Senior.Application.Interfaces;
+using Senior.Domain.Entities.Contractor_list;
 using Senior.Infrastructure.Persistence.Sql.Interfaces;
 using Senior.Infrastructure.Persistence.Sql.Models;
+using Senior.Infrastructure.Persistence.Sql.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,6 +94,7 @@ namespace Senior.Application.Services
             return res;
 
         }
+      
 
         public async Task<ApiResponse<string>> UpdateLabour(UpdateLabourRequest request)
         {

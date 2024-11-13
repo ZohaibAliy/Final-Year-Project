@@ -1,4 +1,5 @@
-﻿using Senior.Infrastructure.Persistence.Sql.Models;
+﻿using Senior.Domain.Entities.Contractor_list;
+using Senior.Infrastructure.Persistence.Sql.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Senior.Infrastructure.Persistence.Sql.Interfaces
     {
         Task<Labour> AddLabour(Labour entity);
         Task<bool> UpdateLabour(Labour request);
+
     }
 }

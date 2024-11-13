@@ -2,6 +2,8 @@
 using Senior.Application.Contracts.Requests;
 using Senior.Application.Contracts.Response;
 using Senior.Application.Interfaces;
+using Senior.Application.Services;
+using Senior.Domain.Entities.Contractor_list;
 using Senior.Infrastructure.Persistence.Sql.Models;
 
 namespace Senior.Api.Controllers
@@ -28,7 +30,8 @@ namespace Senior.Api.Controllers
                 var response = await _Labourservice.AddLabour(request);
                 return Ok(response);
             }
-            [HttpGet]
+        
+        [HttpGet]
             [Route("GetLabour")]
             [Produces(typeof(List<Labour>))]
             public async Task<IActionResult> GetLabour()

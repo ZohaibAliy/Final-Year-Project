@@ -115,7 +115,7 @@ setModelOpen(false);
   };
   const AddProject = () => {
     setisadd(isadd+1)
-    UploadProject(id,title, description, location, startDate,endDate,expectedBudget, userid,ContractorName);
+    UploadProject(title, description, location, startDate,endDate,expectedBudget,ContractorName,userid);
           toast.success("Project added!");
           setIsUpdate(false);
           
@@ -558,8 +558,8 @@ setModelOpen(false);
         );
 
         if (selectedContractor) {
-          setContractorName(selectedContractor.id); // Set the contractor name correctly
-          setUserid(selectedContractor.name); // Set the contractor ID correctly
+          setContractorName(selectedContractor.name); // Set the contractor name correctly
+          setUserid(selectedContractor.id); // Set the contractor ID correctly
 
           // Debugging logs to verify correct values
           console.log("Selected Contractor Name:", selectedContractor.id);

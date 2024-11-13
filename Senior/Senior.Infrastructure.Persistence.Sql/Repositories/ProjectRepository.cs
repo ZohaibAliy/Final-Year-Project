@@ -53,8 +53,40 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
 
 
         }
+        public async Task<List<ProjectEquipmentList>> GetProjectEquipment(int projetId)
+        {
+            var query = from p in _context.ProjectEquipment
+                        join e in _context.Product on p.EquipmentId equals e.Id
+                        where p.ProjectId == projetId
+                        select new ProjectEquipmentList
+                        {
+                            id = e.Id,
+                            EquipmentName = e.ProductName,
+                            Description = e.Description,
+                            price = e.Price
+                        };
+            return await query.ToListAsync();
+        }
+        public async Task<List<ProjectLabourList>> GetProjectLabour(int labourId)
+        {
+            var query = from p in _context.ProjectLabour
+                        join e in _context.Labour on p.LabourId equals e.Id
+                        where p.LabourId == labourId
+                        select new ProjectLabourList
+                        {
+                            id = e.Id,
+                            FirstName = e.FirstName,
+                            LastName = e.LastName,
+                            Speciality = e.Speciality,
+                            PhNumber = e.PhNumber,
+                            Charges = e.Charges,
 
-        public async Task<bool> UpdateProject(Project request)
+                        };
+            return await query.ToListAsync();
+        }
+    
+
+            public async Task<bool> UpdateProject(Project request)
         {
 
 

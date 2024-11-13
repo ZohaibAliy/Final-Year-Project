@@ -55,10 +55,28 @@ namespace Senior.Api.Controllers
             var response = await _projectservice.GetProject();
             return Ok(response);
         }
+        [HttpGet]
+        [Route("GetProjectEquipment")]
+        [Produces(typeof(List<ProjectEquipmentList>))]
+        public async Task<IActionResult> GetProjectEquipment(int projectId)
+        {
+
+            var response = await _projectservice.GetProjectEquipment(projectId);
+            return Ok(response);
+        }
+        [HttpGet]
+        [Route("GetProjectLabour")]
+        [Produces(typeof(List<ProjectLabourList>))]
+        public async Task<IActionResult> GetProjectLabour(int labourId)
+        {
+
+            var response = await _projectservice.GetProjectLabour(labourId);
+            return Ok(response);
+        }
         [HttpPut]
         [Route("UpdateProject")]
         [Produces(typeof(ApiResponse<string>))]
-        public async Task<IActionResult> UpdateProject([FromForm] UpdateProjectRequest request)
+        public async Task<IActionResult> UpdateProject( UpdateProjectRequest request)
         {
 
             var response = await _projectservice.UpdateProject(request);

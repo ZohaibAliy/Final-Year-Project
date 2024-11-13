@@ -1,5 +1,6 @@
 ﻿using Senior.Application.Contracts.Requests;
 using Senior.Application.Contracts.Response;
+using Senior.Domain.Entities.Contractor_list;
 using Senior.Infrastructure.Persistence.Sql.Models;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace Senior.Application.Interfaces
         Task<List<Labour>> GetLabour();
         Task<ApiResponse<string>> UpdateLabour(UpdateLabourRequest request);
         Task<ApiResponse<string>> RemoveLabour(int id);
+     
     }
 }

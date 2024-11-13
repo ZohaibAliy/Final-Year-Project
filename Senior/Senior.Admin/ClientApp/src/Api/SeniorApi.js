@@ -430,18 +430,18 @@ export const UploadProducts = async (
     ContractorName,
     userid
   ) => {
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("location", location);
-    formData.append("startDate", startDate);
-    formData.append("endDate", endDate);
-    formData.append("expectedBudget", expectedBudget);
-    formData.append("ContractorName", ContractorName);
-    formData.append("userid", userid);
-  
+   const payload={
+      title:title,
+      description:description,
+      location:location,
+      startDate:startDate,
+      endDate:endDate,
+      expectedBudget:expectedBudget,
+      ContractorName:ContractorName,
+      userid:userid
+    }
     try {
-      const response = await axios.post(apiUrl + "api/Project/AddProject", formData);
+      const response = await axios.post(apiUrl + "api/Project/AddProject", payload);
       return response;
     } catch (error) {
       console.error("Error uploading project:", error);

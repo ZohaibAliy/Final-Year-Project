@@ -20,6 +20,8 @@ namespace Senior.Application.Interfaces
         Task<ApiResponse<bool>> AssignLabour(AssignLabourRequest request);
         Task<ApiResponse<bool>> AssignEquipment(AssignEquipmentRequest request);
         Task<List<Contractorlist>> GetContractor();
+        Task<List<ProjectEquipmentList>> GetProjectEquipment(int projectId);
+        Task<List<ProjectLabourList>> GetProjectLabour(int labourId);
 
     }
 }
