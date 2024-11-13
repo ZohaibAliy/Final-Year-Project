@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Senior.Domain.Entities.Contractor_list;
 using Senior.Infrastructure.Persistence.Sql.Context;
 using Senior.Infrastructure.Persistence.Sql.Interfaces;
 using Senior.Infrastructure.Persistence.Sql.Models;
@@ -25,6 +28,32 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
 
             return response.Entity;
         }
+
+        public async Task<bool> AssignLabour(ProjectLabour request)
+        {
+            var response = await _context.ProjectLabour.AddAsync(request);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+        public async Task<bool> AssignEquipment(ProjectEquipment request)
+        {
+            var response = await _context.ProjectEquipment.AddAsync(request);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+        public async Task<List<Contractorlist>> GetContractor()
+        {
+            var contractorlist = await _context.User.Where(x => x.Role == "Contractor").Select(x=> new Contractorlist{Id=x.Id,
+            Name=x.FirstName + " " + x.LastName }).ToListAsync();
+            return contractorlist;
+
+
+        }
+
         public async Task<bool> UpdateProject(Project request)
         {
 

@@ -105,7 +105,7 @@ setModelOpen(false);
   };
   const AddLabour = () => {
     setisadd(isadd+1)
-    UploadLabour(FirstName, LastName, Speciality, Address, PhNumber, charges, image);
+    UploadLabour(id,FirstName, LastName, Speciality, Address, PhNumber, charges, image);
           toast.success("Labour added!");
           setIsUpdate(false);
           

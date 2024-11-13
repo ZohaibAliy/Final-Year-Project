@@ -17,6 +17,7 @@ namespace Senior.Application.Interfaces
         Task<ApiResponse<string>> UpdateUser(UpdateUserRequest request);
         Task<ApiResponse<string>> RemoveUser(int id);
         Task<List<User>> GetAllUser();
+        
 
     }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { useState, useEffect } from "react";
-import { GetLabour } from "../Api/SeniorApi";
+import { GetContractor, GetLabour } from "../Api/SeniorApi";
 import { GetProducts } from "../Api/SeniorApi";
 import "../style/Equipment.css";
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const [Labours, setLabours] = useState([]);
+  const [Contractors,setContractors]=useState([])
 
 
   const navigate = useNavigate();
@@ -32,8 +33,21 @@ export default function Home() {
         setproducts(response);
       }
     });
+    
  
   }, []);
+  useEffect(()=>{
+    GetContractor().then((response)=> {
+      console.log(response);
+      if (response){
+        setContractors(response);
+      }
+
+    })
+ 
+  }, []);
+  
+
 
   return (
     <>
@@ -159,6 +173,38 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <section className="bg-light">
+          <div className="container ">
+            <div className="product-header row text-center py-3">
+              <div className="col-lg-6 m-auto">
+                <h1 className="h1"></h1>
+                <p className="Feature-text">
+               Contractors
+                </p>
+              </div>
+            </div>
+            <div className="row">
+            <select id="cao">
+              {Contractors.map(function (data, key) {
+          
+                return (
+                  <>
+                  
+          
+
+  <option value="volvo">{data.name}</option>
+  
+
+                        
+              
+                  </>
+                );
+              })}
+              </select>
+            </div>
+          </div>
+        </section>
+
 
 
         <footer className="bg-dark" id="tempaltemo_footer">

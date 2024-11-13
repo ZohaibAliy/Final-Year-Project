@@ -22,6 +22,19 @@ export const userLogin = async (email, password) => {
     return err.response;
   }
 };
+export const GetContractor = async () => {
+  try {
+    const resp = await axios.get(apiUrl + "api/Project/GetContractor");
+
+    if (resp.status == 200) {
+      return resp.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return err.response;
+  }
+};
 //Product ko get karna ka lia 
 export const GetProducts = async () => {
   try {
@@ -415,37 +428,26 @@ export const UploadProducts = async (
     endDate,
     expectedBudget,
     ContractorName,
-    userid,
-  
+    userid
   ) => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("location", location);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("expectedBudget", expectedBudget);
+    formData.append("ContractorName", ContractorName);
+    formData.append("userid", userid);
   
-      
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("location", location);
-      formData.append("startDate", startDate);
-      formData.append("endDate", endDate);
-      formData.append("expectedBudget",expectedBudget);
-      formData.append("ContractorName",ContractorName);
-      formData.append("userid",userid);
-  
-  
-  
-  
-      await axios({
-      method: "post",
-      url: apiUrl + "api/Project/AddProject",
-      data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-    .then((response) => {
-     
-      return (response)
-  
-    })
-  
-    };
+    try {
+      const response = await axios.post(apiUrl + "api/Project/AddProject", formData);
+      return response;
+    } catch (error) {
+      console.error("Error uploading project:", error);
+      throw error; // Re-throw the error for higher-level handling
+    }
+  };
   // labour ko system ma save karna ka lia 
 export const UploadLabour = async (
   firstName,

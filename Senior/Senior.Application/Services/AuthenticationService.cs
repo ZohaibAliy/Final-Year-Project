@@ -81,6 +81,8 @@ namespace Senior.Application.Services
 
             return res;
         }
+      
+
 
         public async Task<ApiResponse<string>> RegisterUser(RegisterRequest request)
         {

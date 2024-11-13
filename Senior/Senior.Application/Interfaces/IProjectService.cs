@@ -1,5 +1,6 @@
 ﻿using Senior.Application.Contracts.Requests;
 using Senior.Application.Contracts.Response;
+using Senior.Domain.Entities.Contractor_list;
 using Senior.Infrastructure.Persistence.Sql.Models;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,9 @@ namespace Senior.Application.Interfaces
         Task<List<Project>> GetProject();
         Task<ApiResponse<string>> UpdateProject(UpdateProjectRequest request);
         Task<ApiResponse<string>> RemoveProject(int id);
+        Task<ApiResponse<bool>> AssignLabour(AssignLabourRequest request);
+        Task<ApiResponse<bool>> AssignEquipment(AssignEquipmentRequest request);
+        Task<List<Contractorlist>> GetContractor();
+
     }
 }

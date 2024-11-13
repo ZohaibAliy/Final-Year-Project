@@ -9,15 +9,19 @@ import {
   GetOrders,
   GetUsers,
   UpdateStatus,
-  GetLabour
+  GetLabour,
+  GetLabourRequest
 } from "../Api/SeniorApi";
 const Managerdashboard = () => {
   const [sidenav, setSidenav] = useState("accordion");
   const [products, setproducts] = useState([]);
+  const [LabourRequest, setLabourRequest] = useState([])
   const [order, setorder] = useState([]);
+  
   const [users, setusers] = useState([]);
   const [Labour,setLabour] = useState([])
   const [orderState, setorderState] = useState();
+  const [LabourRequestState, setLabourRequestState] = useState();
   const [earnings, setearnings] = useState(0);
   const navigate = useNavigate();
   var vearning = 0;
@@ -28,6 +32,12 @@ const Managerdashboard = () => {
       }
     });
   }, [orderState]);
+  GetLabourRequest().then((response) => {
+    if (response) {
+      setLabourRequest(response);
+    }
+  },[LabourRequestState]);
+
   useEffect(() => {
     GetProducts().then((response) => {
       if (response) {
@@ -291,12 +301,89 @@ const Managerdashboard = () => {
                           })}
                         </tbody>
                       </table>
+                      
                     </div>
+                    <div className="card">
+                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 className="m-0 font-weight-bold text-primary">
+                        All Labour Request
+                      </h6>
+                                  <h6 className="add-btn font-weight-bold text-primary float-left">
+              
+           
+            </h6>
+                    </div>
+                    <div className="table-responsive">
+                      <table className="table align-items-center table-flush">
+                        <thead className="thead-light">
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Labour name</th>
+                            <th>Contractor Name</th>
+                            <th>Email</th>
+                            <th>Address</th>
+
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {LabourRequest.map(function (data, key) {
+                            return (
+                              <>
+                                <tr>
+                                  <td>
+                                    <a>{data.id}</a>
+                                  </td>
+                                  <td>{data.firstName} {data.lastName}</td>
+                                  <td>{data.customerName}</td>
+                                  <td>{data.customerEmail}</td>
+                                  <td>{data.address}</td>
+
+                                  <td className="action-td">
+                                   
+                                      <div className=" flex-r input status-change">
+                                        <select
+                                        defaultValue={data.status}
+                                          className="form-select w-100"
+                                          aria-label="Default select example"
+                                          onChange={(e) =>
+                                            ChangeStatus(
+                                              data.id,
+                                              e.target.value
+                                            )
+                                          }
+                                        >
+                                      
+                                          <option value="Pending">
+                                            Pending
+                                          </option>
+                                          <option value="In Progress">
+                                            In Progress
+                                          </option>
+                                          <option value="Completed">
+                                            Completed
+                                          </option>
+                                        </select>
+                                      </div>
+                                  
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                      </div>
+
+                    </div>
+   
+                    
                     <div className="card-footer"></div>
                   </div>
                 </div>
 
               </div>
+              
               <div
                 className="modal fade"
                 id="logoutModal"

@@ -11,6 +11,7 @@ import {
   UpdateProject,
   UploadProject,
   RemoveProject,
+  GetContractor
 } from "../Api/SeniorApi";
 export default function ProjectDashboard() {
   const [modelOpen, setModelOpen] = useState(false);
@@ -18,15 +19,18 @@ export default function ProjectDashboard() {
   const [ischanged, setischanged] = useState(0);
     const [isadd, setisadd] = useState(0);
   const [project, setproject] = useState([]);
+  const [Contractors,setContractors]=useState([])
+  const [Contractorid,setContractorid]=useState([])
   const [id, setId] = useState();
   const [title, settitle] = useState();
   const [description, setDescription] = useState();
   const [location, setlocation] = useState();
   const [startDate, setstartDate] = useState();
+  
   const [endDate, setendDate] = useState();
   const [expectedBudget,setexpectedBudget]=useState();
-  const [ContractorName,setContractorName]=useState();
-  const [userid,setuserid]=useState();
+  const [ContractorName, setContractorName] = useState('');
+  const [userid, setUserid] = useState('');
   const [isUpdate, setIsUpdate] = useState(false);
   const navigate = useNavigate();
 
@@ -38,7 +42,20 @@ export default function ProjectDashboard() {
       }
     
     });
+    
+    
   },[ischanged]);
+  
+   useEffect(()=>{
+    GetContractor().then((response)=> {
+      console.log(response);
+      if (response){
+        setContractors(response);
+      }
+
+    })
+ 
+  }, []);
 
   const SidebarHandler = () => {
     if (sidenav == "accordion") {
@@ -58,7 +75,7 @@ export default function ProjectDashboard() {
     setexpectedBudget(data.expectedBudget);
     setContractorName(data.ContractorName);
     
-    setuserid(data.userid);
+    setUserid(data.userid);
     
 
     setModelOpen(true);
@@ -71,7 +88,7 @@ export default function ProjectDashboard() {
     setstartDate("");
     setendDate(null);
     setexpectedBudget(false);
-    setuserid(null);
+    setUserid(null);
     setContractorName("");
     setModelOpen(true);
   };
@@ -84,7 +101,7 @@ export default function ProjectDashboard() {
    
 
     setischanged(ischanged + 2);
-  
+
 
 setModelOpen(false);
 
@@ -98,7 +115,7 @@ setModelOpen(false);
   };
   const AddProject = () => {
     setisadd(isadd+1)
-    UploadProject(title, description, location, startDate,endDate,expectedBudget, userid,ContractorName);
+    UploadProject(id,title, description, location, startDate,endDate,expectedBudget, userid,ContractorName);
           toast.success("Project added!");
           setIsUpdate(false);
           
@@ -476,8 +493,8 @@ setModelOpen(false);
               <span className="label">Location</span>
               <div className=" flex-r input">
                 <input
-                  name="quantity"
-                  type="number"
+                  name="loaction"
+                  type="text"
                   value={location}
                   onChange={(e) => setlocation(e.target.value)}
                   placeholder="Kohistan inclaves"
@@ -486,11 +503,24 @@ setModelOpen(false);
               </div>
             </div>
             <div className="input-box">
+              <span className="label">Expected budget</span>
+              <div className=" flex-r input">
+                <input
+                  name="expected budget"
+                  type="number"
+                  value={expectedBudget}
+                  onChange={(e) => setexpectedBudget(e.target.value)}
+                  placeholder="13000/-"
+                  required
+                />
+              </div>
+            </div>
+            <div className="input-box">
               <span className="label">StartDate</span>
               <div className=" flex-r input">
                 <input
-                  name="price"
-                  type="number"
+                  name="startdate"
+                  type="datetime-local"
                   value={startDate}
                   onChange={(e) => setstartDate(e.target.value)}
                   required
@@ -504,28 +534,53 @@ setModelOpen(false);
                 <div className="flex-r input">
                   <input
                     required
-                    name="number"
-                    type="file"
+                    name="enddate"
+                    type="datetime-local"
                     onChange={(e) => setendDate(e.target.value)}
                     
                   placeholder="20/10/2025"
                   />
                 </div>
               </div>
+           
+
               <div className="input-box">
-                <span className="label">Contractor Name</span>
-                <div className="flex-r input">
-                  <input
-                    required
-                    name="number"
-                    type="file"
-                    onChange={(e) => setContractorName(e.target.value)}
-                    
-                  placeholder="Riaz Ahmed"
-                  />
-                </div>
-              </div>
-            
+  <span className="label">Contractor</span>
+  <div className="flex-r input">
+    <select
+      id="cao"
+      required
+      onChange={(e) => {
+        const contractorId = parseInt(e.target.value, 10);
+
+        const selectedContractor = Contractors.find(
+          (contractor) => contractor.id === contractorId
+        );
+
+        if (selectedContractor) {
+          setContractorName(selectedContractor.id); // Set the contractor name correctly
+          setUserid(selectedContractor.name); // Set the contractor ID correctly
+
+          // Debugging logs to verify correct values
+          console.log("Selected Contractor Name:", selectedContractor.id);
+          console.log("Selected Contractor ID:", selectedContractor.name);
+        } else {
+          console.log("Contractor not found for ID:", contractorId);
+        }
+      }}
+    >
+      <option value="">Select a Contractor</option> {/* Default option */}
+      {Contractors.map((data, key) => (
+        <option key={key} value={data.id}>
+          {data.name} {data.id}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
+
+
+
               
 
             {isUpdate ? (

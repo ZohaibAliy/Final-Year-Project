@@ -46,6 +46,9 @@ namespace Senior.Api.Controllers
             var response = await _authenticationService.GetAllUser();
             return Ok(response);
         }
+        [HttpGet]
+        
+
         [HttpPost]
         [Route("AddAdmin")]
         [Produces(typeof(ApiResponse<string>))]

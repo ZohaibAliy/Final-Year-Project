@@ -24,6 +24,8 @@ namespace Senior.Infrastructure.Persistence.Sql.Context
         public DbSet<Labour> Labour { get; set; }
         public DbSet<LabourRequest> LabourRequest { get; set; }
         public DbSet<Project> Project { get; set; }
+        public DbSet<ProjectLabour> ProjectLabour { get; set; }
+        public DbSet<ProjectEquipment> ProjectEquipment { get; set; }
 
 
     }

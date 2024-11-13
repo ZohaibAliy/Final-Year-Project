@@ -2,6 +2,8 @@
 using Senior.Application.Contracts.Requests;
 using Senior.Application.Contracts.Response;
 using Senior.Application.Interfaces;
+using Senior.Application.Services;
+using Senior.Domain.Entities.Contractor_list;
 using Senior.Infrastructure.Persistence.Sql.Models;
 
 namespace Senior.Api.Controllers
@@ -23,6 +25,25 @@ namespace Senior.Api.Controllers
         {
             if (request == null) return BadRequest();
             var response = await _projectservice.AddProject(request);
+            return Ok(response);
+        }
+        [HttpPost]
+        [Route("AssignLabour")]
+        [Produces(typeof(ApiResponse<string>))]
+        public async Task<IActionResult> AssignLabour(AssignLabourRequest request)
+        {
+            if (request == null) return BadRequest();
+            var response = await _projectservice.AssignLabour(request);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("AssignEquipment")]
+        [Produces(typeof(ApiResponse<string>))]
+        public async Task<IActionResult> AssignEquipment(AssignEquipmentRequest request)
+        {
+            if (request == null) return BadRequest();
+            var response = await _projectservice.AssignEquipment(request);
             return Ok(response);
         }
         [HttpGet]
@@ -52,5 +73,16 @@ namespace Senior.Api.Controllers
             var response = await _projectservice.RemoveProject(request.Id);
             return Ok(response);
         }
+        [HttpGet]
+        [Route("GetContractor")]
+        [Produces(typeof(List<Contractorlist>))]
+        public async Task<IActionResult> GetContractor()
+        {
+
+            var response = await _projectservice.GetContractor();
+            return Ok(response);
+        }
+        
+
     }
 }

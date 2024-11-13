@@ -26,6 +26,10 @@ namespace Senior.Api.Controllers
             var response = await _productservice.AddProduct(request);
             return Ok(response);
         }
+
+
+        
+
         [HttpGet]
         [Route("GetEquipment")]
         [Produces(typeof(List<Product>))]
