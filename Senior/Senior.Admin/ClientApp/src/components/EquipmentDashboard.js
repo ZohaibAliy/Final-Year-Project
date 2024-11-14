@@ -259,7 +259,7 @@ setModelOpen(false);
 
             <div className="container-fluid" id="container-wrapper">
               <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800">Listed Products</h1>
+                <h1 className="h3 mb-0 text-gray-800">Listed Equipment</h1>
 
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
@@ -291,7 +291,7 @@ setModelOpen(false);
                           <tr>
                             <th>Image</th>
                             <th>Equipment Name</th>
-                            <th>Price</th>
+                            <th>Price "per week"</th>
                             <th>Available Quantity</th>
                             <th>Description</th>
                             <th>Action</th>

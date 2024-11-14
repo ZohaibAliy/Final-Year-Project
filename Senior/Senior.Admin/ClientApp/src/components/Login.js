@@ -23,7 +23,7 @@ const Login = () => {
       toast.success(response.message)
     }
     else if((response.role=='Contractor')){
-      navigate('/');
+      navigate('/ContractorDashboard');
       toast.success(response.message)
     }
     else if((response.role=='Manager')){

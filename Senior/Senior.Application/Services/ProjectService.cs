@@ -295,6 +295,13 @@ namespace Senior.Application.Services
 
             return contractorlist;
         }
+        public async Task<List<Project>> GetMyProject(int id)
+        {
+            var res = await _repository.Get(x => x.userid == id);
+
+
+            return res;
+        }
 
     }
 }

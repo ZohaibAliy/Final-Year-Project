@@ -22,6 +22,7 @@ namespace Senior.Application.Interfaces
         Task<List<Contractorlist>> GetContractor();
         Task<List<ProjectEquipmentList>> GetProjectEquipment(int projectId);
         Task<List<ProjectLabourList>> GetProjectLabour(int labourId);
+        Task<List<Project>> GetMyProject(int id);
 
     }
 }

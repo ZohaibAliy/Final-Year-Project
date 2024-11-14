@@ -14,21 +14,27 @@ import EquipmentDashboard from './components/EquipmentDashboard';
 import UserDashboard from './components/UserDashboard';
 import Equipment from './components/Equipment';
 import LabourRequestDashboard from './components/LaborRequestDashboard';
-import Labour from './components/Labour';
+import Resourses from './components/Resourses';
 import LabourDetails from "./components/LabourDetails";
 import  PlaceLabourRequest  from "./components/PlaceLabourRequest";
 import MyLabourRequest from "./components/MyLabourRequest";
 import Request from "./components/Requests";
 import ProjectDashboard from "./components/ProjectDashboard";
 import ResourseAllocation from "./components/ResourseAllocation";
+
+import ContractorDashboard from "./components/ContractorDashboard";
 const AppRoutes = [
   {
-    path: '/Labour',
-    element:<Labour/>
+    path: '/Resourses',
+    element:<Resourses/>
   },
   {
     path: '/ResourseAllocation',
     element:<ResourseAllocation/>
+  },
+  {
+    path:'/ContractorDashboard',
+    element:<ContractorDashboard/>
   },
   {
     path: '/',

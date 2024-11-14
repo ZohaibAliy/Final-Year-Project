@@ -2,23 +2,11 @@ import React, { Component } from "react";
 import { useState, useEffect } from "react";
 import { GetProducts } from "../Api/SeniorApi";
 import "../style/Home.css";
+import CEOImage from "../Assets/Images/CEO.jpeg"
 import { useNavigate } from 'react-router-dom';
 
 
 export default function Home() {
-  const [products, setproducts] = useState([]);
-
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    GetProducts().then((response) => {
-      console.log(response);
-      if (response) {
-        setproducts(response);
-      }
-    });
- 
-  }, []);
   
 
  
@@ -41,86 +29,27 @@ export default function Home() {
 
 
       </div>
-
-      <div className="paralexbody">
-      <div className="row text-center py-3">
-              <div className="col-lg-6 m-auto  mt-5">
-                <h1 className="h1"></h1>
-                <p className="Feature-text">
-                Ittehad Group has developed an innovative project management system designed to optimize the management of construction projects by effectively tracking and coordinating equipment and labor. Through an array of advanced sensors and management tools, our system provides real-time data on equipment usage and labor productivity. This enables the classification of project status into three categories: on schedule, at risk, and delayed.
-                </p>
-              </div>
-      </div>
-        
-        <div className="row">
-          {products.map(function (data, key) {
-            let image = "data:image/jpeg;base64," + data.image;
-            return (
-              <>
-                <div className="prod-card col-12 col-md-4  mt-3 ">
-                  <a href="#">
-                    <img
-                      src={image}
-                      className=" prod-img rounded-circle  border  justifycenter"
-                    />
-                  </a>
-                  <h5 className="text-center mt-3 mb-3">{data.productName}</h5>
-                  <p className="text-center">
-                    <a className="btn btn-success" onClick={()=> navigate('/EquipmentDetails',{state:data})} >Shop Now</a>
-                  </p>
-                </div>
-              </>
-            );
-          })}
-        </div>
+      <section className="bg-light">
+      <div class="container ceo-section">
+  <div class="row">
     
-        <section className="bg-light">
-          <div className="container ">
-            <div className="product-header row text-center py-3">
-              <div className="col-lg-6 m-auto">
-                <h1 className="h1"></h1>
-                <p className="Feature-text">
-                At Ittehad Group, we believe in the power of unity and forward-thinking. Our mission is to bring together diverse talents, innovative ideas, and cutting-edge technology to create solutions that drive progress and success in the construction industry. With a commitment to excellence and a passion for innovation, we strive to make a positive impact on every project we undertake.
-
-
-                </p>
-              </div>
-            </div>
-            <div className="row">
-              {products.map(function (data, key) {
-                let image = "data:image/jpeg;base64," + data.image;
-                return (
-                  <>
-                    <div className="col-12 col-md-4 mb-4">
-                      <div className="card h-100">
-                        <a >
-                          <img
-                            src={image}
-                            className="feature-image border h-80 w-80 justifycenter"
-                          />
-                        </a>
-                        <div className="card-body">
-                          <ul className="list-unstyled d-flex justify-content-between">
-                            <li className="text-muted text-right">${data.price}</li>
-                          </ul>
-                          <a
-                         
-                            className="Feature-Name text-decoration-none text-dark"
-                          >
-                             {data.productName}
-                          </a>
-                          <p className="card-text">
-                          {data.description}
-                          </p>
-                          <p className="text-muted">Reviews (24)</p>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-          </div>
+    <div class="col-md-6 ceo-photo">
+      <img src={CEOImage} alt="CEO Photo"/>
+      <div class="ceo-badge">CEO Abid Hussain</div>
+    </div>
+    
+    <div class="col-md-6">
+      <p class="ceo-heading">Our CEO Message About Company Profile</p>
+      <h4 class="ceo-title">CEO Message</h4>
+      <p class="ceo-message">As a leader in the construction industry, our mission is to build with precision, integrity, and a commitment to excellence. We take pride in transforming visions into tangible structures that stand the test of time, contributing to the growth and development of the communities we serve.</p>
+      <p class="ceo-message">At Ittehad Group, we are more than just builders—we are partners in creating sustainable and innovative solutions that meet the evolving needs of our clients. From infrastructure projects to residential and commercial developments, our dedication to quality, safety, and efficiency drives every project we undertake.</p>
+      <p class="ceo-message">Thank you for your interest in Ittehad Group. Together, let’s build a future that reflects strength, resilience, and progress.</p>
+      <h4 class="ceo-tag">- Abid Hussain, CEO, Ittehad Group</h4>
+    </div>
+  </div>
+</div>
+        
+          
         </section>
 
         <footer className="bg-dark" id="tempaltemo_footer">
@@ -204,7 +133,7 @@ export default function Home() {
 </div>
 
 </footer>
-      </div>
+      
     </>
   );
 }

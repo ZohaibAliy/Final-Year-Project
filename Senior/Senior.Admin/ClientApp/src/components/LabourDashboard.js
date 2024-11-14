@@ -515,7 +515,7 @@ setModelOpen(false);
               </div>
             </div>
             <div className="input-box">
-              <span className="label">Charges</span>
+              <span className="label">Charges "per day"</span>
               <div className=" flex-r input">
                 <input
                   name="charges"

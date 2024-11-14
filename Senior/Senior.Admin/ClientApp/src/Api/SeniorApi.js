@@ -199,6 +199,23 @@ export const CheckMyOrders = async (id) => {
     return err.response;
   }
 };
+export const MyProject = async (id) => {
+  try {
+    const resp = await axios.get(apiUrl + "api/Project/GetMyProject", {
+      params: {
+        id: id,
+      },
+    });
+
+    if (resp.status == 200) {
+      return resp.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return err.response;
+  }
+};
 // labour ki request ko check karna ka lia 
 export const CheckMyLabourRequest = async (id) => {
   try {

@@ -6,7 +6,7 @@ import "../style/Equipment.css";
 import { useNavigate } from 'react-router-dom';
 
 
-export default function Home() {
+export default function Resourses() {
   const [Labours, setLabours] = useState([]);
   const [Contractors,setContractors]=useState([])
 
@@ -150,7 +150,7 @@ export default function Home() {
                         </a>
                         <div className="card-body">
                           <ul className="list-unstyled d-flex justify-content-between">
-                            <li className="text-muted text-right">${data.price}</li>
+                            <li className="text-muted text-right">{data.price} per week</li>
                           </ul>
                           <a
                          

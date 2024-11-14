@@ -56,6 +56,15 @@ namespace Senior.Api.Controllers
             return Ok(response);
         }
         [HttpGet]
+        [Route("GetMyProject")]
+        [Produces(typeof(List<Project>))]
+        public async Task<IActionResult> GetMyProject(int id)
+        {
+
+            var response = await _projectservice.GetMyProject(id);
+            return Ok(response);
+        }
+        [HttpGet]
         [Route("GetProjectEquipment")]
         [Produces(typeof(List<ProjectEquipmentList>))]
         public async Task<IActionResult> GetProjectEquipment(int projectId)

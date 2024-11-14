@@ -31,8 +31,8 @@ if(user.role==='Admin'){
     navigate('/admindashboard');
  
 }
-else if(user.role==='Customer'){
-    navigate('/profile'); 
+else if(user.role==='Contractor'){
+    navigate('/ContractorDashboard'); 
    
 }
 else if(user.role==='Manager'){
@@ -73,7 +73,7 @@ else if(user.role==='Manager'){
                         </li>
                       
                         <li className="nav-item " >
-                            <a className="nav-link" onClick={()=>navigate('/Labour')}>Resourses</a>
+                            <a className="nav-link" onClick={()=>navigate('/Resourses')}>Resourses</a>
                         </li>
                        
                         {checklogin&&(  <li className="nav-item">
