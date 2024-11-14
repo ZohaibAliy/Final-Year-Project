@@ -60,7 +60,7 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
                         where p.ProjectId == projetId
                         select new ProjectEquipmentList
                         {
-                            id = e.Id,
+                            id = p.Id,
                             EquipmentName = e.ProductName,
                             Description = e.Description,
                             price = e.Price
@@ -74,7 +74,7 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
                         where p.LabourId == labourId
                         select new ProjectLabourList
                         {
-                            id = e.Id,
+                            id = p.Id,
                             FirstName = e.FirstName,
                             LastName = e.LastName,
                             Speciality = e.Speciality,
@@ -98,6 +98,28 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
             return true;
 
 
+        }
+        public async Task<bool> RemoveProjectLabour(int request)
+        {
+            var projectlabour = await _context.ProjectLabour.Where(x => x.Id == request).FirstOrDefaultAsync();
+            if (projectlabour == null)
+            {
+                return false;
+            }
+            _context.ProjectLabour.Remove(projectlabour);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> RemoveProjectEquipment(int request)
+        {
+            var projectequipment = await _context.ProjectEquipment.Where(x => x.Id == request).FirstOrDefaultAsync();
+            if (projectequipment == null)
+            {
+                return false;
+            }
+            _context.ProjectEquipment.Remove(projectequipment);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

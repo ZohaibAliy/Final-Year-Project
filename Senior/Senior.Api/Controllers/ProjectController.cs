@@ -100,6 +100,24 @@ namespace Senior.Api.Controllers
             var response = await _projectservice.RemoveProject(request.Id);
             return Ok(response);
         }
+        [HttpDelete]
+        [Route("RemoveProjectEquipment")]
+        [Produces(typeof(ApiResponse<string>))]
+        public async Task<IActionResult> RemoveProjectEquipment(int request)
+        {
+
+            var response = await _projectservice.RemoveProjectEquipemnt(request);
+            return Ok(response);
+        }
+        [HttpDelete]
+        [Route("RemoveProjectLabour")]
+        [Produces(typeof(ApiResponse<string>))]
+        public async Task<IActionResult> RemoveProjectLabour(int request)
+        {
+
+            var response = await _projectservice.RemoveProjectEquipemnt(request);
+            return Ok(response);
+        }
         [HttpGet]
         [Route("GetContractor")]
         [Produces(typeof(List<Contractorlist>))]

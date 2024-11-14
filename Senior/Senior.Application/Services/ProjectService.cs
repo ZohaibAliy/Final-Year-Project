@@ -171,7 +171,45 @@ namespace Senior.Application.Services
                 }
                 return response;
             }
+        public async Task<ApiResponse<string>> RemoveProjectEquipemnt(int request)
+        {
+            var response = new ApiResponse<string>();
+            var res = await _projectrepository.RemoveProjectEquipment(request);
 
+            if (res)
+            {
+
+                response.IsRequestSuccessful = true;
+                response.SuccessResponse = $"ProductEquipment Removed successfully";
+            }
+            else
+            {
+                response.IsRequestSuccessful = false;
+                response.SuccessResponse = $"project not found";
+                response.Errors = new List<string> { { $"Something went wrong" } };
+            }
+            return response;
+        }
+
+        public async Task<ApiResponse<string>> RemoveProjectLabour(int request)
+        {
+            var response = new ApiResponse<string>();
+            var res = await _projectrepository.RemoveProjectLabour(request);
+
+            if (res)
+            {
+
+                response.IsRequestSuccessful = true;
+                response.SuccessResponse = $"ProductEquipment Removed successfully";
+            }
+            else
+            {
+                response.IsRequestSuccessful = false;
+                response.SuccessResponse = $"project not found";
+                response.Errors = new List<string> { { $"Something went wrong" } };
+            }
+            return response;
+        }
 
 
 

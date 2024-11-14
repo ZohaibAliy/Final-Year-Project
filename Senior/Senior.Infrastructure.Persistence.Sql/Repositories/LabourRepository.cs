@@ -52,7 +52,8 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
 
 
         }
-    
+   
+
     }
 }
 

@@ -9,6 +9,7 @@ namespace Senior.Domain.Entities.Contractor_list
     public class ProjectEquipmentList
     {
         public int id { get; set; }
+        
         public string EquipmentName { get; set; }
         public string Description { get; set; }
 

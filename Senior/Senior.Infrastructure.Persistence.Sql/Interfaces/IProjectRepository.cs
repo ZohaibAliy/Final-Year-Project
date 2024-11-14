@@ -13,6 +13,8 @@ namespace Senior.Infrastructure.Persistence.Sql.Interfaces
     {
         Task<Project> AddProject(Project entity);
         Task<bool> UpdateProject(Project request);
+        Task<bool> RemoveProjectEquipment(int request);
+        Task<bool> RemoveProjectLabour(int request);
         Task<bool> AssignLabour(ProjectLabour request);
         Task<bool> AssignEquipment(ProjectEquipment request);
         Task<List<Contractorlist>> GetContractor();

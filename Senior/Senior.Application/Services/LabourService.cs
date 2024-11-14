@@ -203,6 +203,7 @@ namespace Senior.Application.Services
                 }
                 return response;
             }*/
+       
         public Byte[] UploadService(IFormFile image)
         {
             var response = new ApiResponse<string>();

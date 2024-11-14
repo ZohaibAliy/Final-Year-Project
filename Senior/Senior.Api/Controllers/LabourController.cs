@@ -60,6 +60,7 @@ namespace Senior.Api.Controllers
                 var response = await _Labourservice.RemoveLabour(request.Id);
                 return Ok(response);
             }
-        }
+       
+    }
     }
 

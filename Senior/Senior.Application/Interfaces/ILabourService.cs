@@ -17,5 +17,6 @@ namespace Senior.Application.Interfaces
         Task<ApiResponse<string>> UpdateLabour(UpdateLabourRequest request);
         Task<ApiResponse<string>> RemoveLabour(int id);
      
+
     }
 }

@@ -49,6 +49,7 @@ export const GetProducts = async () => {
     return err.response;
   }
 };
+
 // project ko get karna ka lia 
 export const GetProject = async () => {
   try {
@@ -81,6 +82,19 @@ export const GetLabour = async () => {
 export const GetOrders = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/Order/GetOrders");
+
+    if (resp.status == 200) {
+      return resp.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return err.response;
+  }
+};
+export const GetProjectEquipment = async () => {
+  try {
+    const resp = await axios.get(apiUrl + "api/Project/GetProjectEquipment");
 
     if (resp.status == 200) {
       return resp.data;
