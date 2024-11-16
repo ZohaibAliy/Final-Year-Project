@@ -305,11 +305,11 @@ namespace Senior.Application.Services
             return ras;
 
         }
-        public async Task<List<ProjectLabourList>> GetProjectLabour(int labourId)
+        public async Task<List<ProjectLabourList>> GetProjectLabour(int projectId)
         {
 
 
-            var ras = await _projectrepository.GetProjectLabour(labourId);
+            var ras = await _projectrepository.GetProjectLabour(projectId);
 
 
             return ras;

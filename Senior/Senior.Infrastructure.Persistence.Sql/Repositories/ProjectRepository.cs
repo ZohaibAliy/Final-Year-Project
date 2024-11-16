@@ -67,19 +67,19 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
                         };
             return await query.ToListAsync();
         }
-        public async Task<List<ProjectLabourList>> GetProjectLabour(int labourId)
+        public async Task<List<ProjectLabourList>> GetProjectLabour(int projectId)
         {
             var query = from p in _context.ProjectLabour
-                        join e in _context.Labour on p.LabourId equals e.Id
-                        where p.LabourId == labourId
+                        join l in _context.Labour on p.LabourId equals l.Id
+                        where p.ProjectId == projectId
                         select new ProjectLabourList
                         {
                             id = p.Id,
-                            FirstName = e.FirstName,
-                            LastName = e.LastName,
-                            Speciality = e.Speciality,
-                            PhNumber = e.PhNumber,
-                            Charges = e.Charges,
+                            FirstName = l.FirstName,
+                            LastName = l.LastName,
+                            Speciality = l.Speciality,
+                            PhNumber = l.PhNumber,
+                            Charges = l.Charges,
 
                         };
             return await query.ToListAsync();

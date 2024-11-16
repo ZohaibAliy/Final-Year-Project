@@ -76,10 +76,10 @@ namespace Senior.Api.Controllers
         [HttpGet]
         [Route("GetProjectLabour")]
         [Produces(typeof(List<ProjectLabourList>))]
-        public async Task<IActionResult> GetProjectLabour(int labourId)
+        public async Task<IActionResult> GetProjectLabour(int projectId)
         {
 
-            var response = await _projectservice.GetProjectLabour(labourId);
+            var response = await _projectservice.GetProjectLabour(projectId);
             return Ok(response);
         }
         [HttpPut]

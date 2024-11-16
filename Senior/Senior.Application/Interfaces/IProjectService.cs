@@ -23,7 +23,7 @@ namespace Senior.Application.Interfaces
         Task<ApiResponse<bool>> AssignEquipment(AssignEquipmentRequest request);
         Task<List<Contractorlist>> GetContractor();
         Task<List<ProjectEquipmentList>> GetProjectEquipment(int projectId);
-        Task<List<ProjectLabourList>> GetProjectLabour(int labourId);
+        Task<List<ProjectLabourList>> GetProjectLabour(int projectId);
         Task<List<Project>> GetMyProject(int id);
 
     }

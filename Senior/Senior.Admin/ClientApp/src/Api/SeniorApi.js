@@ -1,4 +1,6 @@
 import axios from "axios";
+
+
 const apiUrl = "https://localhost:7206/";
 //const apiUrl = "http://senior.ecommerce.local.api/";
 
@@ -13,7 +15,7 @@ export const userLogin = async (email, password) => {
     if (resp.data.id > 0) {
       localStorage.setItem("user", JSON.stringify(resp.data));
     }
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -26,7 +28,7 @@ export const GetContractor = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/Project/GetContractor");
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -40,7 +42,7 @@ export const GetProducts = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/Product/GetEquipment");
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -55,7 +57,7 @@ export const GetProject = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/Project/GetProject");
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -69,7 +71,7 @@ export const GetLabour = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/Labour/GetLabour");
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -83,7 +85,7 @@ export const GetOrders = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/Order/GetOrders");
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -92,11 +94,18 @@ export const GetOrders = async () => {
     return err.response;
   }
 };
-export const GetProjectEquipment = async () => {
-  try {
-    const resp = await axios.get(apiUrl + "api/Project/GetProjectEquipment");
 
-    if (resp.status == 200) {
+export const GetProjectEquipment = async (projectId) => {
+  try {
+    // Check that projectId is being sent correctly
+    console.log("Making API call with projectId:", projectId);
+    const resp = await axios.get(apiUrl+"api/Project/GetProjectEquipment", {
+      params: {
+        projectId: projectId,
+      },
+    });
+    
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -105,12 +114,67 @@ export const GetProjectEquipment = async () => {
     return err.response;
   }
 };
+export const GetProjectLabour = async (projectId) => {
+  try {
+    // Check that projectId is being sent correctly
+    console.log("Making API call with projectId:", projectId);
+    const resp = await axios.get(apiUrl+"api/Project/GetProjectLabour", {
+      params: {
+        projectId: projectId,
+      },
+    });
+    
+    if (resp.status === 200) {
+      return resp.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return err.response;
+  }
+};
+
+export const assignEquipmentToProject = async (equipmentId, projectId) => {
+  try {
+    const response = await axios.post(apiUrl+"api/Project/AssignEquipment", {
+      equipmentId,
+      projectId,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      // Server responded but with an error status
+      console.error("Error Response:", error.response.data);
+    } else if (error.request) {
+      // Request was sent but no response received
+      console.error("No Response:", error.request);
+    } else {
+      // Other errors
+      console.error("Error:", error.message);
+    }
+    throw error;
+  }
+};
+
+export const assignLabourToProject = async (labourId, projectId) => {
+  try {
+    const response = await axios.post(apiUrl+"api/Project/AssignLabour", {
+      labourid: labourId,
+      projectid: projectId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error assigning labour to project:", error);
+    throw error;
+  }
+};
+
 //Labours ki request ko get karna ka lia 
 export const GetLabourRequest = async () => {
   try {
     const resp = await axios.get(apiUrl + "api/LabourRequest/GetLabourRequest");
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -124,7 +188,7 @@ export const GetUsers = async (data) => {
   try {
     const resp = await axios.get(apiUrl + "api/Authetication/GetAllUsers");
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -152,7 +216,7 @@ export const OrderPlace = async (
       customerEmail: email,
     });
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -185,7 +249,7 @@ export const LabourRequest = async (
       customerEmail: email,
     });
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -204,7 +268,7 @@ export const CheckMyOrders = async (id) => {
       },
     });
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -221,7 +285,7 @@ export const MyProject = async (id) => {
       },
     });
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -239,7 +303,7 @@ export const CheckMyLabourRequest = async (id) => {
       },
     });
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -256,7 +320,7 @@ export const UpdateStatus = async (id, status) => {
       status: status,
     });
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -273,7 +337,7 @@ export const UpdateRequestStatus = async (id, status) => {
       status: status,
     });
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -299,7 +363,7 @@ export const RegisterUser = async (
       gender: gender,
     });
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       return resp.data;
     } else {
       return false;
@@ -491,31 +555,24 @@ export const UploadLabour = async (
 ) => {
 
     
-    const formData = new FormData();
-    formData.append("FirstName", firstName);
-    formData.append("LastName", lastName);
-    formData.append("Speciality", speciality);
-    formData.append("Address", address);
-    formData.append("PhNumber", phNumber);
-    formData.append("Charges",charges);
-    formData.append("image",image)
-    
+    const payload = {
+      firstName:firstName,
+      lastName:lastName,
+      speciality:speciality,
+      address:address,
+      phNumber:phNumber,
+      charges:charges,
+      image:image
+    }
 
 
-
-
-    await axios({
-    method: "post",
-    url: apiUrl + "api/Labour/AddLabour",
-    data: formData,
-    headers: { "Content-Type": "multipart/form-data" },
-  })
-  .then((response) => {
-   
-    return (response)
-
-  })
-
+    try {
+      const response = await axios.post(apiUrl + "api/Labour/AddLabour", payload);
+      return response;
+    } catch (error) {
+      console.error("Error uploading project:", error);
+      throw error; // Re-throw the error for higher-level handling
+    }
   };
 // naya user banane ka lia 
   export const CreateUser = async (
@@ -535,7 +592,7 @@ export const UploadLabour = async (
         role:role,
       });
   
-      if (resp.status == 200) {
+      if (resp.status === 200) {
         return resp.data;
       } else {
         return false;
@@ -566,7 +623,7 @@ export const UploadLabour = async (
         role:role,
       });
   
-      if (resp.status == 200) {
+      if (resp.status === 200) {
         return resp.data;
       } else {
         return false;
@@ -596,7 +653,7 @@ export const UploadLabour = async (
         customerEmail:customerEmail,
       });
   
-      if (resp.status == 200) {
+      if (resp.status === 200) {
         return resp.data;
       } else {
         return false;
@@ -626,7 +683,7 @@ export const UploadLabour = async (
         customerEmail:customerEmail,
       });
   
-      if (resp.status == 200) {
+      if (resp.status === 200) {
         return resp.data;
       } else {
         return false;
@@ -645,7 +702,7 @@ export const UploadLabour = async (
  
       });
   
-      if (resp.status == 200) {
+      if (resp.status === 200) {
         return resp.data;
       } else {
         return false;
@@ -665,7 +722,7 @@ export const UploadLabour = async (
         
       });
   
-      if (resp.status == 200) {
+      if (resp.status === 200) {
         return resp.data;
       } else {
         return false;
@@ -685,7 +742,7 @@ export const UploadLabour = async (
         
       });
   
-      if (resp.status == 200) {
+      if (resp.status === 200) {
         return resp.data;
       } else {
         return false;
@@ -704,7 +761,7 @@ export const UploadLabour = async (
         
       });
   
-      if (resp.status == 200) {
+      if (resp.status === 200) {
         return resp.data;
       } else {
         return false;
