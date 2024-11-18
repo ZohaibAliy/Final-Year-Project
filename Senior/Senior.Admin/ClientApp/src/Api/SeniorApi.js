@@ -169,6 +169,36 @@ export const assignLabourToProject = async (labourId, projectId) => {
   }
 };
 
+export const RemoveProjectEquipment = async (equipmentId) => {
+  try {
+    const response = await axios.delete(apiUrl+"api/Project/RemoveProjectEquipment",
+      {
+        params: {
+          request: equipmentId,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error removing project equipment:", error);
+    throw error;
+  }
+};
+export const RemoveProjectLabour = async (labourId) => {
+  try {
+    const response = await axios.delete(apiUrl+"api/Project/RemoveProjectLabour",
+      {
+        params: {
+          request: labourId,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error removing project equipment:", error);
+    throw error;
+  }
+};
 //Labours ki request ko get karna ka lia 
 export const GetLabourRequest = async () => {
   try {

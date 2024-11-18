@@ -115,7 +115,7 @@ namespace Senior.Api.Controllers
         public async Task<IActionResult> RemoveProjectLabour(int request)
         {
 
-            var response = await _projectservice.RemoveProjectEquipemnt(request);
+            var response = await _projectservice.RemoveProjectLabour(request);
             return Ok(response);
         }
         [HttpGet]

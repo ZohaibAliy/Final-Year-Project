@@ -25,6 +25,10 @@ namespace Senior.Application.Interfaces
         Task<List<ProjectEquipmentList>> GetProjectEquipment(int projectId);
         Task<List<ProjectLabourList>> GetProjectLabour(int projectId);
         Task<List<Project>> GetMyProject(int id);
+        Task<ApiResponse<string>> UpdateActualbudget(UpdateProjectActualbudget request);
 
     }
-}
+        
+
+    }
+

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Senior.Application.Common.Configuration;
 using Senior.Application.Contracts.Requests;
@@ -12,6 +13,7 @@ using Senior.Infrastructure.Persistence.Sql.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 namespace Senior.Application.Services
@@ -99,12 +101,56 @@ namespace Senior.Application.Services
                 return res;
 
             }
+        public async Task<ApiResponse<string>> UpdateActualbudget(UpdateProjectActualbudget request)
+        {
+            var response = new ApiResponse<string>();
+            var res = await _repository.GetSingleByFilter(x => x.Id == request.Id);
+
+            if (res != null)
+            {
+
+                
+                // Ensure ActualBudget is never negative
+                if (res.ActualBudget < 0)
+                {
+                    res.ActualBudget = 0;
+                    Console.WriteLine("ActualBudget was negative, set to 0.");
+                }
+                else
+                {
+                    res.ActualBudget = request.ActualBudget;
+
+                }
+
+
+                
+
+                var result = await _projectrepository.UpdateProject(res);
+                if (result)
+                {
+                    response.IsRequestSuccessful = true;
+                    response.SuccessResponse = $"project Updated successfully";
+                }
+                else
+                {
+                    response.IsRequestSuccessful = false;
+                    response.Errors = new List<string> { { $"Something went wrong" } };
+                }
+
+            }
+            else
+            {
+                response.IsRequestSuccessful = false;
+                response.Errors = new List<string> { { $"Something went wrong" } };
+            }
+            return response;
+        }
 
             public async Task<ApiResponse<string>> UpdateProject(UpdateProjectRequest request)
             {
                 var response = new ApiResponse<string>();
                 var res = await _repository.GetSingleByFilter(x => x.Id == request.Id);
-
+                
                 if (res != null)
                 {
                     
@@ -113,9 +159,18 @@ namespace Senior.Application.Services
                     res.Description = request.Description;
                     res.Location = request.Location;
                     res.StartDate = request.StartDate;
-                    res.EndDate = request.EndDate;  
+                    res.EndDate = request.EndDate;
+              
 
-                    res.ExpectedBudget = request.ExpectedBudget;
+                // Ensure ActualBudget is never negative
+                if (res.ActualBudget < 0)
+                {
+                    res.ActualBudget = 0;
+                    Console.WriteLine("ActualBudget was negative, set to 0.");
+                }
+
+
+                res.ExpectedBudget = request.ExpectedBudget;
                 res.userid = request.userid;
                 res.ContractorName = request.ContractorName;
                     
@@ -173,10 +228,11 @@ namespace Senior.Application.Services
             }
         public async Task<ApiResponse<string>> RemoveProjectEquipemnt(int request)
         {
-            var response = new ApiResponse<string>();
-            var res = await _projectrepository.RemoveProjectEquipment(request);
+            var pr = await _projectrepository.GetProjectEquipmentByEquipmentId(request);
+            
 
-            if (res)
+            var response = new ApiResponse<string>();
+            if (pr!=null)
             {
 
                 response.IsRequestSuccessful = true;
@@ -188,19 +244,30 @@ namespace Senior.Application.Services
                 response.SuccessResponse = $"project not found";
                 response.Errors = new List<string> { { $"Something went wrong" } };
             }
+             var eq = await _projectrepository.GetEquipmentbyid(pr.EquipmentId);
+            var ras = await _projectrepository.GetProjectbyid(pr.ProjectId);
+          
+            ras.ActualBudget = ras.ActualBudget - eq.Price;
+            if (ras.ActualBudget < 0)
+            {
+                ras.ActualBudget = 0;
+            }
+            var res = await _projectrepository.RemoveProjectEquipment(request);
+            await _projectrepository.UpdateActualbudget(ras);
+
+
+
             return response;
         }
 
         public async Task<ApiResponse<string>> RemoveProjectLabour(int request)
         {
+            var pr = await _projectrepository.GetProjectLabourByLabourId(request);
             var response = new ApiResponse<string>();
-            var res = await _projectrepository.RemoveProjectLabour(request);
-
-            if (res)
+            if (pr !=null)
             {
-
                 response.IsRequestSuccessful = true;
-                response.SuccessResponse = $"ProductEquipment Removed successfully";
+                response.SuccessResponse = $"ProductLabour Removed successfully";
             }
             else
             {
@@ -208,6 +275,20 @@ namespace Senior.Application.Services
                 response.SuccessResponse = $"project not found";
                 response.Errors = new List<string> { { $"Something went wrong" } };
             }
+            
+            var la = await _projectrepository.GetLabourbyid(pr.LabourId);
+            
+            var ras = await _projectrepository.GetProjectbyid(pr.ProjectId);
+            ras.ActualBudget = ras.ActualBudget - la.Charges;
+            if (ras.ActualBudget < 0)
+            {
+                ras.ActualBudget = 0;
+            }
+            await _projectrepository.UpdateActualbudget(ras);
+            
+         
+            var res = await _projectrepository.RemoveProjectLabour(request);
+            
             return response;
         }
 
@@ -252,12 +333,17 @@ namespace Senior.Application.Services
         {
             var response = new ApiResponse<bool>();
             var errorList = new List<string>();
+            var ras = await _projectrepository.GetProjectbyid(request.ProjectId);
             try
             {
+
+                var la = await _projectrepository.GetLabourbyid(request.Labourid);
+                ras.ActualBudget = ras.ActualBudget + la.Charges;
                 ProjectLabour projectLabour = new ProjectLabour();
                 projectLabour.LabourId = request.Labourid;
                 projectLabour.ProjectId = request.ProjectId;
                 var res= await _projectrepository.AssignLabour(projectLabour);
+                await _projectrepository.UpdateActualbudget(ras);
                 response.IsRequestSuccessful = res;
                 response.SuccessResponse = res;
             }
@@ -273,14 +359,24 @@ namespace Senior.Application.Services
         }
         public async Task<ApiResponse<bool>> AssignEquipment(AssignEquipmentRequest request)
         {
+            
             var response = new ApiResponse<bool>();
             var errorList = new List<string>();
+
+            var ras = await _projectrepository.GetProjectbyid(request.ProjectId);
+
             try
             {
+                
+                var eq = await _projectrepository.GetEquipmentbyid(request.EquipmentId);
+                ras.ActualBudget = ras.ActualBudget+eq.Price;
+               await _projectrepository.UpdateProject(ras);
+               
                 ProjectEquipment projectEquipment = new ProjectEquipment();
                 projectEquipment.EquipmentId = request.EquipmentId;
                 projectEquipment.ProjectId = request.ProjectId;
                 var res = await _projectrepository.AssignEquipment(projectEquipment);
+                await _projectrepository.UpdateActualbudget(ras);
                 response.IsRequestSuccessful = res;
                 response.SuccessResponse = res;
             }
@@ -336,7 +432,7 @@ namespace Senior.Application.Services
         public async Task<List<Project>> GetMyProject(int id)
         {
             var res = await _repository.Get(x => x.userid == id);
-
+           
 
             return res;
         }

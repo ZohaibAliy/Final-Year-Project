@@ -99,6 +99,19 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
 
 
         }
+        public async Task<bool> UpdateActualbudget(Project request)
+        {
+
+
+
+
+            _context.Project.Update(request);
+
+            _context.SaveChanges();
+            return true;
+
+
+        }
         public async Task<bool> RemoveProjectLabour(int request)
         {
             var projectlabour = await _context.ProjectLabour.Where(x => x.Id == request).FirstOrDefaultAsync();
@@ -121,5 +134,55 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task<Product> GetEquipmentbyid(int Id)
+        {
+            var product =await _context.Product.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            return product;
+
+
+        }
+        public async Task<Labour> GetLabourbyid(int Id)
+        {
+            var labour = await _context.Labour.Where(x=> x.Id == Id).FirstOrDefaultAsync();
+            return labour;
+        }
+        public async Task<Project> GetProjectbyid(int Id)
+        {
+            var project = await _context.Project.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            return project;
+        }
+        public async Task<ProjectLabour> GetProjectLabourByLabourId(int id)
+        {
+            var query = from p in _context.ProjectLabour
+                        where p.Id == id
+                        select new ProjectLabour
+                        {
+                            Id=p.Id,
+                            ProjectId=p.ProjectId,
+                            LabourId=p.LabourId
+                            
+                        };
+
+            return await query.FirstOrDefaultAsync();
+        }
+        public async Task<ProjectEquipment> GetProjectEquipmentByEquipmentId(int id)
+        {
+            var query = from p in _context.ProjectEquipment
+                        where p.Id == id
+                        select new ProjectEquipment
+                        {
+                            Id = p.Id,
+                            ProjectId = p.ProjectId,
+                            EquipmentId = p.EquipmentId
+
+                        };
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+
+
+
+
     }
 }

@@ -16,10 +16,17 @@ namespace Senior.Infrastructure.Persistence.Sql.Interfaces
         Task<bool> RemoveProjectEquipment(int request);
         Task<bool> RemoveProjectLabour(int request);
         Task<bool> AssignLabour(ProjectLabour request);
+        Task<Product> GetEquipmentbyid(int Id);
+        Task<Labour> GetLabourbyid(int Id);
         Task<bool> AssignEquipment(ProjectEquipment request);
         Task<List<Contractorlist>> GetContractor();
         Task<List<ProjectEquipmentList>> GetProjectEquipment(int projetId);
         Task<List<ProjectLabourList>> GetProjectLabour(int projectId);
+        Task<Project> GetProjectbyid(int Id);
+        Task<ProjectLabour> GetProjectLabourByLabourId(int labourId);
+        Task<ProjectEquipment> GetProjectEquipmentByEquipmentId(int equipmentId);
+        Task<bool> UpdateActualbudget(Project request);
+
 
     }
 }
