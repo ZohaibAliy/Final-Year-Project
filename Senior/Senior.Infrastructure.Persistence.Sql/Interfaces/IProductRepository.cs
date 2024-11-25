@@ -11,7 +11,9 @@ namespace Senior.Infrastructure.Persistence.Sql.Interfaces
     {
         Task<Product> AddProduct(Product entity);
         Task<bool> UpdateProduct(Product request);
-        
+        Task<Product> GetActiveProduct();
+
+
 
 
     }

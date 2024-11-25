@@ -13,6 +13,7 @@ namespace Senior.Application.Interfaces
     {
         Task<ApiResponse<string>> AddProduct(AddProductRequest request);
         Task<List<Product>> GetProduct();
+        
         Task<ApiResponse<string>> UpdateProduct(UpdateProductRequest request);
         Task<ApiResponse<string>> RemoveProduct(int id);
 

@@ -277,7 +277,7 @@ const handleAddLabour = async (labourItem) => {
               <li className="list-group-item">Description: {selectedProject.description}</li>
               <li className="list-group-item">EndDate: {selectedProject.endDate}</li>
               <li className="list-group-item">Expected Budget: {selectedProject.expectedBudget}</li>
-              <li className="list-group-item">Actual Budget: {selectedProject.actualBudget}</li>
+              <li className="list-group-item">Total Budget: {selectedProject.actualBudget}</li>
             </ul>
           )}
 {/* Equipment Section */}
@@ -509,16 +509,7 @@ const handleAddLabour = async (labourItem) => {
                 Modify Resources
               </button>
             )}
-            <button
-              className="btn btn-success"
-              onClick={() => {
-                // Handle the continue logic (e.g., submit final data)
-                setSubmitResourcesModal(false);
-                toast.success("Resources submitted successfully!");
-              }}
-            >
-              Continue
-            </button>
+           
           </div>
         </Modal.Body>
       </Modal>

@@ -6,6 +6,7 @@ using Senior.Application.Common.Configuration;
 using Senior.Application.Contracts.Requests;
 using Senior.Application.Contracts.Response;
 using Senior.Application.Interfaces;
+
 using Senior.Domain.Entities.Contractor_list;
 using Senior.Infrastructure.Persistence.Sql.Interfaces;
 using Senior.Infrastructure.Persistence.Sql.Models;
@@ -20,14 +21,14 @@ namespace Senior.Application.Services
 {
     public class ProjectService : IProjectService
     {
-
-            private readonly IProjectRepository _projectrepository;
+        private readonly IProductRepository _productrepository;
+        private readonly IProjectRepository _projectrepository;
             private readonly IGenericRepository<Project> _repository;
             public static IWebHostEnvironment _environment;
 
-            public ProjectService(IProjectRepository projectrepository, IGenericRepository<Project> repository, IWebHostEnvironment environment)
+            public ProjectService(IProjectRepository projectrepository, IProductRepository productrepository, IGenericRepository<Project> repository, IWebHostEnvironment environment)
             {
-
+            _productrepository = productrepository;
                 _projectrepository = projectrepository;
                 _repository = repository;
                 _environment = environment;
@@ -41,11 +42,8 @@ namespace Senior.Application.Services
                 var response = new ApiResponse<string>();
                 try
                 {
-
-
-                var project = new Project
+              var project = new Project
                 {
-
                     Title = request.Title,
                     Description = request.Description,
                     Location = request.Location,
@@ -59,15 +57,9 @@ namespace Senior.Application.Services
                     ContractorName= request.ContractorName,
                     
                     Created= DateTime.Now
-
-
-
                     };
 
                     var result = await _projectrepository.AddProject(project);
-
-
-
                     if (result != null)
                     {
                         response.IsRequestSuccessful = true;
@@ -363,20 +355,29 @@ namespace Senior.Application.Services
             var response = new ApiResponse<bool>();
             var errorList = new List<string>();
 
+            
             var ras = await _projectrepository.GetProjectbyid(request.ProjectId);
+            
 
             try
-            {
+            {   
                 
+
                 var eq = await _projectrepository.GetEquipmentbyid(request.EquipmentId);
+                
+
+                
                 ras.ActualBudget = ras.ActualBudget+eq.Price;
+
                await _projectrepository.UpdateProject(ras);
+
                
                 ProjectEquipment projectEquipment = new ProjectEquipment();
                 projectEquipment.EquipmentId = request.EquipmentId;
                 projectEquipment.ProjectId = request.ProjectId;
                 var res = await _projectrepository.AssignEquipment(projectEquipment);
                 await _projectrepository.UpdateActualbudget(ras);
+                
                 response.IsRequestSuccessful = res;
                 response.SuccessResponse = res;
             }
