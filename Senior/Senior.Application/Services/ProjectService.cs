@@ -21,15 +21,17 @@ namespace Senior.Application.Services
 {
     public class ProjectService : IProjectService
     {
+        private readonly ILabourRepository _labourRepository;
         private readonly IProductRepository _productrepository;
         private readonly IProjectRepository _projectrepository;
             private readonly IGenericRepository<Project> _repository;
             public static IWebHostEnvironment _environment;
 
-            public ProjectService(IProjectRepository projectrepository, IProductRepository productrepository, IGenericRepository<Project> repository, IWebHostEnvironment environment)
+            public ProjectService(IProjectRepository projectrepository, IProductRepository productrepository,IProductRepository productRepository,ILabourRepository labourRepository, IGenericRepository<Project> repository, IWebHostEnvironment environment)
             {
             _productrepository = productrepository;
-                _projectrepository = projectrepository;
+            _labourRepository = labourRepository;
+            _projectrepository = projectrepository;
                 _repository = repository;
                 _environment = environment;
 
@@ -236,6 +238,7 @@ namespace Senior.Application.Services
                 response.SuccessResponse = $"project not found";
                 response.Errors = new List<string> { { $"Something went wrong" } };
             }
+            var por = await _productrepository.GetActiveProduct();
              var eq = await _projectrepository.GetEquipmentbyid(pr.EquipmentId);
             var ras = await _projectrepository.GetProjectbyid(pr.ProjectId);
           
@@ -243,9 +246,12 @@ namespace Senior.Application.Services
             if (ras.ActualBudget < 0)
             {
                 ras.ActualBudget = 0;
+                por.IsAvailable = true;
+
             }
             var res = await _projectrepository.RemoveProjectEquipment(request);
             await _projectrepository.UpdateActualbudget(ras);
+            await _productrepository.UpdateProduct(por);
 
 
 
@@ -269,15 +275,16 @@ namespace Senior.Application.Services
             }
             
             var la = await _projectrepository.GetLabourbyid(pr.LabourId);
-            
+            var lab = await _labourRepository.GetActiveLabour();
             var ras = await _projectrepository.GetProjectbyid(pr.ProjectId);
             ras.ActualBudget = ras.ActualBudget - la.Charges;
             if (ras.ActualBudget < 0)
             {
                 ras.ActualBudget = 0;
+                lab.IsAvailable = true;
             }
             await _projectrepository.UpdateActualbudget(ras);
-            
+            await _labourRepository.UpdateLabour(lab);
          
             var res = await _projectrepository.RemoveProjectLabour(request);
             
@@ -328,14 +335,16 @@ namespace Senior.Application.Services
             var ras = await _projectrepository.GetProjectbyid(request.ProjectId);
             try
             {
-
+                var lab = await _labourRepository.GetActiveLabour();
                 var la = await _projectrepository.GetLabourbyid(request.Labourid);
                 ras.ActualBudget = ras.ActualBudget + la.Charges;
+                lab.IsAvailable = false;
                 ProjectLabour projectLabour = new ProjectLabour();
                 projectLabour.LabourId = request.Labourid;
                 projectLabour.ProjectId = request.ProjectId;
                 var res= await _projectrepository.AssignLabour(projectLabour);
                 await _projectrepository.UpdateActualbudget(ras);
+                await _labourRepository.UpdateLabour(lab);
                 response.IsRequestSuccessful = res;
                 response.SuccessResponse = res;
             }
@@ -364,13 +373,13 @@ namespace Senior.Application.Services
                 
 
                 var eq = await _projectrepository.GetEquipmentbyid(request.EquipmentId);
-                
+                var por = await _productrepository.GetActiveProduct();
 
-                
+                por.IsAvailable = false;
                 ras.ActualBudget = ras.ActualBudget+eq.Price;
 
                await _projectrepository.UpdateProject(ras);
-
+                await _productrepository.UpdateProduct(por);
                
                 ProjectEquipment projectEquipment = new ProjectEquipment();
                 projectEquipment.EquipmentId = request.EquipmentId;

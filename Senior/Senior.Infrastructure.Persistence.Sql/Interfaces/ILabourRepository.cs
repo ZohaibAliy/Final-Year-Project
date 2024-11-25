@@ -12,6 +12,7 @@ namespace Senior.Infrastructure.Persistence.Sql.Interfaces
     {
         Task<Labour> AddLabour(Labour entity);
         Task<bool> UpdateLabour(Labour request);
+        Task<Labour> GetActiveLabour();
      
 
     }

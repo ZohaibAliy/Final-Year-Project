@@ -37,12 +37,23 @@ namespace Senior.Api.Controllers
             public async Task<IActionResult> GetLabour()
             
      
-       {
+            {
 
                 var response = await _Labourservice.GetLabour();
                 return Ok(response);
             }
-            [HttpPut]
+        [HttpGet]
+        [Route("GetActiveLabour")]
+        [Produces(typeof(List<Labour>))]
+        public async Task<IActionResult> GetActiveLabour()
+
+
+        {
+
+            var response = await _Labourservice.GetActiveLabour();
+            return Ok(response);
+        }
+        [HttpPut]
             [Route("UpdateLabour")]
             [Produces(typeof(ApiResponse<string>))]
             public async Task<IActionResult> UpdateLabour([FromForm] UpdateLabourRequest request)

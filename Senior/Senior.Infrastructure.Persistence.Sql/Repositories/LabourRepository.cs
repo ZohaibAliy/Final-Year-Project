@@ -41,6 +41,11 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
 
 
         }
+        public async Task<Labour> GetActiveLabour()
+        {
+            var res = await _context.Labour.Where(x => x.IsAvailable == true).ToListAsync();
+            return res.FirstOrDefault();
+        }
         public async Task<List<Contractorlist>> GetContractor()
         {
             var contractorlist = await _context.User.Where(x => x.Role == "Contractor").Select(x => new Contractorlist

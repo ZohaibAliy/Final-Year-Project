@@ -4,11 +4,12 @@ import {
   GetProjectEquipment,
   GetProjectLabour,
   GetLabour,
-  GetProducts,
+  GetActiveProducts,
   assignEquipmentToProject,
   assignLabourToProject,
   RemoveProjectEquipment,
-  RemoveProjectLabour
+  RemoveProjectLabour,
+ 
 } from "../Api/SeniorApi";
 import Modal from "react-bootstrap/Modal";
 import { Container } from "reactstrap";
@@ -158,7 +159,7 @@ const handleAddLabour = async (labourItem) => {
 
   
   useEffect(() => {
-    GetProducts().then((response) => {
+    GetActiveProducts().then((response) => {
      
       if (response) {
         setproducts(response);

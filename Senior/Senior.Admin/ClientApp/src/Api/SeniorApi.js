@@ -51,7 +51,19 @@ export const GetProducts = async () => {
     return err.response;
   }
 };
+export const GetActiveProducts = async () => {
+  try {
+    const resp = await axios.get(apiUrl + "api/Product/GetActiveEquipment");
 
+    if (resp.status === 200) {
+      return resp.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return err.response;
+  }
+};
 // project ko get karna ka lia 
 export const GetProject = async () => {
   try {

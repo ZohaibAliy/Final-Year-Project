@@ -39,7 +39,16 @@ namespace Senior.Api.Controllers
             var response = await _productservice.GetProduct();
             return Ok(response);
         }
-        [HttpPut]
+        [HttpGet]
+        [Route("GetActiveEquipment")]
+        [Produces(typeof(List<Product>))]
+        public async Task<IActionResult> GetActiveProduct()
+        {
+
+            var response = await _productservice.GetActiveProduct();
+            return Ok(response);
+        }
+            [HttpPut]
         [Route("UpdateEquipment")]
         [Produces(typeof(ApiResponse<string>))]
         public async Task<IActionResult> UpdateProduct([FromForm] UpdateProductRequest request)

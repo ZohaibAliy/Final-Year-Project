@@ -15,6 +15,7 @@ namespace Senior.Application.Interfaces
 
         Task<ApiResponse<string>> AddProject(AddProjectRequest request);
         Task<List<Project>> GetProject();
+
         Task<ApiResponse<string>> UpdateProject(UpdateProjectRequest request);
         Task<ApiResponse<string>> RemoveProject(int id);
         Task<ApiResponse<string>> RemoveProjectEquipemnt(int request);
