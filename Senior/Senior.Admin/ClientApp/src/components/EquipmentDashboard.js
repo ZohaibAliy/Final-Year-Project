@@ -5,12 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 import toast, { Toaster } from "react-hot-toast";
 import {
   GetProducts,
   UpdateProducts,
   UploadProducts,
   RemoveProduct,
+  GetUnactiveProducts
 } from "../Api/SeniorApi";
 export default function EquipmentDashboard() {
   const [modelOpen, setModelOpen] = useState(false);
@@ -24,8 +26,13 @@ export default function EquipmentDashboard() {
   const [quantity, setQuantity] = useState();
   const [price, setPrice] = useState();
   const [image, setImage] = useState();
+  const [unactiveProduct, setunactiveproduct] = useState([]);
+
   const [isUpdate, setIsUpdate] = useState(false);
   const navigate = useNavigate();
+
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   useEffect(() => {
     GetProducts().then((response) => {
@@ -36,13 +43,38 @@ export default function EquipmentDashboard() {
     
     });
   },[ischanged]);
-
+useEffect(()=>{
+  GetUnactiveProducts().then((response)=>
+  {
+    if(response){
+      setunactiveproduct(response);
+    }
+  });
+},[ischanged]);
   const SidebarHandler = () => {
     if (sidenav == "accordion") {
       setSidenav("collapse");
     } else {
       setSidenav("accordion");
     }
+  };
+  
+  const handleDeactivateClick = (id) => {
+    setSelectedProductId(id);
+    setConfirmModalOpen(true); // Open confirmation modal
+  };
+
+  const confirmDeactivation = () => {
+    if (selectedProductId) {
+      DeactivateProduct(selectedProductId);
+    }
+    setConfirmModalOpen(false); // Close modal
+    setSelectedProductId(null);
+  };
+
+  const cancelDeactivation = () => {
+    setConfirmModalOpen(false); // Close modal without action
+    setSelectedProductId(null);
   };
 
   const UpdateStates = (data) => {
@@ -117,7 +149,12 @@ setModelOpen(false);
       setischanged(ischanged + 1);
     });
   };
-
+  const showInactiveProducts = () => {
+    setModelOpen(true); // Open the modal
+  };
+  const closeInactiveModal = () => {
+    setModelOpen(false); // Close the modal
+  };
   function dataURLtoFile(dataurl, filename) {
     var arr = dataurl.split(","),
       mime = arr[0].match(/:(.*?);/)[1],
@@ -278,13 +315,23 @@ setModelOpen(false);
                       <h6 className="mx-3 font-weight-bold text-primary">
                         Listed Equipment
                       </h6>
-                      <h6 className="add-btn font-weight-bold text-primary float-left">
-                        <i
-                          class="fa fa-fw fa-plus"
-                          onClick={() => ResetStates()}
-                        ></i>
-                      </h6>
+                      <div className="d-flex align-items-center">
+                  <h6 className="add-btn font-weight-bold text-primary me-8">
+                                   <i className="fa fa-fw fa-plus" onClick={() => ResetStates()}></i>
+                     </h6>
+                       
+                            </div>
+                       
+
                     </div>
+                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 className="mx-3 font-weight-bold text-primary">
+                        Archived Equipment
+                      </h6>
+                            <h6 className="add-btn font-weight-bold text-primary float-left">
+                 <i className="fa fa-archive" onClick={showInactiveProducts}></i>
+                       </h6>
+                       </div>
                     <div className="table-responsive">
                       <table className="table align-items-center table-flush">
                         <thead className="thead-light">
@@ -327,9 +374,9 @@ setModelOpen(false);
                                     <button
                                       type="button"
                                       className="btn-rm btn-danger"
-                                      onClick={() => DeactivateProduct(data.id)}
-                                    >
-                                      <i className="fa fa-fw fa-trash"></i>
+                                      onClick={() => handleDeactivateClick(data.id)}
+                                     >
+                                     <i className="fa fa-fw fa-archive"></i>
                                     </button>
                                   </td>
                                 </tr>
@@ -408,7 +455,22 @@ setModelOpen(false);
       <a className="scroll-to-top rounded" href="#page-top">
         <i className="fa fa-angle-up"></i>
       </a>
-
+      <Modal show={confirmModalOpen} onHide={cancelDeactivation}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deactivation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to deactivate this product?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={cancelDeactivation}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDeactivation}>
+            Deactivate
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Modal show={modelOpen}>
         <Modal.Header>
           <h2>Products</h2>
@@ -509,6 +571,58 @@ setModelOpen(false);
           </form>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
+      </Modal>
+      <Modal show={modelOpen} onHide={closeInactiveModal} centered size="lg"> 
+        <Modal.Header closeButton>
+          <Modal.Title>Inactive Equipment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {/* Displaying inactive products in a table */}
+          <div className="table-responsive">
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Product Name</th>
+                  <th>Description</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {unactiveProduct.length === 0 ? (
+                  <tr>
+                    <td colSpan="6">No inactive products found.</td>
+                  </tr>
+                ) : (
+                  unactiveProduct.map((product, index) => (
+                    <tr key={product.id}>
+                      <td>{index + 1}</td>
+                      <td>{product.productName}</td>
+                      <td>{product.description}</td>
+                      <td>{product.quantity}</td>
+                      <td>${product.price}</td>
+                      <td>
+                        <Button
+                          variant="warning"
+                          onClick={() => handleDeactivateClick(product.id)}
+                        >
+                          Deactivate
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeInactiveModal}>
+            Close
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );

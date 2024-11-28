@@ -48,7 +48,16 @@ namespace Senior.Api.Controllers
             var response = await _productservice.GetActiveProduct();
             return Ok(response);
         }
-            [HttpPut]
+        [HttpGet]
+        [Route("GetUnactiveEquipment")]
+        [Produces(typeof(List<Product>))]
+        public async Task<IActionResult> GetUnactiveProducts()
+        {
+
+            var response = await _productservice.GetUnactiveProducts();
+            return Ok(response);
+        }
+        [HttpPut]
         [Route("UpdateEquipment")]
         [Produces(typeof(ApiResponse<string>))]
         public async Task<IActionResult> UpdateProduct([FromForm] UpdateProductRequest request)
@@ -58,7 +67,16 @@ namespace Senior.Api.Controllers
             return Ok(response);
         }
         [HttpPut]
-        [Route("RemoveEquipment")]
+        [Route("ActiveEquipment")]
+        [Produces(typeof(ApiResponse<string>))]
+        public async Task<IActionResult> ActiveProduct(int id)
+        {
+
+            var response = await _productservice.ActiveProduct(id);
+            return Ok(response);
+        }
+        [HttpPut]
+        [Route("UnactiveEquipment")]
         [Produces(typeof(ApiResponse<string>))]
         public async Task<IActionResult> RemoveProduct(UpdateRequest request)
         {

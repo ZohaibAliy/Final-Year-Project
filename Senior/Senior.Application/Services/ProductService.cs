@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Senior.Application.Common.Configuration;
 using Senior.Application.Contracts.Requests;
 using Senior.Application.Contracts.Response;
@@ -91,17 +92,51 @@ namespace Senior.Application.Services
                 return res;
             
         }
+        public async Task<List<Product>> GetUnactiveProducts()
+        {
+            var res = await _repository.Get(x => x.IsActive == false);
+            return res;
+        }
         public async Task<List<Product>> GetActiveProduct()
         {
 
 
-            var res = await _repository.Get(x => x.IsAvailable == true);
+            var res = await _repository.Get(x => x.IsAvailable == true && x.IsActive == true);
+         
 
 
             return res;
 
         }
+        public async Task<ApiResponse<string>> ActiveProduct(int id)
+        {
+            var response = new ApiResponse<string>();
+            var res = await _repository.GetSingleByFilter(x => x.Id ==id);
 
+            if(res!=null)
+            {
+                res.IsActive= true;
+                res.IsAvailable = true;
+                var result = await _productrepository.ActiveProduct(res);
+                if (result)
+                {
+                    response.IsRequestSuccessful = true;
+                    response.SuccessResponse = $"Product Active successfully";
+                }
+                else
+                {
+                    response.IsRequestSuccessful = false;
+                    response.Errors = new List<string> { { $"Something went wrong" } };
+                }
+            }
+            else
+            {
+                response.IsRequestSuccessful = false;
+                response.Errors = new List<string> { { $"Something went wrong" } };
+            }
+            return response;
+
+        }
         public async Task<ApiResponse<string>> UpdateProduct(UpdateProductRequest request)
         {
             var response = new ApiResponse<string>();
@@ -146,6 +181,7 @@ namespace Senior.Application.Services
             if (res != null)
             {
                 res.IsActive = false;
+                res.IsAvailable = false;
 
                 var result = await _productrepository.UpdateProduct(res);
                 if (result)

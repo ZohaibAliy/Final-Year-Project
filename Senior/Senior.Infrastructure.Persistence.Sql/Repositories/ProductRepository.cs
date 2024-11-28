@@ -19,7 +19,12 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
         }
         public async Task<Product> GetActiveProduct()
         {
-            var res = await _context.Product.Where(x=> x.IsAvailable==true).ToListAsync();
+            var res = await _context.Product.Where(x=> x.IsAvailable==true && x.IsActive==true).ToListAsync();
+            return res.FirstOrDefault();
+        }
+        public async Task<Product> GetUnactiveProducts()
+        {
+            var res = await _context.Product.Where(x => x.IsActive == false).ToListAsync();
             return res.FirstOrDefault();
         }
         public async Task<Product?> AddProduct(Product entity)
@@ -40,6 +45,12 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
 
 
 
+        }
+        public async Task<bool> ActiveProduct(Product request)
+        {
+            _context.Product.Update(request);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
     }

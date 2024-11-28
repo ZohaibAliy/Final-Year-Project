@@ -64,6 +64,19 @@ export const GetActiveProducts = async () => {
     return err.response;
   }
 };
+export const GetUnactiveProducts = async () => {
+  try {
+    const resp = await axios.get(apiUrl + "api/Product/GetUnactiveEquipment");
+
+    if (resp.status === 200) {
+      return resp.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return err.response;
+  }
+};
 // project ko get karna ka lia 
 export const GetProject = async () => {
   try {
@@ -738,7 +751,7 @@ export const UploadLabour = async (
 // kisi user ko delete karna ka lia 
   export const RemoveUser = async (id) => {
     try {
-      const resp = await axios.put(apiUrl + "api/Authetication/RemoveEquipment", {
+      const resp = await axios.put(apiUrl + "api/Authetication/RemoveUser", {
     
           id:id,
  
@@ -756,7 +769,7 @@ export const UploadLabour = async (
  // kisi equipment ko delete karna ka lia 
   export const RemoveProduct = async (id) => {
     try {
-      const resp = await axios.put(apiUrl + "api/Product/RemoveEquipment", {
+      const resp = await axios.put(apiUrl + "api/Product/UnactiveEquipment", {
         
   
           id: id
