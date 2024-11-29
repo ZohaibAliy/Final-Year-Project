@@ -108,6 +108,17 @@ namespace Senior.Application.Services
             return res;
 
         }
+        public async Task<List<Product>> GetSelectedProduct()
+        {
+
+
+            var res = await _repository.Get(x => x.IsAvailable == false );
+
+
+
+            return res;
+
+        }
         public async Task<ApiResponse<string>> ActiveProduct(int id)
         {
             var response = new ApiResponse<string>();

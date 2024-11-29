@@ -145,7 +145,7 @@ export default function UserDashboard() {
     <div id="page-top">
       <Toaster position="top-center" reverseOrder={false} />
       <div id="wrapper">
-        <div className={sidenav}>
+      <div className={sidenav}>
           <ul
             className="navbar-nav sidebar sidebar-light "
             id="accordionSidebar"
@@ -155,13 +155,13 @@ export default function UserDashboard() {
               href="index.html"
             >
               <div className="sidebar-brand-icon"></div>
-              <div className="sidebar-brand-text mx-3">SeniorAdmin</div>
+              <div className="sidebar-brand-text mx-3">Admin</div>
             </a>
             <hr className="sidebar-divider my-0" />
             <li className="nav-item active">
               <a className="nav-link" href="index.html">
                 <i className="fa fa-fw fa-tachometer-alt"></i>
-                <span>Listed User</span>
+                <span>User</span>
               </a>
             </li>
             <hr className="sidebar-divider" />
@@ -176,7 +176,9 @@ export default function UserDashboard() {
                 aria-controls="collapseBootstrap"
               >
                 <i className="fa fa-fw fa-window-maximize"></i>
-                <span>Dashboard</span>
+                <span>
+                  <strong>Dashboard</strong>
+                </span>
               </a>
             </li>
             <li className="nav-item">
@@ -188,7 +190,7 @@ export default function UserDashboard() {
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-              <i className="fa fa-fw fa-shopping-cart"></i>
+                 <i className="fa fa-fw fa-shopping-cart"></i>
                 <span>Equipment</span>
               </a>
             </li>
@@ -201,8 +203,8 @@ export default function UserDashboard() {
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-                <i className="fa fa-fw fa-truck"></i>
-                
+                 <i className="fa fa-fw fa-truck"></i>
+              
                 <span>Order</span>
               </a>
             </li>
@@ -230,9 +232,7 @@ export default function UserDashboard() {
                 aria-controls="collapseBootstrap"
               >
                 <i className="fa fa-fw Example of users fa-users"></i>
-                <span>
-                  <strong>User</strong>
-                </span>
+                <span>User</span>
               </a>
             </li>
             <li className="nav-item">
@@ -246,6 +246,19 @@ export default function UserDashboard() {
               >
                 <i className="fa fa-fw Example of users fa-users"></i>
                 <span>Labour</span>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                className="nav-link collapsed"
+                onClick={() => navigate("/projecttable")}
+                data-toggle="collapse"
+                data-target="#collapseBootstrap"
+                aria-expanded="true"
+                aria-controls="collapseBootstrap"
+              >
+                <i className="fa fa-fw Example of users fa-users"></i>
+                <span>Project</span>
               </a>
             </li>
 
@@ -266,7 +279,6 @@ export default function UserDashboard() {
                 <i className="fa fa-bars"></i>
               </button>
             </nav>
-
             <div className="container-fluid" id="container-wrapper">
               <div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h3 mb-0 text-gray-800">Listed Users</h1>

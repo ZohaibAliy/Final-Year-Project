@@ -49,69 +49,68 @@ export default function OrderDashboard() {
     <div id="page-top">
     <Toaster position="top-center" reverseOrder={false} />
     <div id="wrapper">
-      <div className={sidenav}>
-        <ul
-          className="navbar-nav sidebar sidebar-light "
-          id="accordionSidebar"
-        >
-          <a
-            className="sidebar-brand d-flex align-items-center justify-content-center"
-            href="index.html"
+    <div className={sidenav}>
+          <ul
+            className="navbar-nav sidebar sidebar-light "
+            id="accordionSidebar"
           >
-            <div className="sidebar-brand-icon"></div>
-            <div className="sidebar-brand-text mx-3">SeniorAdmin</div>
-          </a>
-          <hr className="sidebar-divider my-0" />
-          <li className="nav-item active">
-            <a className="nav-link" href="index.html">
-              <i className="fa fa-fw fa-tachometer-alt"></i>
-              <span>Orders</span>
+            <a
+              className="sidebar-brand d-flex align-items-center justify-content-center"
+              href="index.html"
+            >
+              <div className="sidebar-brand-icon"></div>
+              <div className="sidebar-brand-text mx-3">Admin</div>
             </a>
-          </li>
-          <hr className="sidebar-divider" />
-          <div className="sidebar-heading">Features</div>
-          <li className="nav-item">
+            <hr className="sidebar-divider my-0" />
+            <li className="nav-item active">
+              <a className="nav-link" href="index.html">
+                <i className="fa fa-fw fa-tachometer-alt"></i>
+                <span>Order</span>
+              </a>
+            </li>
+            <hr className="sidebar-divider" />
+            <div className="sidebar-heading">Features</div>
+            <li className="nav-item">
               <a
                 className="nav-link collapsed"
-                onClick={()=>navigate('/admindashboard')}
+                onClick={() => navigate("/admindashboard")}
                 data-toggle="collapse"
                 data-target="#collapseBootstrap"
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-                   <i className="fa fa-fw fa-window-maximize"></i>
-                <span>Dashboard</span>
+                <i className="fa fa-fw fa-window-maximize"></i>
+                <span>
+                  <strong>Dashboard</strong>
+                </span>
               </a>
-              
             </li>
             <li className="nav-item">
               <a
                 className="nav-link collapsed"
-                onClick={()=>navigate('/producttable')}
+                onClick={() => navigate("/producttable")}
                 data-toggle="collapse"
                 data-target="#collapseBootstrap"
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-                  <i className="fa fa-fw fa-shopping-cart"></i>
-                
+                 <i className="fa fa-fw fa-shopping-cart"></i>
                 <span>Equipment</span>
               </a>
-              
             </li>
-                        <li className="nav-item">
+            <li className="nav-item">
               <a
                 className="nav-link collapsed"
-                onClick={()=>navigate('/ordertable')}
+                onClick={() => navigate("/ordertable")}
                 data-toggle="collapse"
                 data-target="#collapseBootstrap"
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-             <i className="fa fa-fw fa-truck"></i>
-                <span><strong>Order</strong></span>
-              </a>
+                 <i className="fa fa-fw fa-truck"></i>
               
+                <span>Order</span>
+              </a>
             </li>
             <li className="nav-item">
               <a
@@ -130,7 +129,7 @@ export default function OrderDashboard() {
             <li className="nav-item">
               <a
                 className="nav-link collapsed"
-                onClick={()=>navigate('/usertable')}
+                onClick={() => navigate("/usertable")}
                 data-toggle="collapse"
                 data-target="#collapseBootstrap"
                 aria-expanded="true"
@@ -139,7 +138,6 @@ export default function OrderDashboard() {
                 <i className="fa fa-fw Example of users fa-users"></i>
                 <span>User</span>
               </a>
-              
             </li>
             <li className="nav-item">
               <a
@@ -154,25 +152,38 @@ export default function OrderDashboard() {
                 <span>Labour</span>
               </a>
             </li>
-       
+            <li className="nav-item">
+              <a
+                className="nav-link collapsed"
+                onClick={() => navigate("/projecttable")}
+                data-toggle="collapse"
+                data-target="#collapseBootstrap"
+                aria-expanded="true"
+                aria-controls="collapseBootstrap"
+              >
+                <i className="fa fa-fw Example of users fa-users"></i>
+                <span>Project</span>
+              </a>
+            </li>
 
-          <div className="version" id="version-ruangadmin"></div>
-        </ul>
-      </div>
-      <div id="content-wrapper" className="d-flex flex-column">
-        <div id="content">
-          <nav
-            className="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top"
-            id="admin-navbar"
-          >
-            <button
-              id="sidebarToggleTop"
-              className="btn btn-link  mr-3"
-              onClick={() => SidebarHandler()}
+            <div className="version" id="version-ruangadmin"></div>
+          </ul>
+        </div>
+        <div id="content-wrapper" className="d-flex flex-column">
+          <div id="content">
+            <nav
+              className="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top"
+              id="admin-navbar"
             >
-              <i className="fa fa-bars"></i>
-            </button>
-          </nav>
+              <button
+                id="sidebarToggleTop"
+                className="btn btn-link  mr-3"
+                onClick={() => SidebarHandler()}
+              >
+                <i className="fa fa-bars"></i>
+              </button>
+            </nav>
+
 
           <div className="container-fluid" id="container-wrapper">
             <div className="d-sm-flex align-items-center justify-content-between mb-4">

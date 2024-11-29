@@ -57,6 +57,15 @@ namespace Senior.Api.Controllers
             var response = await _productservice.GetUnactiveProducts();
             return Ok(response);
         }
+        [HttpGet]
+        [Route("GetSelectedEquipment")]
+        [Produces(typeof(List<Product>))]
+        public async Task<IActionResult> GetSelectedProducts()
+        {
+
+            var response = await _productservice.GetSelectedProduct();
+            return Ok(response);
+        }
         [HttpPut]
         [Route("UpdateEquipment")]
         [Produces(typeof(ApiResponse<string>))]

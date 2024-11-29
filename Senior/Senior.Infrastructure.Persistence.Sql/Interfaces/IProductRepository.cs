@@ -13,7 +13,8 @@ namespace Senior.Infrastructure.Persistence.Sql.Interfaces
         Task<bool> UpdateProduct(Product request);
         Task<bool> ActiveProduct(Product request);
         Task<Product> GetActiveProduct();
-        
+        Task<Product> GetSelectedProduct();
+
         Task<Product> GetUnactiveProducts();
 
 

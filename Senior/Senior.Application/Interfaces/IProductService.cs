@@ -15,6 +15,7 @@ namespace Senior.Application.Interfaces
         Task<List<Product>> GetProduct();
         Task<List<Product>> GetActiveProduct();
         Task<List<Product>> GetUnactiveProducts();
+        Task<List<Product>> GetSelectedProduct();
         Task<ApiResponse<string>> UpdateProduct(UpdateProductRequest request);
         Task<ApiResponse<string>> RemoveProduct(int id);
         Task<ApiResponse<string>> ActiveProduct(int id);

@@ -151,7 +151,7 @@ setModelOpen(false);
     <div id="page-top">
       <Toaster position="top-center" reverseOrder={false} />
       <div id="wrapper">
-        <div className={sidenav}>
+      <div className={sidenav}>
           <ul
             className="navbar-nav sidebar sidebar-light "
             id="accordionSidebar"
@@ -182,7 +182,9 @@ setModelOpen(false);
                 aria-controls="collapseBootstrap"
               >
                 <i className="fa fa-fw fa-window-maximize"></i>
-                <span>Dashboard</span>
+                <span>
+                  <strong>Dashboard</strong>
+                </span>
               </a>
             </li>
             <li className="nav-item">
@@ -194,10 +196,8 @@ setModelOpen(false);
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-                <i className="fa fa-fw fa-shopping-cart"></i>
-                <span>
-                  <strong>Equipment</strong>
-                </span>
+                 <i className="fa fa-fw fa-shopping-cart"></i>
+                <span>Equipment</span>
               </a>
             </li>
             <li className="nav-item">
@@ -210,10 +210,9 @@ setModelOpen(false);
                 aria-controls="collapseBootstrap"
               >
                  <i className="fa fa-fw fa-truck"></i>
-                
+              
                 <span>Order</span>
               </a>
-
             </li>
             <li className="nav-item">
               <a
@@ -242,7 +241,6 @@ setModelOpen(false);
                 <span>User</span>
               </a>
             </li>
-
             <li className="nav-item">
               <a
                 className="nav-link collapsed"
@@ -252,12 +250,24 @@ setModelOpen(false);
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-                <i className="fa fa-fw fa-shopping-cart"></i>
-                <span>
-                  <strong>Labour</strong>
-                </span>
+                <i className="fa fa-fw Example of users fa-users"></i>
+                <span>Labour</span>
               </a>
             </li>
+            <li className="nav-item">
+              <a
+                className="nav-link collapsed"
+                onClick={() => navigate("/projecttable")}
+                data-toggle="collapse"
+                data-target="#collapseBootstrap"
+                aria-expanded="true"
+                aria-controls="collapseBootstrap"
+              >
+                <i className="fa fa-fw Example of users fa-users"></i>
+                <span>Project</span>
+              </a>
+            </li>
+
             <div className="version" id="version-ruangadmin"></div>
           </ul>
         </div>
@@ -275,7 +285,6 @@ setModelOpen(false);
                 <i className="fa fa-bars"></i>
               </button>
             </nav>
-
             <div className="container-fluid" id="container-wrapper">
               <div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h3 mb-0 text-gray-800">Listed Labours</h1>

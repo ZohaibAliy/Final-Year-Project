@@ -20,6 +20,7 @@ namespace Senior.Infrastructure.Persistence.Sql.Interfaces
         Task<Labour> GetLabourbyid(int Id);
         Task<bool> AssignEquipment(ProjectEquipment request);
         Task<List<Contractorlist>> GetContractor();
+      
         Task<List<ProjectEquipmentList>> GetProjectEquipment(int projetId);
         Task<List<ProjectLabourList>> GetProjectLabour(int projectId);
         Task<Project> GetProjectbyid(int Id);

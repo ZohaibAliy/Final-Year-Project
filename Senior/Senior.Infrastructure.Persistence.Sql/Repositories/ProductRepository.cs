@@ -17,6 +17,11 @@ namespace Senior.Infrastructure.Persistence.Sql.Repositories
         {
             _context = context;
         }
+        public async Task<Product> GetSelectedProduct()
+        {
+            var res= await _context.Product.Where(x=> x.IsAvailable==false).ToListAsync();
+            return res.FirstOrDefault();
+        }
         public async Task<Product> GetActiveProduct()
         {
             var res = await _context.Product.Where(x=> x.IsAvailable==true && x.IsActive==true).ToListAsync();

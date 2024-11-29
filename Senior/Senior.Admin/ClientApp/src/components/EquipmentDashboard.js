@@ -172,7 +172,7 @@ setModelOpen(false);
     <div id="page-top">
       <Toaster position="top-center" reverseOrder={false} />
       <div id="wrapper">
-        <div className={sidenav}>
+      <div className={sidenav}>
           <ul
             className="navbar-nav sidebar sidebar-light "
             id="accordionSidebar"
@@ -203,7 +203,9 @@ setModelOpen(false);
                 aria-controls="collapseBootstrap"
               >
                 <i className="fa fa-fw fa-window-maximize"></i>
-                <span>Dashboard</span>
+                <span>
+                  <strong>Dashboard</strong>
+                </span>
               </a>
             </li>
             <li className="nav-item">
@@ -215,10 +217,8 @@ setModelOpen(false);
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-                <i className="fa fa-fw fa-shopping-cart"></i>
-                <span>
-                  <strong>Equipment</strong>
-                </span>
+                 <i className="fa fa-fw fa-shopping-cart"></i>
+                <span>Equipment</span>
               </a>
             </li>
             <li className="nav-item">
@@ -231,7 +231,7 @@ setModelOpen(false);
                 aria-controls="collapseBootstrap"
               >
                  <i className="fa fa-fw fa-truck"></i>
-                
+              
                 <span>Order</span>
               </a>
             </li>
@@ -273,6 +273,19 @@ setModelOpen(false);
               >
                 <i className="fa fa-fw Example of users fa-users"></i>
                 <span>Labour</span>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                className="nav-link collapsed"
+                onClick={() => navigate("/projecttable")}
+                data-toggle="collapse"
+                data-target="#collapseBootstrap"
+                aria-expanded="true"
+                aria-controls="collapseBootstrap"
+              >
+                <i className="fa fa-fw Example of users fa-users"></i>
+                <span>Project</span>
               </a>
             </li>
 
@@ -574,7 +587,7 @@ setModelOpen(false);
       </Modal>
       <Modal show={modelOpen} onHide={closeInactiveModal} centered size="lg"> 
         <Modal.Header closeButton>
-          <Modal.Title>Inactive Equipment</Modal.Title>
+          <Modal.Title>Archived Equipment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {/* Displaying inactive products in a table */}
