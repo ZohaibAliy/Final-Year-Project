@@ -18,6 +18,7 @@ const Managerdashboard = () => {
   const [order, setorder] = useState([]);
   const [users, setusers] = useState([]);
   const [Labour, setLabour] = useState([]);
+  const navigate = useNavigate();
   const [earnings, setearnings] = useState(0);
   const printRef = useRef(); // Ref for print section
   React.useEffect(() => {
@@ -88,7 +89,7 @@ const Managerdashboard = () => {
               <div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h3 mb-0 text-gray-800">Manager Dashboard</h1>
                 {/* Print Button */}
-                <button onClick={handlePrint} className="btn btn-primary">Print Report</button>
+                <button onClick={()=>navigate('/printresourses')}>Print Report</button>
               </div>
 
               {/* Dashboard Content to Print */}

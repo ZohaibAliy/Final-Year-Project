@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import "../style/ruang-admin.min.css";
+import {  Toast } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { useState, useEffect } from "react";
@@ -12,12 +13,14 @@ import {
   UpdateProducts,
   UploadProducts,
   RemoveProduct,
+  ActivateProduct,
   GetUnactiveProducts
 } from "../Api/SeniorApi";
 export default function EquipmentDashboard() {
   const [modelOpen, setModelOpen] = useState(false);
   const [sidenav, setSidenav] = useState("accordion");
   const [ischanged, setischanged] = useState(0);
+  const [Ischanged,setIsChanged]=useState(0);
     const [isadd, setisadd] = useState(0);
   const [products, setproducts] = useState([]);
   const [id, setId] = useState();
@@ -27,11 +30,16 @@ export default function EquipmentDashboard() {
   const [price, setPrice] = useState();
   const [image, setImage] = useState();
   const [unactiveProduct, setunactiveproduct] = useState([]);
-
+  const [ActivateProduct,setActivateProduct] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // For loading state when activating
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState(null);
+
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [confirmActivateModalOpen,setConfirmActiveModalOpen]=useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
 
   useEffect(() => {
@@ -59,21 +67,66 @@ useEffect(()=>{
     }
   };
   
+  const DeactivateProduct = (id) => {
+    RemoveProduct(id).then((response) => {
+      if (response.isRequestSuccessful) {
+        toast.success(response.successResponse);
+        setModelOpen(false);
+      } else if (!response.isRequestSuccessful) {
+        toast.error(response.successResponse);
+      }
+      setischanged(ischanged + 1);
+    });
+  };
+  const ActivateEquipment = (id) => {
+    ActivateProduct(id).then((response) => {
+      if (response.isRequestSuccessful) {
+        toast.success(response.successResponse);
+        setModelOpen(false);
+      } else if (!response.isRequestSuccessful) {
+        toast.error(response.successResponse);
+      }
+      setischanged(ischanged - 1);
+    });
+  };
+  
+  const handleActivateClick = (id) => {
+    setSelectedProductId(id);
+    setConfirmActiveModalOpen(true); // Open confirmation modal
+  };
+  const confirmActivation = () => {
+    if (selectedProductId) {
+      ActivateEquipment(selectedProductId);
+    }
+    
+    setConfirmModalOpen(false); // Close modal
+    setSelectedProductId(null);
+  };
+  
+  const cancelActivation = () => {
+    setConfirmModalOpen(false); // Close modal without action
+    setSelectedProductId(null);
+  };
   const handleDeactivateClick = (id) => {
     setSelectedProductId(id);
     setConfirmModalOpen(true); // Open confirmation modal
   };
-
   const confirmDeactivation = () => {
     if (selectedProductId) {
       DeactivateProduct(selectedProductId);
     }
+    
     setConfirmModalOpen(false); // Close modal
     setSelectedProductId(null);
   };
-
+  
   const cancelDeactivation = () => {
     setConfirmModalOpen(false); // Close modal without action
+    setSelectedProductId(null);
+  };
+  // Close modal and reset state
+  const closeModal = () => {
+    closeInactiveModal();
     setSelectedProductId(null);
   };
 
@@ -137,17 +190,6 @@ setModelOpen(false);
     } else {
       AddProduct();
     }
-  };
-  const DeactivateProduct = (id) => {
-    RemoveProduct(id).then((response) => {
-      if (response.isRequestSuccessful) {
-        toast.success(response.successResponse);
-        setModelOpen(false);
-      } else if (!response.isRequestSuccessful) {
-        toast.error(response.successResponse);
-      }
-      setischanged(ischanged + 1);
-    });
   };
   const showInactiveProducts = () => {
     setModelOpen(true); // Open the modal
@@ -473,7 +515,8 @@ setModelOpen(false);
           <Modal.Title>Confirm Deactivation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you want to deactivate this product?
+          Are you sure you want to deactivate this Equipment?
+          If you deactivate it you cannot activated it again.
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={cancelDeactivation}>
@@ -481,6 +524,22 @@ setModelOpen(false);
           </Button>
           <Button variant="danger" onClick={confirmDeactivation}>
             Deactivate
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={confirmActivateModalOpen} onHide={cancelActivation}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Activation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to Activate this product?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={cancelActivation}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmActivation}>
+            Activate
           </Button>
         </Modal.Footer>
       </Modal>
@@ -585,7 +644,7 @@ setModelOpen(false);
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
-      <Modal show={modelOpen} onHide={closeInactiveModal} centered size="lg"> 
+      <Modal show={modelOpen} onHide={closeModal} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Archived Equipment</Modal.Title>
         </Modal.Header>
@@ -609,19 +668,20 @@ setModelOpen(false);
                     <td colSpan="6">No inactive products found.</td>
                   </tr>
                 ) : (
-                  unactiveProduct.map((product, index) => (
-                    <tr key={product.id}>
-                      <td>{index + 1}</td>
-                      <td>{product.productName}</td>
-                      <td>{product.description}</td>
-                      <td>{product.quantity}</td>
-                      <td>${product.price}</td>
+                  unactiveProduct.map((data) => (
+                    <tr key={data.id}>
+                      <td>{data.id}</td>
+                      <td>{data.productName}</td>
+                      <td>{data.description}</td>
+                      <td>{data.quantity}</td>
+                      <td>${data.price}</td>
                       <td>
                         <Button
                           variant="warning"
-                          onClick={() => handleDeactivateClick(product.id)}
+                          onClick={() => handleActivateClick(data.id)}
+                          disabled={loading} // Disable button while loading
                         >
-                          Deactivate
+                          Activate
                         </Button>
                       </td>
                     </tr>
@@ -632,11 +692,37 @@ setModelOpen(false);
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={closeInactiveModal}>
+          <Button variant="secondary" onClick={closeModal}>
             Close
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+
+      {/* Toast message to show success or error */}
+      {toastMessage && (
+        <Toast
+          style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            zIndex: 9999,
+          }}
+          onClose={() => setToastMessage(null)}
+          show={!!toastMessage}
+          delay={3000}
+          autohide
+        >
+          <Toast.Body
+            style={{
+              backgroundColor: toastType === 'success' ? '#28a745' : '#dc3545',
+              color: '#fff',
+            }}
+          >
+            {toastMessage}
+          </Toast.Body>
+        </Toast>
+      )}
+
+   </div>
   );
 }

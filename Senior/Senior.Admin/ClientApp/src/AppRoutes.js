@@ -19,6 +19,7 @@ import LabourDetails from "./components/LabourDetails";
 import  PlaceLabourRequest  from "./components/PlaceLabourRequest";
 import MyLabourRequest from "./components/MyLabourRequest";
 import Request from "./components/Requests";
+import Printresourses from "./components/printresourses";
 import ProjectDashboard from "./components/ProjectDashboard";
 import ResourseAllocation from "./components/ResourseAllocation";
 
@@ -31,6 +32,10 @@ const AppRoutes = [
   {
     path: '/ResourseAllocation',
     element:<ResourseAllocation/>
+  },
+  {
+    path: '/printresourses',
+    element:<Printresourses/>
   },
   {
     path:'/ContractorDashboard',
