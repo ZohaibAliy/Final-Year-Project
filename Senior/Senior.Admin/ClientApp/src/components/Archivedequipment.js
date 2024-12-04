@@ -1,62 +1,64 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import "../style/ruang-admin.min.css";
+import {  Toast } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 import toast, { Toaster } from "react-hot-toast";
 import {
-  GetProject,
-  UpdateProject,
-  UploadProject,
-  RemoveProject,
-  GetContractor
+  GetProducts,
+  UpdateProducts,
+  UploadProducts,
+  RemoveProduct,
+  ActivateProducts,
+  GetUnactiveProducts
 } from "../Api/SeniorApi";
-export default function ProjectDashboard() {
+export default function EquipmentDashboard() {
   const [modelOpen, setModelOpen] = useState(false);
   const [sidenav, setSidenav] = useState("accordion");
   const [ischanged, setischanged] = useState(0);
+  const [Ischanged,setIsChanged]=useState(0);
     const [isadd, setisadd] = useState(0);
-  const [project, setproject] = useState([]);
-  const [Contractors,setContractors]=useState([])
-  const [Contractorid,setContractorid]=useState([])
+  const [products, setproducts] = useState([]);
   const [id, setId] = useState();
-  const [title, settitle] = useState();
+  const [productname, setProductname] = useState();
   const [description, setDescription] = useState();
-  const [location, setlocation] = useState();
-  const [startDate, setstartDate] = useState();
-  
-  const [endDate, setendDate] = useState();
-  const [expectedBudget,setexpectedBudget]=useState();
-  const [ContractorName, setContractorName] = useState('');
-  const [userid, setUserid] = useState('');
+  const [quantity, setQuantity] = useState();
+  const [price, setPrice] = useState();
+  const [image, setImage] = useState();
+  const [unactiveProduct, setunactiveproduct] = useState([]);
+  const [ActivateProduct,setActivateProduct] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // For loading state when activating
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState(null);
+
+
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [confirmActivateModalOpen,setConfirmActiveModalOpen]=useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
   useEffect(() => {
-    GetProject().then((response) => {
+    GetProducts().then((response) => {
      
       if (response) {
-        setproject(response);
+        setproducts(response);
       }
     
     });
-    
-    
   },[ischanged]);
-  
-   useEffect(()=>{
-    GetContractor().then((response)=> {
-      console.log(response);
-      if (response){
-        setContractors(response);
-      }
-
-    })
- 
-  }, []);
-
+useEffect(()=>{
+  GetUnactiveProducts().then((response)=>
+  {
+    if(response){
+      setunactiveproduct(response);
+    }
+  });
+},[ischanged]);
   const SidebarHandler = () => {
     if (sidenav == "accordion") {
       setSidenav("collapse");
@@ -64,44 +66,81 @@ export default function ProjectDashboard() {
       setSidenav("accordion");
     }
   };
+  
+  
+  const ActivateEquipment = (id) => {
+    ActivateProduct(id).then((response) => {
+      if (response.isRequestSuccessful) {
+        toast.success(response.successResponse);
+        setModelOpen(false);
+      } else if (!response.isRequestSuccessful) {
+        toast.error(response.successResponse);
+      }
+      setischanged(ischanged - 1);
+    });
+  };
+  
+  const handleActivateClick = (id) => {
+    setSelectedProductId(id);
+    setConfirmModalOpen(true); // Open confirmation modal
+  };
+  const confirmActivation = () => {
+    if (selectedProductId) {
+      ActivateEquipment(selectedProductId);
+    }
+    
+    setConfirmModalOpen(false); // Close modal
+    setSelectedProductId(null);
+  };
+  
+  const cancelActivation = () => {
+    setConfirmModalOpen(false); // Close modal without action
+    setSelectedProductId(null);
+  };
+  const handleDeactivateClick = (id) => {
+    setSelectedProductId(id);
+    setConfirmModalOpen(true); // Open confirmation modal
+  };
+
+  
+ 
+  // Close modal and reset state
+  const closeModal = () => {
+    closeInactiveModal();
+    setSelectedProductId(null);
+  };
 
   const UpdateStates = (data) => {
     setIsUpdate(true);
     setId(data.id);
-    settitle(data.title);
-    setlocation(data.location);
-    setstartDate(data.startDate);
-    setendDate(data.endDate);
-    setexpectedBudget(data.expectedBudget);
-    setContractorName(data.ContractorName);
-    
-    setUserid(data.userid);
-    
+    setProductname(data.productName);
+    setPrice(data.price);
+    setQuantity(data.quantity);
+    setDescription(data.description);
+    setImage(dataURLtoFile("data:image/jpeg;base64," + data.image));
 
     setModelOpen(true);
   };
   const ResetStates = (data) => {
     setId(null);
-    settitle("");
+    setProductname("");
+    setPrice(null);
+    setQuantity(null);
     setDescription("");
-    setlocation(null);
-    setstartDate("");
-    setendDate(null);
-    setexpectedBudget(false);
-    setUserid(null);
-    setContractorName("");
+    setImage(null);
+    setIsUpdate(false);
     setModelOpen(true);
   };
-  const UpdateProject = () => {
+  const UpdateProduct = () => {
 
-    const res=UpdateProject(id, title, description, location, startDate,endDate,expectedBudget,ContractorName, userid);
+    const res=UpdateProducts(id, productname, price, quantity, description, image);
  
-      toast.success("Project update Succesful!");
+      toast.success("Product update Succesful!");
       setIsUpdate(false);
    
 
     setischanged(ischanged + 2);
-
+  
 
 setModelOpen(false);
 
@@ -113,10 +152,10 @@ setModelOpen(false);
     setIsUpdate(false);
     setModelOpen(false);
   };
-  const AddProject = () => {
+  const AddProduct = () => {
     setisadd(isadd+1)
-    UploadProject(title, description, location, startDate,endDate,expectedBudget,ContractorName,userid);
-          toast.success("Project added!");
+    UploadProducts(productname, price, quantity, description, image);
+          toast.success("Product added!");
           setIsUpdate(false);
           
       
@@ -126,24 +165,18 @@ setModelOpen(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     if (isUpdate) {
-      UpdateProject();
+      UpdateProduct();
     
     } else {
-      AddProject();
+      AddProduct();
     }
   };
-  const DeactivateProject = (id) => {
-    RemoveProject(id).then((response) => {
-      if (response.isRequestSuccessful) {
-        toast.success(response.successResponse);
-        setModelOpen(false);
-      } else if (!response.isRequestSuccessful) {
-        toast.error(response.successResponse);
-      }
-      setischanged(ischanged + 1);
-    });
+  const showInactiveProducts = () => {
+    setModelOpen(true); // Open the modal
   };
-
+  const closeInactiveModal = () => {
+    setModelOpen(false); // Close the modal
+  };
   function dataURLtoFile(dataurl, filename) {
     var arr = dataurl.split(","),
       mime = arr[0].match(/:(.*?);/)[1],
@@ -161,7 +194,7 @@ setModelOpen(false);
     <div id="page-top">
       <Toaster position="top-center" reverseOrder={false} />
       <div id="wrapper">
-        <div className={sidenav}>
+      <div className={sidenav}>
           <ul
             className="navbar-nav sidebar sidebar-light "
             id="accordionSidebar"
@@ -177,7 +210,7 @@ setModelOpen(false);
             <li className="nav-item active">
               <a className="nav-link" href="index.html">
                 <i className="fa fa-fw fa-tachometer-alt"></i>
-                <span>Project</span>
+                <span>Equipment</span>
               </a>
             </li>
             <hr className="sidebar-divider" />
@@ -192,7 +225,9 @@ setModelOpen(false);
                 aria-controls="collapseBootstrap"
               >
                 <i className="fa fa-fw fa-window-maximize"></i>
-                <span>Dashboard</span>
+                <span>
+                  <strong>Dashboard</strong>
+                </span>
               </a>
             </li>
             <li className="nav-item">
@@ -204,10 +239,8 @@ setModelOpen(false);
                 aria-expanded="true"
                 aria-controls="collapseBootstrap"
               >
-                <i className="fa fa-fw fa-shopping-cart"></i>
-                <span>
-                  <strong>Equipment</strong>
-                </span>
+                 <i className="fa fa-fw fa-shopping-cart"></i>
+                <span>Equipment</span>
               </a>
             </li>
             <li className="nav-item">
@@ -220,7 +253,7 @@ setModelOpen(false);
                 aria-controls="collapseBootstrap"
               >
                  <i className="fa fa-fw fa-truck"></i>
-                
+              
                 <span>Order</span>
               </a>
             </li>
@@ -267,7 +300,7 @@ setModelOpen(false);
             <li className="nav-item">
               <a
                 className="nav-link collapsed"
-                onClick={() => navigate("/Labourtable")}
+                onClick={() => navigate("/projecttable")}
                 data-toggle="collapse"
                 data-target="#collapseBootstrap"
                 aria-expanded="true"
@@ -298,7 +331,7 @@ setModelOpen(false);
 
             <div className="container-fluid" id="container-wrapper">
               <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800">Listed Products</h1>
+                <h1 className="h3 mb-0 text-gray-800">Listed Equipment</h1>
 
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
@@ -315,62 +348,53 @@ setModelOpen(false);
                   <div className="card">
                     <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                       <h6 className="mx-3 font-weight-bold text-primary">
-                        Listed Project
+                        Listed Equipment
                       </h6>
-                      <h6 className="add-btn font-weight-bold text-primary float-left">
-                        <i
-                          class="fa fa-fw fa-plus"
-                          onClick={() => ResetStates()}
-                        ></i>
-                      </h6>
+                      <div className="d-flex align-items-center">
+                  
+                       
+                            </div>
+                       
+
                     </div>
                     <div className="table-responsive">
                       <table className="table align-items-center table-flush">
                         <thead className="thead-light">
                           <tr>
-                            <th>id</th>
-                            <th>Title</th>
+                            <th>Image</th>
+                            <th>Equipment Name</th>
+                            <th>Price "per week"</th>
+                            <th>Available Quantity</th>
                             <th>Description</th>
-                            <th>Location</th>
-                            <th>StartDate</th>
-                            <th>EndDate</th>
-                            <th>ExpectedBudget</th>
-                            <th>Contractorid</th>
-                            <th>Contrator</th>
-                            
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {project.map(function (data, key) {
+                          {products.map(function (data, key) {
                             let image = "data:image/jpeg;base64," + data.image;
                             return (
                               <>
                                 <tr>
-                                  <td>{data.id}</td>
-                                  <td>{data.title}</td>
+                                  <td className="align-middle">
+                                    <a>
+                                      {" "}
+                                      <img
+                                        src={image}
+                                        className=" thumbnail rounded-circle  border  justifycenter"
+                                      />
+                                    </a>
+                                  </td>
+                                  <td>{data.productName}</td>
+                                  <td>{data.price}</td>
+                                  <td>{data.quantity}</td>
                                   <td>{data.description}</td>
-                                  <td>{data.location}</td>
-                                  <td>{data.startDate}</td>
-                                  <td>{data.endDate}</td>
-                                  <td>{data.expectedBudget}</td>
-                                    <th>{data.userid}</th>
-                                  <td>{data.contractorName}</td>
-
                                   <td>
                                     <button
                                       type="button"
-                                      className="btn-up btn-primary"
-                                      onClick={() => UpdateStates(data)}
-                                    >
-                                      <i className="fa fa-fw fa-pencil"></i>
-                                    </button>
-                                    <button
-                                      type="button"
                                       className="btn-rm btn-danger"
-                                      onClick={() => DeactivateProject(data.id)}
-                                    >
-                                      <i className="fa fa-fw fa-trash"></i>
+                                      onClick={() => handleActivateClick(data.id)}
+                                     >
+                                     <i className="fa fa-fw fa-archive"></i>
                                     </button>
                                   </td>
                                 </tr>
@@ -379,6 +403,7 @@ setModelOpen(false);
                           })}
                         </tbody>
                       </table>
+                      
                     </div>
                     <div className="card-footer"></div>
                   </div>
@@ -449,182 +474,48 @@ setModelOpen(false);
       <a className="scroll-to-top rounded" href="#page-top">
         <i className="fa fa-angle-up"></i>
       </a>
-
-      <Modal show={modelOpen}>
-        <Modal.Header>
-          <h2>Projects</h2>
-          <h2 className="float-left close-btn" onClick={() => CloseModel()}>
-          <i class="fa fa-times" aria-hidden="true"></i>
-          </h2>
+      <Modal show={confirmModalOpen} onHide={cancelActivation}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Activation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form className="flex-c" onSubmit={handleSubmit}>
-            <div className="input-box">
-              <span className="label">Title</span>
-              <div className=" flex-r input">
-                <input
-                  name="productName"
-                  type="text"
-                  maxlength="50"
-                  value={title}
-                  onChange={(e) => settitle(e.target.value)}
-                  required
-                  placeholder="e.g Kohistan bridge"
-                />
-              </div>
-            </div>
-            <div className="input-box">
-              <span className="label">Description</span>
-              <div className=" flex-r input">
-                <textarea
-                  name="description"
-                  type="textarea"
-                  maxlength="500"
-                  rows="5"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="e.g This Product will....."
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="input-box">
-              <span className="label">Location</span>
-              <div className=" flex-r input">
-                <input
-                  name="loaction"
-                  type="text"
-                  value={location}
-                  onChange={(e) => setlocation(e.target.value)}
-                  placeholder="Kohistan inclaves"
-                  required
-                />
-              </div>
-            </div>
-            <div className="input-box">
-              <span className="label">Expected budget</span>
-              <div className=" flex-r input">
-              <input
-  name="expected budget"
-  type="number"
-  value={expectedBudget}
-  onChange={(e) => {
-    const value = e.target.value;
-
-    // Only update if the value contains numbers and is >= 1
-    if (/^\d+$/.test(value) && parseInt(value) >= 1) {
-      setexpectedBudget(value);
-    } else if (value === "") {
-      setexpectedBudget(value); // Allow clearing the input
-    }
-  }}
-  onKeyDown={(e) => {
-    // Block the minus '-' symbol
-    if (e.key === '-' || e.key === '+' || e.key === 'e') {
-      e.preventDefault();  // Prevent the user from typing these characters
-    }
-  }}
-  placeholder="13000/-"
-  required
-  min="1"
-/>
-
-
-
-              </div>
-            </div>
-            <div className="input-box">
-  <span className="label">StartDate</span>
-  <div className="flex-r input">
-    <input
-      name="startdate"
-      type="datetime-local"
-      value={startDate}
-      onChange={(e) => setstartDate(e.target.value)}
-      required
-      placeholder="20/10/2024"
-    />
-  </div>
-</div>
-
-<div className="input-box">
-  <span className="label">EndDate</span>
-  <div className="flex-r input">
-    <input
-      required
-      name="enddate"
-      type="datetime-local"
-      value={endDate}
-      onChange={(e) => {
-        const newEndDate = e.target.value;
-        
-        // Ensure end date is not earlier than start date
-        if (newEndDate < startDate) {
-          // If end date is less than start date, show an alert and clear the end date
-          alert("End date cannot be earlier than start date.");
-          setendDate("");  // Clear the input field by resetting the value
-          return;  // Prevent setting the invalid end date
-        }
-
-        setendDate(newEndDate);  // Otherwise, update the end date
-      }}
-      placeholder="20/10/2025"
-    />
-  </div>
-
-
-  </div>
-           
-
-              <div className="input-box">
-  <span className="label">Contractor</span>
-  <div className="flex-r input">
-    <select
-      id="cao"
-      required
-      onChange={(e) => {
-        const contractorId = parseInt(e.target.value, 10);
-
-        const selectedContractor = Contractors.find(
-          (contractor) => contractor.id === contractorId
-        );
-
-        if (selectedContractor) {
-          setContractorName(selectedContractor.name); // Set the contractor name correctly
-          setUserid(selectedContractor.id); // Set the contractor ID correctly
-
-          // Debugging logs to verify correct values
-          console.log("Selected Contractor Name:", selectedContractor.id);
-          console.log("Selected Contractor ID:", selectedContractor.name);
-        } else {
-          console.log("Contractor not found for ID:", contractorId);
-        }
-      }}
-    >
-      <option value="">Select a Contractor</option> {/* Default option */}
-      {Contractors.map((data, key) => (
-        <option key={key} value={data.id}>
-          {data.name} {data.id}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
-
-
-
-              
-
-            {isUpdate ? (
-              <input className="btn" type="submit" value="Update" />
-            ) : (
-              <input className="btn" type="submit" value="Add Product" />
-            )}
-          </form>
+          Are you sure you want to Activate this product?
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={cancelActivation}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmActivation}>
+            Activate
+          </Button>
+        </Modal.Footer>
       </Modal>
-    </div>
+      
+      {/* Toast message to show success or error */}
+      {toastMessage && (
+        <Toast
+          style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            zIndex: 9999,
+          }}
+          onClose={() => setToastMessage(null)}
+          show={!!toastMessage}
+          delay={3000}
+          autohide
+        >
+          <Toast.Body
+            style={{
+              backgroundColor: toastType === 'success' ? '#28a745' : '#dc3545',
+              color: '#fff',
+            }}
+          >
+            {toastMessage}
+          </Toast.Body>
+        </Toast>
+      )}
+
+   </div>
   );
 }

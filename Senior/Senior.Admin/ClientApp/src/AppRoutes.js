@@ -22,12 +22,16 @@ import Request from "./components/Requests";
 import Printresourses from "./components/printresourses";
 import ProjectDashboard from "./components/ProjectDashboard";
 import ResourseAllocation from "./components/ResourseAllocation";
-
+import ArchivedEquipment from "./components/Archivedequipment";
 import ContractorDashboard from "./components/ContractorDashboard";
 const AppRoutes = [
   {
     path: '/Resourses',
     element:<Resourses/>
+  },
+  {
+    path:'/Archivedequipment',
+    element:<ArchivedEquipment/>
   },
   {
     path: '/ResourseAllocation',

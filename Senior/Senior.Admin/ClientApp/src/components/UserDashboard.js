@@ -434,48 +434,47 @@ export default function UserDashboard() {
         </Modal.Header>
         <Modal.Body>
           <form className="flex-c" onSubmit={handleSubmit}>
-            <div className="input-box">
-              <span className="label">First-Name</span>
-              <div className=" flex-r input">
-                <input
-                  name="firstName"
-                  type="text"
-                  maxlength="100"
-                  value={firstName}
-                  onChange={(e) => setfirstName(e.target.value)}
-                  required
-                  placeholder="e.g John"
-                />
-              </div>
-            </div>
-            <div className="input-box">
-              <span className="label">Last-Name</span>
-              <div className=" flex-r input">
-                <input
-                  name="lastName"
-                  type="text"
-                  maxlength="100"
-                  value={lastName}
-                  onChange={(e) => setlastName(e.target.value)}
-                  required
-                  placeholder="e.g Doe"
-                />
-              </div>
-            </div>
-            <div className="input-box">
-              <span className="label">E-mail</span>
-              <div className=" flex-r input">
-                <input
-                  name="email"
-                  type="email"
-                  maxlength="256"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="name@abc.com"
-                />
-              </div>
-            </div>
+          <div className="input-box">
+  <span className="label">First-Name</span>
+  <div className="flex-r input">
+    <input
+      name="firstName"
+      type="text"
+      maxLength="100"
+      value={firstName}
+      onChange={(e) => {
+        // Allow only alphabetic characters
+        const value = e.target.value;
+        if (/^[a-zA-Z]*$/.test(value)) {
+          setfirstName(value);
+        }
+      }}
+      required
+      placeholder="e.g John"
+    />
+  </div>
+</div>
+ <div className="input-box">
+  <span className="label">Last-Name</span>
+  <div className="flex-r input">
+    <input
+      name="lastName"
+      type="text"
+      maxLength="100"
+      value={lastName}
+      onChange={(e) => {
+        // Allow only alphabetic characters
+        const value = e.target.value;
+        if (/^[a-zA-Z]*$/.test(value)) {
+          setlastName(value);
+        }
+      }}
+      required
+      placeholder="e.g Doe"
+    />
+  </div>
+</div>
+
             <div className="input-box">
               <span className="label">Password</span>
               <div className="flex-r input">
@@ -487,6 +486,7 @@ export default function UserDashboard() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  minLength={8}
                 />
               </div>
             </div>
@@ -501,6 +501,7 @@ export default function UserDashboard() {
                   value={confirmPassword}
                   onChange={(e) => setconfirmPassword(e.target.value)}
                   required
+                  minLength={8}
                 />
               </div>
             </div>

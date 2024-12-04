@@ -786,34 +786,7 @@ export const UploadLabour = async (
       return err.response;
     }
   };
-  export const ActivateProduct = async (id) => {
-    try {
-      // Make the API request to activate the product
-      const resp = await axios.put(apiUrl + "api/Product/ActiveEquipment", {
-        id: id
-      });
   
-      // Check if the response status code is in the 2xx range (success)
-      if (resp.status >= 200 && resp.status < 300) {
-        return { success: true, data: resp.data }; // Return data if request is successful
-      } else {
-        // Return a standardized error object if the status is not in the success range
-        return { success: false, message: 'Failed to activate product. Please try again.' };
-      }
-    } catch (err) {
-      // Handle the error and provide a meaningful message
-      if (err.response) {
-        // Server responded with an error status
-        return { success: false, message: err.response.data.message || 'An error occurred while activating the product.' };
-      } else if (err.request) {
-        // The request was made but no response was received
-        return { success: false, message: 'No response from server. Please check your internet connection.' };
-      } else {
-        // Something else happened during the setup of the request
-        return { success: false, message: 'An unexpected error occurred. Please try again later.' };
-      }
-    }
-  };
  
   //kisi project ko remove karna ka lia 
   export const RemoveProject = async (id) => {
@@ -852,5 +825,33 @@ export const UploadLabour = async (
       }
     } catch (err) {
       return err.response;
+    }
+  };
+  export const ActivateProducts = async (id) => {
+    try {
+      // Make the API request to activate the product
+      const resp = await axios.put(apiUrl + "api/Product/ActiveEquipment", {
+        id: id
+      });
+  
+      // Check if the response status code is in the 2xx range (success)
+      if (resp.status >= 200 && resp.status < 300) {
+        return { success: true, data: resp.data }; // Return data if request is successful
+      } else {
+        // Return a standardized error object if the status is not in the success range
+        return { success: false, message: 'Failed to activate product. Please try again.' };
+      }
+    } catch (err) {
+      // Handle the error and provide a meaningful message
+      if (err.response) {
+        // Server responded with an error status
+        return { success: false, message: err.response.data.message || 'An error occurred while activating the product.' };
+      } else if (err.request) {
+        // The request was made but no response was received
+        return { success: false, message: 'No response from server. Please check your internet connection.' };
+      } else {
+        // Something else happened during the setup of the request
+        return { success: false, message: 'An unexpected error occurred. Please try again later.' };
+      }
     }
   };

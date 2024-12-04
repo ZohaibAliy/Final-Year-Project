@@ -59,7 +59,7 @@ namespace Senior.Application.Services
 
                 var result = await _Labourrepository.AddLabour(labour);
 
-
+                
 
                 if (result != null)
                 {

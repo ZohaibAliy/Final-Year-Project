@@ -18,7 +18,7 @@ namespace Senior.Infrastructure.Bootstrap
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<ILabourRepository, LabourRepository>();
-            
+            services.AddTransient<IEquipmentFeedbackRepoaitory, EquipmentFeedbackRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<ILabourRequestRepository, LabourRequestRepository>();
 

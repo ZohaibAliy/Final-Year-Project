@@ -379,14 +379,6 @@ setModelOpen(false);
                        
 
                     </div>
-                    <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 className="mx-3 font-weight-bold text-primary">
-                        Archived Equipment
-                      </h6>
-                            <h6 className="add-btn font-weight-bold text-primary float-left">
-                 <i className="fa fa-archive" onClick={showInactiveProducts}></i>
-                       </h6>
-                       </div>
                     <div className="table-responsive">
                       <table className="table align-items-center table-flush">
                         <thead className="thead-light">
@@ -440,6 +432,15 @@ setModelOpen(false);
                           })}
                         </tbody>
                       </table>
+                      <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 className="mx-3 font-weight-bold text-primary">
+                        Archived Equipment
+                      </h6>
+                            <h6 className="add-btn font-weight-bold text-primary float-left">
+                 <i className="fa fa-archive" onClick={() => navigate("/Archivedequipment")}></i>
+                       </h6>
+                       </div>
+                   
                     </div>
                     <div className="card-footer"></div>
                   </div>
@@ -589,7 +590,23 @@ setModelOpen(false);
                   name="quantity"
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                
+                    // Only update if the value contains numbers and is >= 1
+                    if (/^\d+$/.test(value) && parseInt(value) >= 1) {
+                      setQuantity(value);
+                    } else if (value === "") {
+                      setQuantity(e.target.value); // Allow clearing the input
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    // Block the minus '-' symbol
+                    if (e.key === '-' || e.key === '+' || e.key === 'e') {
+                      e.preventDefault();  // Prevent the user from typing these characters
+                    }
+                  }}
+                 
                   placeholder="0"
                   required
                 />
@@ -602,7 +619,23 @@ setModelOpen(false);
                   name="price"
                   type="number"
                   value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                
+                    // Only update if the value contains numbers and is >= 1
+                    if (/^\d+$/.test(value) && parseInt(value) >= 1) {
+                      setPrice(value);
+                    } else if (value === "") {
+                      setPrice(e.target.value); // Allow clearing the input
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    // Block the minus '-' symbol
+                    if (e.key === '-' || e.key === '+' || e.key === 'e') {
+                      e.preventDefault();  // Prevent the user from typing these characters
+                    }
+                  }}
+               
                   required
                   placeholder="0"
                 />
@@ -644,59 +677,7 @@ setModelOpen(false);
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
-      <Modal show={modelOpen} onHide={closeModal} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Archived Equipment</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {/* Displaying inactive products in a table */}
-          <div className="table-responsive">
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Product Name</th>
-                  <th>Description</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {unactiveProduct.length === 0 ? (
-                  <tr>
-                    <td colSpan="6">No inactive products found.</td>
-                  </tr>
-                ) : (
-                  unactiveProduct.map((data) => (
-                    <tr key={data.id}>
-                      <td>{data.id}</td>
-                      <td>{data.productName}</td>
-                      <td>{data.description}</td>
-                      <td>{data.quantity}</td>
-                      <td>${data.price}</td>
-                      <td>
-                        <Button
-                          variant="warning"
-                          onClick={() => handleActivateClick(data.id)}
-                          disabled={loading} // Disable button while loading
-                        >
-                          Activate
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={closeModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+   
 
       {/* Toast message to show success or error */}
       {toastMessage && (
